@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import {
   Alert,
   Avatar,
@@ -18,13 +19,7 @@ import Download from "@mui/icons-material/Download";
 import { useSearchParams } from "react-router-dom";
 import { SORT_KEYS, buildRewardsCsvUrl } from "../config";
 import { useRewardLeaderboard } from "../runtime";
-import {
-  formatInt,
-  formatLpt,
-  formatUsd,
-  rowLabel,
-  todayIso,
-} from "../service";
+import { formatInt, formatLpt, formatUsd, rowLabel, todayIso } from "../service";
 import type { RewardLeaderboardRow, SortKey } from "../types";
 
 function defaultStart(): string {
@@ -60,7 +55,7 @@ export function RewardLeaderboard(): JSX.Element {
       flex: 1.4,
       sortable: false,
       renderCell: (params) => (
-        <Stack direction="row" alignItems="center" spacing={1}>
+        <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
           <Avatar
             src={params.row.avatarUrl ?? undefined}
             alt={rowLabel(params.row)}
@@ -134,29 +129,43 @@ export function RewardLeaderboard(): JSX.Element {
       <Typography variant="h4" align="center" gutterBottom>
         Top Rewards Report
       </Typography>
-
       <Grid container spacing={3} sx={{ mt: 2 }}>
-        <Grid item xs={12} md={4}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 4,
+          }}
+        >
           <TextField
             label="Start Date"
             type="date"
             value={from}
             onChange={(e) => updateParam("from", e.target.value)}
-            InputLabelProps={{ shrink: true }}
             fullWidth
+            slotProps={{ inputLabel: { shrink: true } }}
           />
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 4,
+          }}
+        >
           <TextField
             label="End Date"
             type="date"
             value={to}
             onChange={(e) => updateParam("to", e.target.value)}
-            InputLabelProps={{ shrink: true }}
             fullWidth
+            slotProps={{ inputLabel: { shrink: true } }}
           />
         </Grid>
-        <Grid item xs={12} md={4}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 4,
+          }}
+        >
           <FormControl fullWidth>
             <InputLabel id="sort-label">Sort By</InputLabel>
             <Select
@@ -174,7 +183,6 @@ export function RewardLeaderboard(): JSX.Element {
           </FormControl>
         </Grid>
       </Grid>
-
       <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}>
         <Button
           variant="outlined"
@@ -186,7 +194,6 @@ export function RewardLeaderboard(): JSX.Element {
           Download CSV
         </Button>
       </Box>
-
       {leaderboardQ.error ? (
         <Alert severity="error" sx={{ mt: 2 }}>
           Failed to load: {leaderboardQ.error.message}

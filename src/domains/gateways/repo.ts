@@ -1,9 +1,5 @@
 import { networkExplorer, unwrap } from "@/providers/network-explorer";
-import {
-  DEFAULT_PAGE_SIZE,
-  DEFAULT_PAYOUTS_LIMIT,
-  MAX_PAGE_SIZE,
-} from "./config";
+import { DEFAULT_PAGE_SIZE, DEFAULT_PAYOUTS_LIMIT, MAX_PAGE_SIZE } from "./config";
 import type {
   Gateway,
   GatewayKind,
@@ -107,15 +103,14 @@ function clampLimit(limit: number | undefined, fallback = DEFAULT_PAGE_SIZE): nu
   return Math.min(Math.max(1, Math.floor(limit)), MAX_PAGE_SIZE);
 }
 
-export async function listGateways(
-  params: GatewayListParams = {},
-): Promise<GatewayListResult> {
+export async function listGateways(params: GatewayListParams = {}): Promise<GatewayListResult> {
   const query: Record<string, string | number> = { limit: clampLimit(params.limit) };
   if (params.cursor) query["cursor"] = params.cursor;
 
-  const body = (await unwrap(
-    networkExplorer.GET("/gateways", { params: { query } }),
-  )) as { data?: unknown[]; meta?: { next_cursor?: string | null } };
+  const body = (await unwrap(networkExplorer.GET("/gateways", { params: { query } }))) as {
+    data?: unknown[];
+    meta?: { next_cursor?: string | null };
+  };
 
   return {
     data: (body.data ?? []).map(projectGateway),

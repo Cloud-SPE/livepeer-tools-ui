@@ -1,8 +1,4 @@
-import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-} from "react-router-dom";
+import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
 import { Box, Typography } from "@mui/material";
 import { orchestratorRoutes } from "@/domains/orchestrators/ui";
 import { governanceRoutes } from "@/domains/governance/ui";
@@ -37,7 +33,7 @@ export const router = createBrowserRouter(
       <Route
         path="*"
         element={
-          <Box p={4}>
+          <Box sx={{ p: 4 }}>
             <Typography variant="h4">404 — Not Found</Typography>
             <Typography variant="body1">The page you are looking for does not exist.</Typography>
           </Box>

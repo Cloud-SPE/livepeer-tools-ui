@@ -4,10 +4,10 @@ Eighth domain. Replaces the dead `/performance/leaderboard` and `/performance/st
 
 ## Routes
 
-| URL | Component | Purpose |
-| --- | --- | --- |
-| `/performance/leaderboard?region=&pipeline=&model=` | `Leaderboard` | Aggregated leaderboard with cascading filters |
-| `/performance/stats?orchestrator=&pipeline=&model=` | `Stats` | Raw per-region stats for a specific orchestrator |
+| URL                                                 | Component     | Purpose                                          |
+| --------------------------------------------------- | ------------- | ------------------------------------------------ |
+| `/performance/leaderboard?region=&pipeline=&model=` | `Leaderboard` | Aggregated leaderboard with cascading filters    |
+| `/performance/stats?orchestrator=&pipeline=&model=` | `Stats`       | Raw per-region stats for a specific orchestrator |
 
 ## Data sources
 
@@ -23,6 +23,7 @@ The leaderboard repo function `listLeaderboard(params, identities)` takes the id
 Mode is derived from query string state: AI = both `pipeline` AND `model` are set. Otherwise transcoding. Selecting a pipeline alone does NOT switch to AI mode — model is required too. Matches the old UI behavior.
 
 The mode determines:
+
 - Which performance base URL is used (`transcoding` vs `ai`)
 - Which regions appear in the filter (`type === "ai"` vs not)
 - Which DataGrid columns appear on the Stats page
@@ -65,11 +66,11 @@ Inputs and Response cells on AI rows render a "View" link that opens a `<Dialog>
 
 ## States
 
-| Condition | Render |
-| --- | --- |
-| Loading | DataGrid built-in shimmer |
-| Error | `Alert severity="error"` above the table |
-| Stats: no orchestrator entered | `Alert severity="info"` prompting input |
+| Condition                      | Render                                                |
+| ------------------------------ | ----------------------------------------------------- |
+| Loading                        | DataGrid built-in shimmer                             |
+| Error                          | `Alert severity="error"` above the table              |
+| Stats: no orchestrator entered | `Alert severity="info"` prompting input               |
 | Stats: AI mode with no results | DataGrid empty state (the AI base often returns `{}`) |
 
 ## Cross-domain rules

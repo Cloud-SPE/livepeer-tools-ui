@@ -4,15 +4,15 @@ Ninth domain. Stands up the AI section of the UI: tab shell, landing page, gatew
 
 ## Routes
 
-| URL | Component | Purpose |
-| --- | --- | --- |
-| `/ai` (index), `/ai/generator` | `AIGenerator` (under `AILayout`) | Landing — feature card grid |
-| `/ai/settings` | `Settings` | Gateway URL + bearer token configuration |
-| `/ai/network-capabilities` | `NetworkCapabilities` | Pipelines / models / orchestrators matrix |
-| `/ai/text-to-image` | `TextToImage` | Prompt → image grid (POST /text-to-image, JSON) |
-| `/ai/image-to-image` | `ImageToImage` | Image + prompt → image grid (POST /image-to-image, multipart) |
-| `/ai/upscale` | `Upscale` | Image → upscaled image grid (POST /upscale, multipart) |
-| `/ai/image-to-video`, `/ai/image-to-text`, `/ai/audio-to-text`, `/ai/text-to-speech`, `/ai/segment-anything-2`, `/ai/llm`, `/ai/byoc/openai` | `PlaceholderInference` | Stubs — real components land in plan 011+ |
+| URL                                                                                                                                          | Component                        | Purpose                                                       |
+| -------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------- | ------------------------------------------------------------- |
+| `/ai` (index), `/ai/generator`                                                                                                               | `AIGenerator` (under `AILayout`) | Landing — feature card grid                                   |
+| `/ai/settings`                                                                                                                               | `Settings`                       | Gateway URL + bearer token configuration                      |
+| `/ai/network-capabilities`                                                                                                                   | `NetworkCapabilities`            | Pipelines / models / orchestrators matrix                     |
+| `/ai/text-to-image`                                                                                                                          | `TextToImage`                    | Prompt → image grid (POST /text-to-image, JSON)               |
+| `/ai/image-to-image`                                                                                                                         | `ImageToImage`                   | Image + prompt → image grid (POST /image-to-image, multipart) |
+| `/ai/upscale`                                                                                                                                | `Upscale`                        | Image → upscaled image grid (POST /upscale, multipart)        |
+| `/ai/image-to-video`, `/ai/image-to-text`, `/ai/audio-to-text`, `/ai/text-to-speech`, `/ai/segment-anything-2`, `/ai/llm`, `/ai/byoc/openai` | `PlaceholderInference`           | Stubs — real components land in plan 011+                     |
 
 All `/ai/*` routes live under `AILayout`, which renders the top tab bar in its `<Outlet />`.
 
@@ -51,19 +51,20 @@ Pipeline names are normalized to leading-uppercase (e.g. `"llm" → "Llm"`, `"te
 
 ## States
 
-| Condition | Render |
-| --- | --- |
-| Capabilities loading | `CircularProgress` |
-| Capabilities error | `Alert severity="error"` with `error.message` |
-| Capabilities empty | Centered "No capabilities available." |
-| Settings save success | Inline `Alert severity="success"` |
-| Settings save failure | Inline `Alert severity="error"` |
+| Condition             | Render                                        |
+| --------------------- | --------------------------------------------- |
+| Capabilities loading  | `CircularProgress`                            |
+| Capabilities error    | `Alert severity="error"` with `error.message` |
+| Capabilities empty    | Centered "No capabilities available."         |
+| Settings save success | Inline `Alert severity="success"`             |
+| Settings save failure | Inline `Alert severity="error"`               |
 
 ## Inference (text-to-image, image-to-image, upscale)
 
 Each route renders a two-column layout: an input-config card on the left and a generated-images card on the right. Forms own their state locally (`useState`) — not URL-synced because they carry in-memory `File` objects for two of three.
 
 Common form elements (via `ui/inference/InferenceFields.tsx`):
+
 - `ModelSelect` — model dropdown sourced from `useModels(pipelineName)`, which reads from the cached capabilities view and filters to that pipeline.
 - `SafetyCheckSelect` — boolean toggle rendered as a Select.
 - `NumberField` — numeric input that emits NaN on empty (validators catch that).
@@ -73,6 +74,7 @@ Common form elements (via `ui/inference/InferenceFields.tsx`):
 Each form validates locally via `validateTextToImage` / `validateImageToImage` / `validateUpscale` before submit. Errors render in an `Alert severity="error"` with `whiteSpace: "pre-line"` so the multi-line message shows.
 
 The repo functions:
+
 - `postTextToImage` — JSON POST `/text-to-image`.
 - `postImageToImage` — multipart POST `/image-to-image`. `safety_check` and numeric fields are stringified for FormData.
 - `postUpscale` — multipart POST `/upscale`. Always sends `prompt=not needed` for parity with the old UI's gateway contract.

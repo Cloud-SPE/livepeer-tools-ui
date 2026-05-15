@@ -1,11 +1,5 @@
-import {
-  Box,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import type { JSX } from "react";
+import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 
 interface ModelSelectProps {
   value: string;
@@ -45,10 +39,7 @@ interface SafetyCheckSelectProps {
   onChange: (value: boolean) => void;
 }
 
-export function SafetyCheckSelect({
-  value,
-  onChange,
-}: SafetyCheckSelectProps): JSX.Element {
+export function SafetyCheckSelect({ value, onChange }: SafetyCheckSelectProps): JSX.Element {
   return (
     <FormControl fullWidth sx={{ mb: 2 }}>
       <InputLabel id="safety-label">Safety Check</InputLabel>
@@ -91,8 +82,8 @@ export function NumberField({
       }}
       fullWidth
       required={required}
-      inputProps={step != null ? { step } : undefined}
       sx={{ mb: 2 }}
+      slotProps={{ htmlInput: step != null ? { step } : undefined }}
     />
   );
 }
@@ -121,11 +112,7 @@ interface FilePickerProps {
   label?: string;
 }
 
-export function FilePicker({
-  file,
-  onPick,
-  label = "Upload Image",
-}: FilePickerProps): JSX.Element {
+export function FilePicker({ file, onPick, label = "Upload Image" }: FilePickerProps): JSX.Element {
   return (
     <Box sx={{ mb: 2 }}>
       <Box component="label" sx={{ display: "inline-block" }}>

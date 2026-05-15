@@ -2,15 +2,10 @@ import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import type { LoaderFunctionArgs } from "react-router-dom";
 import { queryClient } from "@/utils/queryClient";
 import { getNetworkStats, listRounds } from "./repo";
-import type {
-  NetworkStats,
-  RoundsListParams,
-  RoundsListResult,
-} from "./types";
+import type { NetworkStats, RoundsListParams, RoundsListResult } from "./types";
 
 const STATS_KEY = ["network", "stats"] as const;
-const roundsKey = (params: RoundsListParams) =>
-  ["network", "rounds", params] as const;
+const roundsKey = (params: RoundsListParams) => ["network", "rounds", params] as const;
 
 const statsConfig = () => ({
   queryKey: STATS_KEY,
@@ -27,9 +22,7 @@ export function useNetworkStats(): UseQueryResult<NetworkStats, Error> {
   return useQuery(statsConfig());
 }
 
-export function useRounds(
-  params: RoundsListParams = {},
-): UseQueryResult<RoundsListResult, Error> {
+export function useRounds(params: RoundsListParams = {}): UseQueryResult<RoundsListResult, Error> {
   return useQuery(roundsConfig(params));
 }
 

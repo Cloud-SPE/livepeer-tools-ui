@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { useState } from "react";
 import {
   Alert,
@@ -14,12 +15,7 @@ import {
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import { useSearchParams } from "react-router-dom";
 import { usePipelines, useStats } from "../runtime";
-import {
-  detectMode,
-  formatDecimal,
-  formatPercent,
-  formatTimestamp,
-} from "../service";
+import { detectMode, formatDecimal, formatPercent, formatTimestamp } from "../service";
 import type { Mode, StatsRow } from "../types";
 import { PayloadModal } from "./PayloadModal";
 
@@ -38,9 +34,7 @@ export function Stats(): JSX.Element {
     model: mode === "ai" ? model : undefined,
   });
 
-  const [modal, setModal] = useState<{ title: string; payload: string | null } | null>(
-    null,
-  );
+  const [modal, setModal] = useState<{ title: string; payload: string | null } | null>(null);
 
   const update = (param: string, value: string | null): void => {
     const next = new URLSearchParams(search);
@@ -186,13 +180,17 @@ export function Stats(): JSX.Element {
   const columns = mode === "ai" ? aiColumns : transcodingColumns;
 
   return (
-    <Box p={3}>
+    <Box sx={{ p: 3 }}>
       <Typography variant="h5" gutterBottom>
         {mode === "ai" ? "AI" : "Transcoding"} Performance Stats
       </Typography>
-
       <Grid container spacing={2} sx={{ mb: 2, mt: 2 }}>
-        <Grid item xs={12} sm={4}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 4,
+          }}
+        >
           <TextField
             fullWidth
             label="Orchestrator Address"
@@ -201,7 +199,12 @@ export function Stats(): JSX.Element {
             onChange={(e) => update("orchestrator", e.target.value || null)}
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 4,
+          }}
+        >
           <FormControl fullWidth disabled={!pipelinesQ.data}>
             <InputLabel id="pipeline-label">Select Pipeline</InputLabel>
             <Select
@@ -221,7 +224,12 @@ export function Stats(): JSX.Element {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 4,
+          }}
+        >
           <FormControl fullWidth disabled={!pipeline}>
             <InputLabel id="model-label">Select Model</InputLabel>
             <Select
@@ -242,7 +250,6 @@ export function Stats(): JSX.Element {
           </FormControl>
         </Grid>
       </Grid>
-
       {!orchestrator && (
         <Alert severity="info" sx={{ mb: 2 }}>
           Enter an orchestrator address to load performance stats.
@@ -253,7 +260,6 @@ export function Stats(): JSX.Element {
           Failed to load stats: {statsQ.error.message}
         </Alert>
       )}
-
       <Paper sx={{ width: "100%" }}>
         <DataGrid
           rows={rows}
@@ -269,11 +275,13 @@ export function Stats(): JSX.Element {
           disableRowSelectionOnClick
           sx={{
             "& .MuiDataGrid-columnHeaders": { backgroundColor: "#f5f5f5" },
-            "& .row-failed-test": { backgroundColor: (t) => t.palette.error.light + "22" },
+            "& .row-failed-test": {
+              backgroundColor: (t: import("@mui/material/styles").Theme) =>
+                t.palette.error.light + "22",
+            },
           }}
         />
       </Paper>
-
       <PayloadModal
         open={modal !== null}
         title={modal?.title ?? ""}

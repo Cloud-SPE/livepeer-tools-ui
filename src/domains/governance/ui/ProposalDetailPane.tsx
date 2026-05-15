@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { useState } from "react";
 import {
   Alert,
@@ -13,7 +14,7 @@ import {
 import { useTheme } from "@mui/material/styles";
 import BallotIcon from "@mui/icons-material/Ballot";
 import HowToVoteIcon from "@mui/icons-material/HowToVote";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutlined";
 import ArrowForward from "@mui/icons-material/ArrowForward";
 import Description from "@mui/icons-material/Description";
 import Poll from "@mui/icons-material/Poll";
@@ -22,13 +23,7 @@ import ThumbDown from "@mui/icons-material/ThumbDown";
 import ThumbsUpDown from "@mui/icons-material/ThumbsUpDown";
 import { LIVEPEER_TREASURY_PROPOSAL_URL, STATUS_PALETTE } from "../config";
 import { useBlockFloor, useVotesForProposal } from "../runtime";
-import {
-  deriveStatus,
-  formatLpt,
-  formatPercent,
-  identityLabel,
-  tallyBreakdown,
-} from "../service";
+import { deriveStatus, formatLpt, formatPercent, identityLabel, tallyBreakdown } from "../service";
 import type { Proposal, VoterIdentity } from "../types";
 import { VotesTable } from "./VotesTable";
 import { AllVotesByVoterDialog } from "./AllVotesByVoterDialog";
@@ -41,9 +36,10 @@ export function ProposalDetailPane({ proposal }: Props): JSX.Element {
   const theme = useTheme();
   const floorQ = useBlockFloor();
   const votesQ = useVotesForProposal(proposal.id);
-  const [selectedVoter, setSelectedVoter] = useState<
-    { address: string; identity: VoterIdentity | null } | null
-  >(null);
+  const [selectedVoter, setSelectedVoter] = useState<{
+    address: string;
+    identity: VoterIdentity | null;
+  } | null>(null);
 
   const status = deriveStatus(proposal, floorQ.data ?? { floor: null });
   const statusTone = STATUS_PALETTE[status].tone;
@@ -127,8 +123,7 @@ export function ProposalDetailPane({ proposal }: Props): JSX.Element {
             <Box sx={{ mt: 1, display: "flex", alignItems: "center", gap: 1 }}>
               <ThumbUp fontSize="small" color="action" />
               <Typography variant="body2">
-                For ({formatPercent(breakdown.forPct, 4)}):{" "}
-                {formatLpt(proposal.tally.forLpt)} LPT
+                For ({formatPercent(breakdown.forPct, 4)}): {formatLpt(proposal.tally.forLpt)} LPT
               </Typography>
             </Box>
             <Box sx={{ mt: 1, display: "flex", alignItems: "center", gap: 1 }}>
@@ -169,9 +164,7 @@ export function ProposalDetailPane({ proposal }: Props): JSX.Element {
             <VotesTable
               votes={votesQ.data?.data ?? []}
               totalLpt={breakdown.totalLpt}
-              onVoterClick={(identity, address) =>
-                setSelectedVoter({ address, identity })
-              }
+              onVoterClick={(identity, address) => setSelectedVoter({ address, identity })}
             />
           )}
         </CardContent>

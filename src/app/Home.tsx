@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import {
   Box,
   Button,
@@ -51,29 +52,34 @@ const FEATURES: ReadonlyArray<FeatureCard> = [
 
 export function Home(): JSX.Element {
   return (
-    <Container maxWidth="lg" sx={{ py: 8 }}>
-      <Box textAlign="center" sx={{ mb: 6 }}>
+    <Container sx={{ maxWidth: "lg", py: 8 }}>
+      <Box sx={{ textAlign: "center", mb: 6 }}>
         <Typography variant="h2" gutterBottom>
           Welcome to Livepeer Tools
         </Typography>
         <Typography variant="h5" color="text.secondary">
           Your all-in-one platform for orchestrator performance, treasury insights, and
-          comprehensive reporting. Empower your Livepeer operations with data-driven
-          tools.
+          comprehensive reporting. Empower your Livepeer operations with data-driven tools.
         </Typography>
       </Box>
-
       <Box sx={{ mb: 6 }}>
         <NetworkStatsStrip />
       </Box>
-
       <Box sx={{ py: 4, px: { xs: 2, md: 4 } }}>
         <Typography variant="h4" gutterBottom>
           Key Features
         </Typography>
         <Grid container spacing={4} sx={{ mt: 2 }}>
           {FEATURES.map((f) => (
-            <Grid item xs={12} sm={6} md={4} lg={3} key={f.to}>
+            <Grid
+              key={f.to}
+              size={{
+                xs: 12,
+                sm: 6,
+                md: 4,
+                lg: 3,
+              }}
+            >
               <Card
                 variant="outlined"
                 sx={{

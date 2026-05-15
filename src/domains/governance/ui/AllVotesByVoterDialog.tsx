@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import {
   Avatar,
   Box,
@@ -19,12 +20,7 @@ import {
 import { alpha, useTheme } from "@mui/material/styles";
 import { SUPPORT_PALETTE, STATUS_PALETTE } from "../config";
 import { useBlockFloor, useProposals, useVotesByVoter } from "../runtime";
-import {
-  deriveStatus,
-  formatLpt,
-  getTitle,
-  identityLabel,
-} from "../service";
+import { deriveStatus, formatLpt, getTitle, identityLabel } from "../service";
 import type { Proposal, VoterIdentity } from "../types";
 
 interface Props {
@@ -48,9 +44,7 @@ export function AllVotesByVoterDialog({
   const proposalsById = new Map<string, Proposal>();
   for (const p of proposalsQ.data?.data ?? []) proposalsById.set(p.id, p);
 
-  const label = voterAddress
-    ? identityLabel(voterAddress, voterIdentity?.displayName ?? null)
-    : "";
+  const label = voterAddress ? identityLabel(voterAddress, voterIdentity?.displayName ?? null) : "";
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">

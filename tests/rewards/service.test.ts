@@ -97,9 +97,7 @@ describe("rewards.service", () => {
 
   describe("shortAddress / rowLabel", () => {
     it("shortens an address", () => {
-      expect(shortAddress("0x08f76e106a2dd4f6385efc8ea6c69a2816082461")).toBe(
-        "0x08f7...2461",
-      );
+      expect(shortAddress("0x08f76e106a2dd4f6385efc8ea6c69a2816082461")).toBe("0x08f7...2461");
     });
     it("rowLabel prefers display name", () => {
       const r: RewardLeaderboardRow = {

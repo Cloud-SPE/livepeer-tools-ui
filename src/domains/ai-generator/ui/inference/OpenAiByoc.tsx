@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { useEffect, useState } from "react";
 import {
   Alert,
@@ -31,16 +32,8 @@ import {
   useByocImageMutation,
   useModels,
 } from "../../runtime";
-import {
-  validateByocChat,
-  validateByocEmbedding,
-  validateByocImage,
-} from "../../service";
-import type {
-  ByocChatForm,
-  ByocEmbeddingForm,
-  ByocImageForm,
-} from "../../types";
+import { validateByocChat, validateByocEmbedding, validateByocImage } from "../../service";
+import type { ByocChatForm, ByocEmbeddingForm, ByocImageForm } from "../../types";
 
 export function OpenAiByoc(): JSX.Element {
   const [tab, setTab] = useState(0);
@@ -51,7 +44,7 @@ export function OpenAiByoc(): JSX.Element {
 
   return (
     <Box sx={{ py: 3 }}>
-      <Typography variant="h4" fontWeight="bold" gutterBottom>
+      <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold" }}>
         BYOC OpenAI
       </Typography>
       <Typography variant="body1" color="textSecondary" gutterBottom>
@@ -117,7 +110,12 @@ function ChatPanel({ models }: { models: string[] }): JSX.Element {
 
   return (
     <Grid container spacing={3}>
-      <Grid item xs={12} md={5}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 5,
+        }}
+      >
         <Card elevation={3}>
           <CardContent>
             <Typography variant="h6" gutterBottom>
@@ -176,24 +174,24 @@ function ChatPanel({ models }: { models: string[] }): JSX.Element {
               <TextField
                 label="Temperature"
                 type="number"
-                inputProps={{ min: 0, max: 2, step: 0.1 }}
                 fullWidth
                 value={Number.isFinite(form.temperature) ? form.temperature : ""}
                 onChange={(e) =>
                   update("temperature", e.target.value === "" ? Number.NaN : Number(e.target.value))
                 }
                 sx={{ mb: 2 }}
+                slotProps={{ htmlInput: { min: 0, max: 2, step: 0.1 } }}
               />
               <TextField
                 label="Max Tokens"
                 type="number"
-                inputProps={{ min: 1 }}
                 fullWidth
                 value={Number.isFinite(form.max_tokens) ? form.max_tokens : ""}
                 onChange={(e) =>
                   update("max_tokens", e.target.value === "" ? Number.NaN : Number(e.target.value))
                 }
                 sx={{ mb: 2 }}
+                slotProps={{ htmlInput: { min: 1 } }}
               />
               <FormControl fullWidth sx={{ mb: 2 }}>
                 <InputLabel>Stream</InputLabel>
@@ -213,8 +211,12 @@ function ChatPanel({ models }: { models: string[] }): JSX.Element {
           </CardContent>
         </Card>
       </Grid>
-
-      <Grid item xs={12} md={7}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 7,
+        }}
+      >
         <Card elevation={3}>
           <CardContent>
             <Typography variant="h6" gutterBottom>
@@ -232,13 +234,14 @@ function ChatPanel({ models }: { models: string[] }): JSX.Element {
                   borderRadius: 1,
                 }}
               >
-                <Typography variant="caption" color="textSecondary" sx={{ display: "block", mb: 0.5 }}>
+                <Typography
+                  variant="caption"
+                  color="textSecondary"
+                  sx={{ display: "block", mb: 0.5 }}
+                >
                   Thinking
                 </Typography>
-                <Box
-                  component="pre"
-                  sx={{ whiteSpace: "pre-wrap", fontFamily: "inherit", m: 0 }}
-                >
+                <Box component="pre" sx={{ whiteSpace: "pre-wrap", fontFamily: "inherit", m: 0 }}>
                   {reasoning}
                 </Box>
               </Box>
@@ -247,9 +250,7 @@ function ChatPanel({ models }: { models: string[] }): JSX.Element {
               <ReactMarkdown>{content}</ReactMarkdown>
             ) : (
               !reasoning &&
-              !mutation.isPending && (
-                <Typography variant="body2">No output yet.</Typography>
-              )
+              !mutation.isPending && <Typography variant="body2">No output yet.</Typography>
             )}
           </CardContent>
         </Card>
@@ -282,7 +283,12 @@ function ImagePanel({ models }: { models: string[] }): JSX.Element {
 
   return (
     <Grid container spacing={3}>
-      <Grid item xs={12} md={5}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 5,
+        }}
+      >
         <Card elevation={3}>
           <CardContent>
             <Typography variant="h6" gutterBottom>
@@ -347,13 +353,13 @@ function ImagePanel({ models }: { models: string[] }): JSX.Element {
               <TextField
                 label="Count"
                 type="number"
-                inputProps={{ min: 1, max: 4 }}
                 fullWidth
                 value={Number.isFinite(form.n) ? form.n : ""}
                 onChange={(e) =>
                   update("n", e.target.value === "" ? Number.NaN : Number(e.target.value))
                 }
                 sx={{ mb: 2 }}
+                slotProps={{ htmlInput: { min: 1, max: 4 } }}
               />
               <Button type="submit" variant="contained" fullWidth disabled={mutation.isPending}>
                 {mutation.isPending ? "Generating…" : "Generate Image"}
@@ -362,8 +368,12 @@ function ImagePanel({ models }: { models: string[] }): JSX.Element {
           </CardContent>
         </Card>
       </Grid>
-
-      <Grid item xs={12} md={7}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 7,
+        }}
+      >
         <Card elevation={3}>
           <CardContent>
             <Typography variant="h6" gutterBottom>
@@ -428,7 +438,12 @@ function EmbeddingPanel({ models }: { models: string[] }): JSX.Element {
 
   return (
     <Grid container spacing={3}>
-      <Grid item xs={12} md={5}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 5,
+        }}
+      >
         <Card elevation={3}>
           <CardContent>
             <Typography variant="h6" gutterBottom>
@@ -482,8 +497,12 @@ function EmbeddingPanel({ models }: { models: string[] }): JSX.Element {
           </CardContent>
         </Card>
       </Grid>
-
-      <Grid item xs={12} md={7}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 7,
+        }}
+      >
         <Card elevation={3}>
           <CardContent>
             <Typography variant="h6" gutterBottom>
@@ -500,12 +519,7 @@ function EmbeddingPanel({ models }: { models: string[] }): JSX.Element {
                   Sample: {mutation.data?.preview || "No output yet."}
                 </Typography>
                 {mutation.data && (
-                  <Button
-                    variant="contained"
-                    size="small"
-                    sx={{ mt: 2 }}
-                    onClick={onDownload}
-                  >
+                  <Button variant="contained" size="small" sx={{ mt: 2 }} onClick={onDownload}>
                     Download JSON
                   </Button>
                 )}

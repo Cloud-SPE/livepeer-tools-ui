@@ -4,10 +4,10 @@ The first domain to ship end-to-end. Reference template for every later domain.
 
 ## Routes
 
-| URL | Component | Purpose |
-| --- | --- | --- |
-| `/orchestrators` | `Orchestrators` | List of active orchestrators, ranked by total stake |
-| `/orchestrator/:eth_address` | `OrchestratorDetail` | Single orchestrator profile |
+| URL                          | Component            | Purpose                                             |
+| ---------------------------- | -------------------- | --------------------------------------------------- |
+| `/orchestrators`             | `Orchestrators`      | List of active orchestrators, ranked by total stake |
+| `/orchestrator/:eth_address` | `OrchestratorDetail` | Single orchestrator profile                         |
 
 The detail URL deliberately uses `eth_address` (singular path segment) to preserve link compatibility with the old `livepeer-tools-ui`.
 
@@ -44,12 +44,12 @@ Renders the same `OrchestratorCard` as the list, with no rank and non-clickable.
 
 ## States
 
-| Condition | Render |
-| --- | --- |
-| Loading | Centered `CircularProgress` |
-| Error | MUI `Alert severity="error"` with `error.message` |
+| Condition  | Render                                                                 |
+| ---------- | ---------------------------------------------------------------------- |
+| Loading    | Centered `CircularProgress`                                            |
+| Error      | MUI `Alert severity="error"` with `error.message`                      |
 | Empty list | The Grid renders empty (acceptable: API always has rows in production) |
-| Detail 404 | MUI `Alert severity="warning": "Orchestrator not found."` |
+| Detail 404 | MUI `Alert severity="warning": "Orchestrator not found."`              |
 
 ## Loaders and caching
 

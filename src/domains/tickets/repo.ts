@@ -1,10 +1,5 @@
 import { networkExplorer, unwrap } from "@/providers/network-explorer";
-import type {
-  DailyTimeseriesParams,
-  JobType,
-  TicketSeriesPoint,
-  TicketsTimeseries,
-} from "./types";
+import type { DailyTimeseriesParams, JobType, TicketSeriesPoint, TicketsTimeseries } from "./types";
 
 function num(v: unknown): number {
   if (v == null) return 0;

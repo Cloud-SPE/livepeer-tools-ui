@@ -5,10 +5,7 @@ import type { LeaderboardRow, Mode, Region } from "./types";
  * Determine whether the user has selected AI mode.
  * Matches the old UI: AI requires BOTH pipeline and model to be set.
  */
-export function detectMode(input: {
-  pipeline?: string | null;
-  model?: string | null;
-}): Mode {
+export function detectMode(input: { pipeline?: string | null; model?: string | null }): Mode {
   return input.pipeline && input.model ? "ai" : "transcoding";
 }
 
@@ -16,10 +13,7 @@ export function detectMode(input: {
  * Filter the API region list to those that apply to the current mode,
  * sort alphabetically by name, and prepend the GLOBAL sentinel.
  */
-export function regionOptions(
-  apiRegions: ReadonlyArray<Region>,
-  mode: Mode,
-): Region[] {
+export function regionOptions(apiRegions: ReadonlyArray<Region>, mode: Mode): Region[] {
   const filtered =
     mode === "ai"
       ? apiRegions.filter((r) => r.type === "ai")

@@ -8,22 +8,15 @@ import {
   listVotesByVoter,
   listVotesForProposal,
 } from "./repo";
-import type {
-  BlockFloor,
-  IdentityIndex,
-  ProposalsListResult,
-  VotesListResult,
-} from "./types";
+import type { BlockFloor, IdentityIndex, ProposalsListResult, VotesListResult } from "./types";
 
 /* ---------- query configs ---------- */
 
 const IDENTITY_KEY = ["governance", "identity-index"] as const;
 const FLOOR_KEY = ["governance", "block-floor"] as const;
 const PROPOSALS_KEY = ["governance", "proposals"] as const;
-const votesForKey = (proposalId: string) =>
-  ["governance", "votes-for", proposalId] as const;
-const votesByKey = (voter: string) =>
-  ["governance", "votes-by", voter.toLowerCase()] as const;
+const votesForKey = (proposalId: string) => ["governance", "votes-for", proposalId] as const;
+const votesByKey = (voter: string) => ["governance", "votes-by", voter.toLowerCase()] as const;
 
 const identityConfig = () => ({
   queryKey: IDENTITY_KEY,
@@ -94,9 +87,7 @@ export function useVotesForProposal(
   });
 }
 
-export function useVotesByVoter(
-  voter: string | null,
-): UseQueryResult<VotesListResult, Error> {
+export function useVotesByVoter(voter: string | null): UseQueryResult<VotesListResult, Error> {
   return useQuery({
     ...votesByConfig(voter ?? ""),
     enabled: !!voter,

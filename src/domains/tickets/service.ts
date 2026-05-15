@@ -1,8 +1,4 @@
-import type {
-  EffectiveGranularity,
-  Granularity,
-  TicketSeriesPoint,
-} from "./types";
+import type { EffectiveGranularity, Granularity, TicketSeriesPoint } from "./types";
 
 /* ---------- date helpers ---------- */
 
@@ -25,11 +21,7 @@ export function parseIsoDate(iso: string): Date | null {
     return null;
   }
   const dt = new Date(Date.UTC(year, month - 1, day));
-  if (
-    dt.getUTCFullYear() !== year ||
-    dt.getUTCMonth() !== month - 1 ||
-    dt.getUTCDate() !== day
-  ) {
+  if (dt.getUTCFullYear() !== year || dt.getUTCMonth() !== month - 1 || dt.getUTCDate() !== day) {
     return null;
   }
   return dt;
@@ -51,9 +43,7 @@ export function todayIso(now: Date = new Date()): string {
 export function daysAgoIso(n: number, now: Date = new Date()): string {
   const d = new Date(now);
   d.setUTCDate(d.getUTCDate() - n);
-  return formatIsoDate(
-    new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate())),
-  );
+  return formatIsoDate(new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate())));
 }
 
 /**

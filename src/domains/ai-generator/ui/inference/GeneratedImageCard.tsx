@@ -1,11 +1,6 @@
+import type { JSX } from "react";
 import { useState } from "react";
-import {
-  Box,
-  Card,
-  CardMedia,
-  Dialog,
-  DialogContent,
-} from "@mui/material";
+import { Box, Card, CardMedia, Dialog, DialogContent } from "@mui/material";
 
 interface Props {
   imageSrc: string;

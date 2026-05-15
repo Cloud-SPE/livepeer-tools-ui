@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import {
   Alert,
   Box,
@@ -40,7 +41,7 @@ export function FormShell({
 }: FormShellProps): JSX.Element {
   return (
     <Box sx={{ py: 3 }}>
-      <Typography variant="h4" fontWeight="bold" gutterBottom>
+      <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold" }}>
         {title}
       </Typography>
       <Typography variant="body1" color="textSecondary" gutterBottom>
@@ -48,7 +49,12 @@ export function FormShell({
       </Typography>
       <Divider sx={{ mb: 3 }} />
       <Grid container spacing={3}>
-        <Grid item xs={12} md={5}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 5,
+          }}
+        >
           <Card elevation={3} sx={{ borderRadius: 2 }}>
             <CardContent>
               <Typography variant="h6" gutterBottom>
@@ -86,7 +92,12 @@ export function FormShell({
             </CardContent>
           </Card>
         </Grid>
-        <Grid item xs={12} md={7}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 7,
+          }}
+        >
           <ResultColumn />
         </Grid>
       </Grid>

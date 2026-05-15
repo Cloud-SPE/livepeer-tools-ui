@@ -118,9 +118,7 @@ export async function getBlockFloor(): Promise<BlockFloor> {
 
 /* ---------- proposals ---------- */
 
-export async function listProposals(
-  identities: IdentityIndex,
-): Promise<ProposalsListResult> {
+export async function listProposals(identities: IdentityIndex): Promise<ProposalsListResult> {
   const body = (await unwrap(
     networkExplorer.GET("/governance/proposals", {
       params: { query: { limit: DEFAULT_PROPOSALS_LIMIT } },

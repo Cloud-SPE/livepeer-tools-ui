@@ -56,10 +56,6 @@ export const aiRoutes = (
     <Route path="text-to-speech" element={<TextToSpeech />} loader={capabilitiesLoader} />
     <Route path="llm" element={<Llm />} loader={capabilitiesLoader} />
     <Route path="byoc/openai" element={<OpenAiByoc />} loader={capabilitiesLoader} />
-    <Route
-      path="segment-anything-2"
-      element={<SegmentAnything2 />}
-      loader={capabilitiesLoader}
-    />
+    <Route path="segment-anything-2" element={<SegmentAnything2 />} loader={capabilitiesLoader} />
   </Route>
 );

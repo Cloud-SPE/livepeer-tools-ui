@@ -14,11 +14,7 @@ export { OrchestratorCard } from "./OrchestratorCard";
  */
 export const orchestratorRoutes = (
   <>
-    <Route
-      path="orchestrators"
-      element={<Orchestrators />}
-      loader={orchestratorsLoader}
-    />
+    <Route path="orchestrators" element={<Orchestrators />} loader={orchestratorsLoader} />
     <Route
       path="orchestrator/:eth_address"
       element={<OrchestratorDetail />}

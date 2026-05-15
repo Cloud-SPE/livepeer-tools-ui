@@ -65,7 +65,9 @@ describe("performance.service", () => {
       expect(out.slice(1).map((r) => r.id)).toEqual(["MAD", "NYC"]);
     });
     it("sorts alphabetically by name (after Global)", () => {
-      const out = regionOptions(regions, "transcoding").slice(1).map((r) => r.name);
+      const out = regionOptions(regions, "transcoding")
+        .slice(1)
+        .map((r) => r.name);
       expect(out).toEqual(["Madrid", "New York"]);
     });
   });
@@ -102,9 +104,7 @@ describe("performance.service", () => {
 
   describe("shortAddress / rowLabel", () => {
     it("shortens an address", () => {
-      expect(shortAddress("0x08f76e106a2dd4f6385efc8ea6c69a2816082461")).toBe(
-        "0x08f7...2461",
-      );
+      expect(shortAddress("0x08f76e106a2dd4f6385efc8ea6c69a2816082461")).toBe("0x08f7...2461");
     });
     it("rowLabel prefers identity display name", () => {
       const row = mkRow({
@@ -138,12 +138,7 @@ describe("performance.service", () => {
         mkRow({ address: "0xc", totalScore: 5 }),
         mkRow({ address: "0xd", totalScore: 3 }),
       ];
-      expect(rankByScore(input).map((r) => r.address)).toEqual([
-        "0xb",
-        "0xc",
-        "0xd",
-        "0xa",
-      ]);
+      expect(rankByScore(input).map((r) => r.address)).toEqual(["0xb", "0xc", "0xd", "0xa"]);
     });
   });
 

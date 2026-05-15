@@ -1,11 +1,6 @@
 import { networkExplorer, unwrap } from "@/providers/network-explorer";
 import { DEFAULT_ROUNDS_LIMIT, MAX_ROUNDS_LIMIT } from "./config";
-import type {
-  NetworkStats,
-  Round,
-  RoundsListParams,
-  RoundsListResult,
-} from "./types";
+import type { NetworkStats, Round, RoundsListParams, RoundsListResult } from "./types";
 
 function num(v: unknown): number {
   if (v == null) return 0;
@@ -36,8 +31,7 @@ function projectStats(row: unknown): NetworkStats {
     totalDelegations: num(r["total_delegations"]),
     orchestratorProfileRefreshedAt:
       (r["orchestrator_profile_refreshed_at"] as string | null) ?? null,
-    broadcasterProfileRefreshedAt:
-      (r["broadcaster_profile_refreshed_at"] as string | null) ?? null,
+    broadcasterProfileRefreshedAt: (r["broadcaster_profile_refreshed_at"] as string | null) ?? null,
   };
 }
 
@@ -60,21 +54,18 @@ function clampLimit(limit: number | undefined): number {
 }
 
 export async function getNetworkStats(): Promise<NetworkStats> {
-  const body = (await unwrap(
-    networkExplorer.GET("/network/stats", {}),
-  )) as unknown;
+  const body = (await unwrap(networkExplorer.GET("/network/stats", {}))) as unknown;
   return projectStats(body);
 }
 
-export async function listRounds(
-  params: RoundsListParams = {},
-): Promise<RoundsListResult> {
+export async function listRounds(params: RoundsListParams = {}): Promise<RoundsListResult> {
   const query: Record<string, string | number> = { limit: clampLimit(params.limit) };
   if (params.cursor) query["cursor"] = params.cursor;
 
-  const body = (await unwrap(
-    networkExplorer.GET("/rounds", { params: { query } }),
-  )) as { data?: unknown[]; meta?: { next_cursor?: string | null } };
+  const body = (await unwrap(networkExplorer.GET("/rounds", { params: { query } }))) as {
+    data?: unknown[];
+    meta?: { next_cursor?: string | null };
+  };
 
   return {
     data: (body.data ?? []).map(projectRound),

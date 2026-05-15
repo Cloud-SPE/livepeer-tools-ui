@@ -1,13 +1,7 @@
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import type { LoaderFunctionArgs } from "react-router-dom";
 import { queryClient } from "@/utils/queryClient";
-import {
-  getIdentityIndex,
-  listLeaderboard,
-  listPipelines,
-  listRegions,
-  listStats,
-} from "./repo";
+import { getIdentityIndex, listLeaderboard, listPipelines, listRegions, listStats } from "./repo";
 import { detectMode } from "./service";
 import type {
   IdentityIndex,
@@ -88,9 +82,7 @@ export function usePipelines(): UseQueryResult<Pipeline[], Error> {
   return useQuery(pipelinesConfig());
 }
 
-export function useLeaderboard(
-  params: LeaderboardParams,
-): UseQueryResult<LeaderboardRow[], Error> {
+export function useLeaderboard(params: LeaderboardParams): UseQueryResult<LeaderboardRow[], Error> {
   return useQuery(leaderboardConfig(params));
 }
 

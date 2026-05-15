@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { Alert, Box, Typography } from "@mui/material";
 import { useLocation } from "react-router-dom";
 
@@ -14,8 +15,8 @@ export function PlaceholderInference(): JSX.Element {
         Coming soon
       </Typography>
       <Alert severity="info" sx={{ maxWidth: 720 }}>
-        The inference UI for <code>{pathname}</code> hasn't shipped yet. The gateway and
-        settings pieces are wired up — the inference forms land in a follow-up plan.
+        The inference UI for <code>{pathname}</code> hasn't shipped yet. The gateway and settings
+        pieces are wired up — the inference forms land in a follow-up plan.
       </Alert>
     </Box>
   );

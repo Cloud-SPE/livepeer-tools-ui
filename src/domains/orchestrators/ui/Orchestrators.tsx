@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { Alert, Box, CircularProgress, Grid, Typography } from "@mui/material";
 import { useOrchestrators } from "../runtime";
 import { rankByStake } from "../service";

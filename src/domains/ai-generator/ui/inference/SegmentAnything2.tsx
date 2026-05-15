@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { useEffect, useMemo, useState } from "react";
 import {
   Alert,
@@ -19,11 +20,7 @@ import {
 import type Konva from "konva";
 import { Circle, Image as KonvaImage, Layer, Rect, Stage } from "react-konva";
 import useImage from "use-image";
-import {
-  PIPELINE_NAMES,
-  SAM2_DISPLAY_WIDTH,
-  SEGMENT_ANYTHING_2_DEFAULTS,
-} from "../../config";
+import { PIPELINE_NAMES, SAM2_DISPLAY_WIDTH, SEGMENT_ANYTHING_2_DEFAULTS } from "../../config";
 import { useModels, useSegmentAnything2Mutation } from "../../runtime";
 import {
   buildBoxString,
@@ -157,21 +154,27 @@ export function SegmentAnything2(): JSX.Element {
 
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6,
+        }}
+      >
         <Card>
           <CardContent>
             <Typography variant="h6">Upload your image and click Segment Anything 2</Typography>
-            <Box mt={2}>
+            <Box sx={{ mt: 2 }}>
               <Typography variant="body2" component="div">
                 <p>To segment an image:</p>
                 <ol>
                   <li>Upload an image.</li>
                   <li>Draw a box around the region you want to segment.</li>
                   <li>
-                    Or switch to Point mode and click a single pixel inside the region
-                    instead.
+                    Or switch to Point mode and click a single pixel inside the region instead.
                   </li>
-                  <li>Click <b>Segment Anything 2</b>.</li>
+                  <li>
+                    Click <b>Segment Anything 2</b>.
+                  </li>
                   <li>The segmented regions appear below as overlays.</li>
                 </ol>
               </Typography>
@@ -189,7 +192,7 @@ export function SegmentAnything2(): JSX.Element {
             )}
 
             <Box component="form" onSubmit={onSubmit}>
-              <Box mt={2}>
+              <Box sx={{ mt: 2 }}>
                 <Button variant="contained" component="label">
                   Choose a file
                   <input
@@ -199,7 +202,7 @@ export function SegmentAnything2(): JSX.Element {
                     onChange={(e) => onFileChange(e.target.files?.[0] ?? null)}
                   />
                 </Button>
-                <Typography variant="body2" mt={1}>
+                <Typography variant="body2" sx={{ mt: 1 }}>
                   {form.image ? form.image.name : "No file uploaded"}
                 </Typography>
               </Box>
@@ -324,8 +327,12 @@ export function SegmentAnything2(): JSX.Element {
           </CardContent>
         </Card>
       </Grid>
-
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6,
+        }}
+      >
         <Card>
           <CardContent>
             <Typography variant="h6" gutterBottom>

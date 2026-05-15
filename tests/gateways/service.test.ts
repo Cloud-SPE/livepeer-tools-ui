@@ -47,9 +47,7 @@ function makePayoutRow(over: Partial<GatewayPayoutRow> = {}): GatewayPayoutRow {
 describe("gateways.service", () => {
   describe("shortAddress", () => {
     it("truncates a canonical eth address", () => {
-      expect(shortAddress("0x08f76e106a2dd4f6385efc8ea6c69a2816082461")).toBe(
-        "0x08f7...2461",
-      );
+      expect(shortAddress("0x08f76e106a2dd4f6385efc8ea6c69a2816082461")).toBe("0x08f7...2461");
     });
     it("returns short input untouched", () => {
       expect(shortAddress("0x1234")).toBe("0x1234");

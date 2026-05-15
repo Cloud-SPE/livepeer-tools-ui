@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import {
   Avatar,
   Box,
@@ -12,13 +13,7 @@ import {
 import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { LIVEPEER_EXPLORER_ORCHESTRATOR_URL } from "../config";
-import {
-  avatarInitial,
-  displayLabel,
-  formatLpt,
-  formatPercent,
-  shortAddress,
-} from "../service";
+import { avatarInitial, displayLabel, formatLpt, formatPercent, shortAddress } from "../service";
 import type { Orchestrator } from "../types";
 
 const AddressTooltip = styled(Tooltip)(({ theme }) => ({
@@ -38,7 +33,13 @@ export function OrchestratorCard({ orch, rank, clickable = true }: Props): JSX.E
   const onClick = clickable ? () => navigate(`/orchestrator/${orch.address}`) : undefined;
 
   return (
-    <Grid item xs={12} sm={6} md={4}>
+    <Grid
+      size={{
+        xs: 12,
+        sm: 6,
+        md: 4,
+      }}
+    >
       <Card
         sx={{
           height: "100%",
@@ -73,7 +74,12 @@ export function OrchestratorCard({ orch, rank, clickable = true }: Props): JSX.E
         <CardContent sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
             {rank !== undefined && (
-              <Grid item xs={12} sm={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6,
+                }}
+              >
                 <Box>
                   <Typography variant="subtitle2" color="textPrimary">
                     Rank
@@ -84,7 +90,12 @@ export function OrchestratorCard({ orch, rank, clickable = true }: Props): JSX.E
                 </Box>
               </Grid>
             )}
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+              }}
+            >
               <Box>
                 <Typography variant="subtitle2" color="textPrimary">
                   Active
@@ -94,7 +105,12 @@ export function OrchestratorCard({ orch, rank, clickable = true }: Props): JSX.E
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+              }}
+            >
               <Box>
                 <Typography variant="subtitle2" color="textPrimary">
                   Reward Cut
@@ -104,7 +120,12 @@ export function OrchestratorCard({ orch, rank, clickable = true }: Props): JSX.E
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+              }}
+            >
               <Box>
                 <Typography variant="subtitle2" color="textPrimary">
                   Fee Cut
@@ -114,7 +135,7 @@ export function OrchestratorCard({ orch, rank, clickable = true }: Props): JSX.E
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box>
                 <Typography variant="subtitle2" color="textPrimary">
                   Total Stake

@@ -124,9 +124,7 @@ export async function topPayoutLoader({ request }: LoaderFunctionArgs): Promise<
   const jobType = jobTypeFromSearch(search);
   const sort = sortFromSearch(search);
 
-  await queryClient.prefetchQuery(
-    leaderboardConfig({ from, to, jobType, sort }),
-  );
+  await queryClient.prefetchQuery(leaderboardConfig({ from, to, jobType, sort }));
   return null;
 }
 

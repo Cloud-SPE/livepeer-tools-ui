@@ -11,8 +11,7 @@ import type {
   SortKey,
 } from "./types";
 
-const summaryKey = (kind: PeriodKind, date: string) =>
-  ["rewards", "summary", kind, date] as const;
+const summaryKey = (kind: PeriodKind, date: string) => ["rewards", "summary", kind, date] as const;
 
 const leaderboardKey = (params: LeaderboardParams) =>
   [

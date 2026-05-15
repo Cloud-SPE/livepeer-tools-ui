@@ -26,11 +26,7 @@ export function parseIsoDate(iso: string): Date | null {
     return null;
   }
   const dt = new Date(Date.UTC(year, month - 1, day));
-  if (
-    dt.getUTCFullYear() !== year ||
-    dt.getUTCMonth() !== month - 1 ||
-    dt.getUTCDate() !== day
-  ) {
+  if (dt.getUTCFullYear() !== year || dt.getUTCMonth() !== month - 1 || dt.getUTCDate() !== day) {
     return null;
   }
   return dt;
@@ -95,9 +91,7 @@ export function shiftPeriod(kind: PeriodKind, iso: string, direction: -1 | 1): s
   if (!d) return iso;
   if (kind === "daily") return formatIsoDate(addDays(d, direction));
   if (kind === "weekly") return formatIsoDate(addDays(d, 7 * direction));
-  const mo = new Date(
-    Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + direction, d.getUTCDate()),
-  );
+  const mo = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + direction, d.getUTCDate()));
   return formatIsoDate(mo);
 }
 

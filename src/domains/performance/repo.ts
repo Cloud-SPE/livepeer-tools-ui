@@ -1,10 +1,5 @@
 import { networkExplorer, unwrap } from "@/providers/network-explorer";
-import {
-  getAggregatedStats,
-  getPipelines,
-  getRawStats,
-  getRegions,
-} from "@/providers/performance";
+import { getAggregatedStats, getPipelines, getRawStats, getRegions } from "@/providers/performance";
 import { GLOBAL_REGION_ID } from "./config";
 import type {
   IdentityIndex,
@@ -77,8 +72,7 @@ export async function listLeaderboard(
   params: LeaderboardParams,
   identities: IdentityIndex,
 ): Promise<LeaderboardRow[]> {
-  const region =
-    params.region && params.region !== GLOBAL_REGION_ID ? params.region : undefined;
+  const region = params.region && params.region !== GLOBAL_REGION_ID ? params.region : undefined;
 
   const perfParams: Parameters<typeof getAggregatedStats>[0] = {
     kind: params.mode,
@@ -137,8 +131,7 @@ export async function listStats(params: StatsParams): Promise<StatsRow[]> {
       const downloadTime = record.download_time ?? null;
       const transcodeTime = record.transcode_time ?? null;
       const segmentsReceived = record.segments_received ?? null;
-      const realtime =
-        record.seg_duration > record.round_trip_time && record.success_rate > 0;
+      const realtime = record.seg_duration > record.round_trip_time && record.success_rate > 0;
       out.push({
         id: `${region}-${idx}`,
         region,

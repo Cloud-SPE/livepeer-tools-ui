@@ -1,12 +1,5 @@
-import {
-  Box,
-  Card,
-  CardContent,
-  Container,
-  Divider,
-  Grid,
-  Typography,
-} from "@mui/material";
+import type { JSX } from "react";
+import { Box, Card, CardContent, Container, Divider, Grid, Typography } from "@mui/material";
 
 interface Feature {
   title: string;
@@ -42,8 +35,8 @@ const FEATURES: ReadonlyArray<Feature> = [
 
 export function AIGenerator(): JSX.Element {
   return (
-    <Container maxWidth="lg" sx={{ py: 6 }}>
-      <Box textAlign="center" sx={{ mb: 6 }}>
+    <Container sx={{ maxWidth: "lg", py: 6 }}>
+      <Box sx={{ textAlign: "center", mb: 6 }}>
         <Typography variant="h2" gutterBottom>
           AI Generator
         </Typography>
@@ -53,10 +46,16 @@ export function AIGenerator(): JSX.Element {
       </Box>
       <Grid container spacing={4}>
         {FEATURES.map((f) => (
-          <Grid item xs={12} md={4} key={f.title}>
+          <Grid
+            key={f.title}
+            size={{
+              xs: 12,
+              md: 4,
+            }}
+          >
             <Card elevation={3} sx={{ borderRadius: 2 }}>
               <CardContent>
-                <Typography variant="h6" fontWeight="bold" gutterBottom>
+                <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold" }}>
                   {f.title}
                 </Typography>
                 <Divider sx={{ mb: 2 }} />

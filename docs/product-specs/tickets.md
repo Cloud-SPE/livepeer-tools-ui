@@ -4,8 +4,8 @@ Sixth domain. Closes the "(Coming soon)" link on the Reports landing card. Singl
 
 ## Routes
 
-| URL | Component | Purpose |
-| --- | --- | --- |
+| URL                                                         | Component            | Purpose                             |
+| ----------------------------------------------------------- | -------------------- | ----------------------------------- |
 | `/reports/tickets/daily?start=&end=&job_type=&granularity=` | `DailyTicketsReport` | Line chart of winning-ticket counts |
 
 ## Data sources
@@ -33,13 +33,13 @@ Exactly one provider: `network-explorer`. One endpoint:
 
 ## States
 
-| Condition | Render |
-| --- | --- |
-| Invalid range | Warning Alert. No chart. |
-| Span > 730 days | Warning Alert. No chart. |
-| Loading | `CircularProgress` above the chart box |
-| Error | `Alert severity="error"` above the chart box |
-| Empty data | Chart renders with no datapoints (chart.js handles gracefully) |
+| Condition       | Render                                                         |
+| --------------- | -------------------------------------------------------------- |
+| Invalid range   | Warning Alert. No chart.                                       |
+| Span > 730 days | Warning Alert. No chart.                                       |
+| Loading         | `CircularProgress` above the chart box                         |
+| Error           | `Alert severity="error"` above the chart box                   |
+| Empty data      | Chart renders with no datapoints (chart.js handles gracefully) |
 
 ## URL contract
 

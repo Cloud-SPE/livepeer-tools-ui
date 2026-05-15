@@ -15,15 +15,7 @@ export const gatewayRoutes = (
   <>
     <Route path="gateways" element={<Gateways />} loader={gatewaysLoader} />
     <Route path="broadcasters" element={<Gateways />} loader={gatewaysLoader} />
-    <Route
-      path="gateway/:eth_address"
-      element={<GatewayDetail />}
-      loader={gatewayLoader}
-    />
-    <Route
-      path="broadcaster/:eth_address"
-      element={<GatewayDetail />}
-      loader={gatewayLoader}
-    />
+    <Route path="gateway/:eth_address" element={<GatewayDetail />} loader={gatewayLoader} />
+    <Route path="broadcaster/:eth_address" element={<GatewayDetail />} loader={gatewayLoader} />
   </>
 );

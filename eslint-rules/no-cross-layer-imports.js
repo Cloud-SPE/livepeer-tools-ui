@@ -73,8 +73,7 @@ const rule = {
         "Only repo.ts may import from src/providers/. '{{fromLayer}}' may not. See docs/design-docs/providers-and-boundaries.md.",
       providerImportsDomain:
         "Providers may not import from src/domains/. Providers are transport, not business logic.",
-      appImportsInternal:
-        "src/app/ may only import a domain's runtime or ui, not '{{toLayer}}'.",
+      appImportsInternal: "src/app/ may only import a domain's runtime or ui, not '{{toLayer}}'.",
     },
   },
   create(context) {

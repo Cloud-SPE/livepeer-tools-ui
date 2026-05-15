@@ -35,10 +35,7 @@ export async function unwrap<T>(
   const { data, error, response } = await resultPromise;
   if (data === undefined) {
     const bodyText = await response.text().catch(() => "");
-    throw new NetworkExplorerError(
-      response.status,
-      bodyText || JSON.stringify(error ?? {}),
-    );
+    throw new NetworkExplorerError(response.status, bodyText || JSON.stringify(error ?? {}));
   }
   return data;
 }

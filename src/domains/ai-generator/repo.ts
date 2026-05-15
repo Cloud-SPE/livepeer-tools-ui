@@ -232,9 +232,7 @@ export async function postAudioToText(form: AudioToTextForm): Promise<AudioToTex
   return { text: typeof r.text === "string" ? r.text : "" };
 }
 
-export async function postTextToSpeech(
-  form: TextToSpeechForm,
-): Promise<TextToSpeechResponse> {
+export async function postTextToSpeech(form: TextToSpeechForm): Promise<TextToSpeechResponse> {
   const body: Record<string, unknown> = {
     model_id: form.model_id,
     text: form.text,
@@ -347,9 +345,7 @@ function normalizeSdkError(err: unknown): Error {
  * Models occasionally emit a `reasoning` field alongside `content` —
  * surfaced separately so the UI can render it in a sidebar.
  */
-export async function postByocChat(
-  invocation: ByocChatInvocation,
-): Promise<ByocChatResult> {
+export async function postByocChat(invocation: ByocChatInvocation): Promise<ByocChatResult> {
   const client = getByocOpenAIClient();
   const payload = {
     model: invocation.model,
@@ -448,9 +444,7 @@ export async function postByocImage(form: ByocImageForm): Promise<ByocImageResul
   }
 }
 
-export async function postByocEmbedding(
-  form: ByocEmbeddingForm,
-): Promise<ByocEmbeddingResult> {
+export async function postByocEmbedding(form: ByocEmbeddingForm): Promise<ByocEmbeddingResult> {
   const client = getByocOpenAIClient();
   try {
     const data = await client.embeddings.create({

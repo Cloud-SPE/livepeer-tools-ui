@@ -1,12 +1,7 @@
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import type { LoaderFunctionArgs } from "react-router-dom";
 import { queryClient } from "@/utils/queryClient";
-import {
-  getGateway,
-  getIdentityIndex,
-  listGateways,
-  listGatewayPayouts,
-} from "./repo";
+import { getGateway, getIdentityIndex, listGateways, listGatewayPayouts } from "./repo";
 import type {
   Gateway,
   GatewayListParams,
@@ -18,12 +13,9 @@ import type {
 /* ---------- keys + configs ---------- */
 
 const IDENTITY_KEY = ["gateways", "identity-index"] as const;
-const listKey = (params: GatewayListParams) =>
-  ["gateways", "list", params] as const;
-const detailKey = (address: string) =>
-  ["gateways", "detail", address.toLowerCase()] as const;
-const payoutsKey = (address: string) =>
-  ["gateways", "payouts", address.toLowerCase()] as const;
+const listKey = (params: GatewayListParams) => ["gateways", "list", params] as const;
+const detailKey = (address: string) => ["gateways", "detail", address.toLowerCase()] as const;
+const payoutsKey = (address: string) => ["gateways", "payouts", address.toLowerCase()] as const;
 
 const identityConfig = () => ({
   queryKey: IDENTITY_KEY,
@@ -62,9 +54,7 @@ export function useGateway(address: string): UseQueryResult<Gateway, Error> {
   return useQuery(detailConfig(address));
 }
 
-export function useGatewayPayouts(
-  address: string,
-): UseQueryResult<GatewayPayoutsResult, Error> {
+export function useGatewayPayouts(address: string): UseQueryResult<GatewayPayoutsResult, Error> {
   return useQuery(payoutsConfig(address));
 }
 

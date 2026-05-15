@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { Alert, Box, CircularProgress, Grid, Typography } from "@mui/material";
 import { useGateways } from "../runtime";
 import { GatewayCard } from "./GatewayCard";

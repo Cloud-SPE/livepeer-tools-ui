@@ -50,9 +50,7 @@ describe("network.service", () => {
 
   describe("formatTimestampUtc", () => {
     it("renders ISO timestamps in YYYY-MM-DD HH:mm:ss UTC", () => {
-      expect(formatTimestampUtc("2026-05-14T20:14:43Z")).toBe(
-        "2026-05-14 20:14:43 UTC",
-      );
+      expect(formatTimestampUtc("2026-05-14T20:14:43Z")).toBe("2026-05-14 20:14:43 UTC");
     });
     it("renders em-dash for null/undefined", () => {
       expect(formatTimestampUtc(null)).toBe("—");

@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { useEffect, useState } from "react";
 import {
   Alert,
@@ -14,12 +15,7 @@ import { IMAGE_TO_VIDEO_DEFAULTS, PIPELINE_NAMES } from "../../config";
 import { useGatewaySettings, useImageToVideoMutation, useModels } from "../../runtime";
 import { resolveMediaUrl, validateImageToVideo } from "../../service";
 import type { ImageToVideoForm } from "../../types";
-import {
-  FilePicker,
-  ModelSelect,
-  NumberField,
-  SeedField,
-} from "./InferenceFields";
+import { FilePicker, ModelSelect, NumberField, SeedField } from "./InferenceFields";
 
 export function ImageToVideo(): JSX.Element {
   const [form, setForm] = useState<ImageToVideoForm>(IMAGE_TO_VIDEO_DEFAULTS);
@@ -49,16 +45,20 @@ export function ImageToVideo(): JSX.Element {
 
   return (
     <Box sx={{ py: 3 }}>
-      <Typography variant="h4" fontWeight="bold" gutterBottom>
+      <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold" }}>
         Image to Video
       </Typography>
       <Typography variant="body1" color="textSecondary" gutterBottom>
         Upload an image and generate a short video.
       </Typography>
       <Divider sx={{ mb: 3 }} />
-
       <Grid container spacing={3}>
-        <Grid item xs={12} md={5}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 5,
+          }}
+        >
           <Card elevation={3} sx={{ borderRadius: 2 }}>
             <CardContent>
               <Typography variant="h6" gutterBottom>
@@ -97,8 +97,18 @@ export function ImageToVideo(): JSX.Element {
                   models={models}
                   onChange={(v) => update("model_id", v)}
                 />
-                <NumberField label="Width" value={form.width} onChange={(v) => update("width", v)} required />
-                <NumberField label="Height" value={form.height} onChange={(v) => update("height", v)} required />
+                <NumberField
+                  label="Width"
+                  value={form.width}
+                  onChange={(v) => update("width", v)}
+                  required
+                />
+                <NumberField
+                  label="Height"
+                  value={form.height}
+                  onChange={(v) => update("height", v)}
+                  required
+                />
                 <NumberField label="FPS" value={form.fps} onChange={(v) => update("fps", v)} />
                 <NumberField
                   label="Motion Bucket ID"
@@ -117,7 +127,12 @@ export function ImageToVideo(): JSX.Element {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={7}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 7,
+          }}
+        >
           <Card elevation={3} sx={{ borderRadius: 2 }}>
             <CardContent>
               <Typography variant="h6" gutterBottom>

@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { Box, Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { prettyJson } from "../service";
 

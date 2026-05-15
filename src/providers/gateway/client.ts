@@ -1,10 +1,7 @@
 import OpenAI from "openai";
 import { env } from "@/utils/env";
 import { getGatewaySettings } from "./settings";
-import {
-  networkCapabilitiesResponseSchema,
-  type NetworkCapabilitiesResponse,
-} from "./schemas";
+import { networkCapabilitiesResponseSchema, type NetworkCapabilitiesResponse } from "./schemas";
 
 export class GatewayError extends Error {
   public readonly status: number;
@@ -64,10 +61,7 @@ export async function gatewayPost<TBody>(path: string, body: TBody): Promise<unk
  * (image-to-image, upscale, image-to-video, etc.). Browser sets the
  * Content-Type with the correct boundary; do NOT set it manually.
  */
-export async function gatewayPostMultipart(
-  path: string,
-  formData: FormData,
-): Promise<unknown> {
+export async function gatewayPostMultipart(path: string, formData: FormData): Promise<unknown> {
   const res = await gatewayFetch(path, { method: "POST", body: formData });
   return res.json();
 }

@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { useMemo, useState } from "react";
 import {
   Alert,
@@ -67,15 +68,15 @@ export function Settings(): JSX.Element {
 
   return (
     <Grid container spacing={3}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Card elevation={3} sx={{ borderRadius: 2 }}>
           <CardContent>
-            <Typography variant="h5" fontWeight="bold" gutterBottom>
+            <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold" }}>
               Settings
             </Typography>
             <Typography variant="subtitle1" color="textSecondary" gutterBottom>
-              Configure the AI gateway used by the inference and capabilities pages. The
-              choice is persisted to localStorage on this device.
+              Configure the AI gateway used by the inference and capabilities pages. The choice is
+              persisted to localStorage on this device.
             </Typography>
             <Divider sx={{ my: 2 }} />
 
@@ -86,7 +87,7 @@ export function Settings(): JSX.Element {
             )}
 
             <Box component="form" onSubmit={onSubmit}>
-              <Box mb={3}>
+              <Box sx={{ mb: 3 }}>
                 <FormControl fullWidth disabled={useCustom}>
                   <InputLabel id="gateway-preset-label">Gateway</InputLabel>
                   <Select
@@ -118,7 +119,7 @@ export function Settings(): JSX.Element {
               />
 
               {useCustom && (
-                <Box mt={2}>
+                <Box sx={{ mt: 2 }}>
                   <TextField
                     label="Custom Gateway URL"
                     value={baseUrl}
@@ -130,7 +131,7 @@ export function Settings(): JSX.Element {
                 </Box>
               )}
 
-              <Box mt={3}>
+              <Box sx={{ mt: 3 }}>
                 <TextField
                   label="Bearer Token (optional)"
                   value={bearerToken}
@@ -141,7 +142,7 @@ export function Settings(): JSX.Element {
                 />
               </Box>
 
-              <Box mt={3}>
+              <Box sx={{ mt: 3 }}>
                 <Button
                   type="submit"
                   variant="contained"
@@ -149,7 +150,11 @@ export function Settings(): JSX.Element {
                   fullWidth
                   disabled={saving}
                 >
-                  {saving ? <CircularProgress size={24} sx={{ color: "white" }} /> : "Save Settings"}
+                  {saving ? (
+                    <CircularProgress size={24} sx={{ color: "white" }} />
+                  ) : (
+                    "Save Settings"
+                  )}
                 </Button>
               </Box>
             </Box>

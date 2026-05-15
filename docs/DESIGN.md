@@ -58,11 +58,11 @@ Each provider is its own subdirectory of `src/providers/`. Each owns:
 - Its own `index.ts` re-exporting only the public surface
 - Authentication, base URL, and retry concerns
 
-| Provider | Source | Auth | Validation |
-| --- | --- | --- | --- |
-| `network-explorer` | `livepeer-network-api.cloudspe.com/api/v1` | None | Generated types from `openapi.json`; trusted at compile-time |
-| `performance` | `leaderboard-serverless.vercel.app` (transcoding) + `lpc-leaderboard-serverless.vercel.app` (AI) | None | Zod at boundary |
-| `gateway` | `dream-gateway.livepeer.cloud` + `openai-gateway.livepeer.cloud/v1` + user-overridable | Bearer token | Zod at boundary |
+| Provider           | Source                                                                                           | Auth         | Validation                                                   |
+| ------------------ | ------------------------------------------------------------------------------------------------ | ------------ | ------------------------------------------------------------ |
+| `network-explorer` | `livepeer-network-api.cloudspe.com/api/v1`                                                       | None         | Generated types from `openapi.json`; trusted at compile-time |
+| `performance`      | `leaderboard-serverless.vercel.app` (transcoding) + `lpc-leaderboard-serverless.vercel.app` (AI) | None         | Zod at boundary                                              |
+| `gateway`          | `dream-gateway.livepeer.cloud` + `openai-gateway.livepeer.cloud/v1` + user-overridable           | Bearer token | Zod at boundary                                              |
 
 `src/utils/env.ts` parses `import.meta.env.VITE_*` into a typed config object once at startup. Anything that needs an environment value imports from there — providers, domain configs, UI. It is a `utils/` module rather than a provider because it is read-only configuration, not transport.
 

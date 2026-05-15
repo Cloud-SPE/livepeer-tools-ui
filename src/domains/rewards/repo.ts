@@ -50,9 +50,12 @@ function projectLeaderboardRow(row: unknown) {
   };
 }
 
-function summaryPath(kind: PeriodKind): "/rewards/summary/daily/{date}" |
-  "/rewards/summary/weekly/{date}" |
-  "/rewards/summary/monthly/{date}" {
+function summaryPath(
+  kind: PeriodKind,
+):
+  | "/rewards/summary/daily/{date}"
+  | "/rewards/summary/weekly/{date}"
+  | "/rewards/summary/monthly/{date}" {
   if (kind === "weekly") return "/rewards/summary/weekly/{date}";
   if (kind === "monthly") return "/rewards/summary/monthly/{date}";
   return "/rewards/summary/daily/{date}";
@@ -70,9 +73,7 @@ function clampLimit(limit: number | undefined): number {
   return Math.min(Math.max(1, Math.floor(limit)), MAX_PAGE_SIZE);
 }
 
-export async function listLeaderboard(
-  params: LeaderboardParams,
-): Promise<RewardLeaderboardResult> {
+export async function listLeaderboard(params: LeaderboardParams): Promise<RewardLeaderboardResult> {
   const query: Record<string, string | number> = {
     from: params.from,
     to: params.to,

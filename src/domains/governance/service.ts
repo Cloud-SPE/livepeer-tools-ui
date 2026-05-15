@@ -1,10 +1,4 @@
-import type {
-  BlockFloor,
-  Proposal,
-  ProposalStatus,
-  TallyAmounts,
-  Vote,
-} from "./types";
+import type { BlockFloor, Proposal, ProposalStatus, TallyAmounts, Vote } from "./types";
 
 /**
  * Pure derivation functions for the governance domain. No fetches, no React.
@@ -29,10 +23,7 @@ export function shortAddress(address: string): string {
 }
 
 /** What to render for a proposer / voter when identity may be missing. */
-export function identityLabel(
-  address: string | null,
-  displayName: string | null,
-): string {
+export function identityLabel(address: string | null, displayName: string | null): string {
   const name = displayName?.trim();
   if (name) return name;
   if (address) return shortAddress(address);

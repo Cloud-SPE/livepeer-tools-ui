@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { useEffect, useState } from "react";
 import {
   Alert,
@@ -52,16 +53,20 @@ export function ImageToImage(): JSX.Element {
 
   return (
     <Box sx={{ py: 3 }}>
-      <Typography variant="h4" fontWeight="bold" gutterBottom>
+      <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold" }}>
         Image to Image
       </Typography>
       <Typography variant="body1" color="textSecondary" gutterBottom>
         Upload an image, describe the transformation, and generate.
       </Typography>
       <Divider sx={{ mb: 3 }} />
-
       <Grid container spacing={3}>
-        <Grid item xs={12} md={5}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 5,
+          }}
+        >
           <Card elevation={3} sx={{ borderRadius: 2 }}>
             <CardContent>
               <Typography variant="h6" gutterBottom>
@@ -155,7 +160,12 @@ export function ImageToImage(): JSX.Element {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={7}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 7,
+          }}
+        >
           <Card elevation={3} sx={{ borderRadius: 2 }}>
             <CardContent>
               <Typography variant="h6" gutterBottom>

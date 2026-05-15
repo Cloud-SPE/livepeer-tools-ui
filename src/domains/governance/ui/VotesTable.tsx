@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import {
   Avatar,
   Box,
@@ -63,15 +64,15 @@ export function VotesTable({ votes, totalLpt, onVoterClick }: Props): JSX.Elemen
                   onClick={() => onVoterClick(vote.voterIdentity, vote.voterAddress)}
                 >
                   <TableCell>
-                    <Grid container alignItems="center" spacing={1}>
-                      <Grid item>
+                    <Grid container spacing={1} sx={{ alignItems: "center" }}>
+                      <Grid>
                         <Avatar
                           src={vote.voterIdentity?.avatarUrl ?? undefined}
                           alt={label}
                           sx={{ width: 24, height: 24 }}
                         />
                       </Grid>
-                      <Grid item>
+                      <Grid>
                         <Typography variant="inherit">{label}</Typography>
                       </Grid>
                     </Grid>
@@ -85,9 +86,7 @@ export function VotesTable({ votes, totalLpt, onVoterClick }: Props): JSX.Elemen
                     %
                   </TableCell>
                   <TableCell>
-                    <Box sx={{ maxWidth: 400, whiteSpace: "pre-wrap" }}>
-                      {vote.reason ?? "-"}
-                    </Box>
+                    <Box sx={{ maxWidth: 400, whiteSpace: "pre-wrap" }}>{vote.reason ?? "-"}</Box>
                   </TableCell>
                 </TableRow>
               );

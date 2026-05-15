@@ -1,12 +1,8 @@
+import type { JSX } from "react";
 import { Alert, Box, Paper, Typography } from "@mui/material";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import { useRounds } from "../runtime";
-import {
-  formatInt,
-  formatLpt,
-  formatTimestampUtc,
-  formatUsd,
-} from "../service";
+import { formatInt, formatLpt, formatTimestampUtc, formatUsd } from "../service";
 import type { Round } from "../types";
 
 export function RoundsIndex(): JSX.Element {

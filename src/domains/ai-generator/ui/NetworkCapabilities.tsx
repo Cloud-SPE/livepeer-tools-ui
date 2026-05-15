@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -20,18 +21,20 @@ export function NetworkCapabilities(): JSX.Element {
 
   return (
     <Grid container spacing={3}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Card elevation={3} sx={{ borderRadius: 2 }}>
           <CardContent>
             <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              mb={2}
-              pb={1}
-              sx={{ borderBottom: "1px solid #e0e0e0" }}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                mb: 2,
+                pb: 1,
+                borderBottom: "1px solid #e0e0e0",
+              }}
             >
-              <Typography variant="h5" fontWeight="bold">
+              <Typography variant="h5" sx={{ fontWeight: "bold" }}>
                 Network Capabilities
               </Typography>
               <Button
@@ -56,17 +59,13 @@ export function NetworkCapabilities(): JSX.Element {
             )}
 
             {isLoading && (
-              <Box display="flex" justifyContent="center" my={4}>
+              <Box sx={{ display: "flex", justifyContent: "center", my: 4 }}>
                 <CircularProgress />
               </Box>
             )}
 
             {data && data.pipelines.length === 0 && (
-              <Typography
-                variant="body2"
-                color="textSecondary"
-                sx={{ mt: 2, textAlign: "center" }}
-              >
+              <Typography variant="body2" color="textSecondary" sx={{ mt: 2, textAlign: "center" }}>
                 No capabilities available.
               </Typography>
             )}
@@ -78,12 +77,7 @@ export function NetworkCapabilities(): JSX.Element {
                 sx={{ my: 2, borderLeft: "5px solid #3f51b5", borderRadius: 2 }}
               >
                 <CardContent>
-                  <Typography
-                    variant="h6"
-                    fontWeight="bold"
-                    color="primary"
-                    sx={{ mb: 1 }}
-                  >
+                  <Typography variant="h6" color="primary" sx={{ fontWeight: "bold", mb: 1 }}>
                     {pipeline.name}
                   </Typography>
                   <Divider sx={{ my: 1 }} />
@@ -96,14 +90,10 @@ export function NetworkCapabilities(): JSX.Element {
                           borderBottom: "1px solid #e0e0e0",
                         }}
                       >
-                        <Typography variant="subtitle1" fontWeight="bold">
+                        <Typography variant="subtitle1" sx={{ fontWeight: "bold" }}>
                           {model.name}
                         </Typography>
-                        <Typography
-                          variant="body2"
-                          color="textSecondary"
-                          sx={{ ml: 2 }}
-                        >
+                        <Typography variant="body2" color="textSecondary" sx={{ ml: 2 }}>
                           Cold: {model.coldCount}, Warm: {model.warmCount}
                         </Typography>
                       </AccordionSummary>

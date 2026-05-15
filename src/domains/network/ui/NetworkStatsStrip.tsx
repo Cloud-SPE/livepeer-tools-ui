@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import {
   Alert,
   Box,
@@ -9,13 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useNetworkStats } from "../runtime";
-import {
-  formatEth,
-  formatInt,
-  formatLpt,
-  formatTimestampUtc,
-  formatUsd,
-} from "../service";
+import { formatEth, formatInt, formatLpt, formatTimestampUtc, formatUsd } from "../service";
 
 interface KPI {
   label: string;
@@ -87,7 +82,14 @@ export function NetworkStatsStrip(): JSX.Element {
         </Typography>
         <Grid container spacing={3}>
           {kpis.map((kpi) => (
-            <Grid item xs={6} sm={4} md={3} key={kpi.label}>
+            <Grid
+              key={kpi.label}
+              size={{
+                xs: 6,
+                sm: 4,
+                md: 3,
+              }}
+            >
               <Tooltip
                 title={kpi.helper ?? ""}
                 placement="top"

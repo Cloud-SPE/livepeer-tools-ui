@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import {
   Avatar,
   Box,
@@ -13,13 +14,7 @@ import {
 import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import { LIVEPEER_EXPLORER_GATEWAY_URL } from "../config";
-import {
-  avatarInitial,
-  formatEth,
-  gatewayLabel,
-  kindLabel,
-  shortAddress,
-} from "../service";
+import { avatarInitial, formatEth, gatewayLabel, kindLabel, shortAddress } from "../service";
 import type { Gateway } from "../types";
 
 const AddressTooltip = styled(Tooltip)(({ theme }) => ({
@@ -35,7 +30,13 @@ interface Props {
 export function GatewayCard({ gateway }: Props): JSX.Element {
   const navigate = useNavigate();
   return (
-    <Grid item xs={12} sm={6} md={4}>
+    <Grid
+      size={{
+        xs: 12,
+        sm: 6,
+        md: 4,
+      }}
+    >
       <Card
         sx={{
           height: "100%",

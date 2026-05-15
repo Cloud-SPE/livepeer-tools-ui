@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { useEffect, useState } from "react";
 import {
   Alert,
@@ -15,12 +16,7 @@ import { useGatewaySettings, useModels, useUpscaleMutation } from "../../runtime
 import { resolveImageUrl, validateUpscale } from "../../service";
 import type { UpscaleForm } from "../../types";
 import { GeneratedImageCard } from "./GeneratedImageCard";
-import {
-  FilePicker,
-  ModelSelect,
-  SafetyCheckSelect,
-  SeedField,
-} from "./InferenceFields";
+import { FilePicker, ModelSelect, SafetyCheckSelect, SeedField } from "./InferenceFields";
 
 export function Upscale(): JSX.Element {
   const [form, setForm] = useState<UpscaleForm>(UPSCALE_DEFAULTS);
@@ -50,16 +46,20 @@ export function Upscale(): JSX.Element {
 
   return (
     <Box sx={{ py: 3 }}>
-      <Typography variant="h4" fontWeight="bold" gutterBottom>
+      <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold" }}>
         Upscale
       </Typography>
       <Typography variant="body1" color="textSecondary" gutterBottom>
         Upload an image and produce an upscaled version.
       </Typography>
       <Divider sx={{ mb: 3 }} />
-
       <Grid container spacing={3}>
-        <Grid item xs={12} md={5}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 5,
+          }}
+        >
           <Card elevation={3} sx={{ borderRadius: 2 }}>
             <CardContent>
               <Typography variant="h6" gutterBottom>
@@ -115,7 +115,12 @@ export function Upscale(): JSX.Element {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={7}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 7,
+          }}
+        >
           <Card elevation={3} sx={{ borderRadius: 2 }}>
             <CardContent>
               <Typography variant="h6" gutterBottom>

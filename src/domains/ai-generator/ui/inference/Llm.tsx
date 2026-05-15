@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { useEffect, useState } from "react";
 import {
   Alert,
@@ -62,10 +63,15 @@ export function Llm(): JSX.Element {
 
   return (
     <Grid container spacing={3}>
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6,
+        }}
+      >
         <Card elevation={3} sx={{ borderRadius: 2 }}>
           <CardContent>
-            <Typography variant="h5" fontWeight="bold" gutterBottom>
+            <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold" }}>
               Ask an LLM
             </Typography>
             <Typography variant="body2" color="textSecondary" gutterBottom>
@@ -168,11 +174,15 @@ export function Llm(): JSX.Element {
           </CardContent>
         </Card>
       </Grid>
-
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6,
+        }}
+      >
         <Card elevation={3} sx={{ borderRadius: 2 }}>
           <CardContent>
-            <Typography variant="h5" fontWeight="bold" gutterBottom>
+            <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold" }}>
               Output
             </Typography>
             <Box

@@ -30,9 +30,7 @@ function makeOrch(over: Partial<Orchestrator> = {}): Orchestrator {
 describe("orchestrators service", () => {
   describe("shortAddress", () => {
     it("renders 0x1234...abcd for canonical eth addresses", () => {
-      expect(shortAddress("0x08f76e106a2dd4f6385efc8ea6c69a2816082461")).toBe(
-        "0x08f7...2461",
-      );
+      expect(shortAddress("0x08f76e106a2dd4f6385efc8ea6c69a2816082461")).toBe("0x08f7...2461");
     });
     it("returns input untouched when too short to truncate", () => {
       expect(shortAddress("0x1234")).toBe("0x1234");

@@ -4,16 +4,16 @@ Third domain. Replaces the old `/reports/...` section. Reference template for a 
 
 ## Routes
 
-| URL | Component | Purpose |
-| --- | --- | --- |
-| `/reports` | `Reports` | Landing — links to each report |
-| `/reports/top/payout` | `TopPayout` | Configurable date range + sort + job type leaderboard |
-| `/reports/daily` | redirect → `/reports/daily/{today}` | |
-| `/reports/weekly` | redirect → `/reports/weekly/{today}` | |
-| `/reports/monthly` | redirect → `/reports/monthly/{today}` | |
-| `/reports/daily/:date` | `PayoutSummary kind="daily"` | One-day aggregate + leaderboard |
-| `/reports/weekly/:date` | `PayoutSummary kind="weekly"` | One-ISO-week aggregate + leaderboard |
-| `/reports/monthly/:date` | `PayoutSummary kind="monthly"` | One-calendar-month aggregate + leaderboard |
+| URL                      | Component                             | Purpose                                               |
+| ------------------------ | ------------------------------------- | ----------------------------------------------------- |
+| `/reports`               | `Reports`                             | Landing — links to each report                        |
+| `/reports/top/payout`    | `TopPayout`                           | Configurable date range + sort + job type leaderboard |
+| `/reports/daily`         | redirect → `/reports/daily/{today}`   |                                                       |
+| `/reports/weekly`        | redirect → `/reports/weekly/{today}`  |                                                       |
+| `/reports/monthly`       | redirect → `/reports/monthly/{today}` |                                                       |
+| `/reports/daily/:date`   | `PayoutSummary kind="daily"`          | One-day aggregate + leaderboard                       |
+| `/reports/weekly/:date`  | `PayoutSummary kind="weekly"`         | One-ISO-week aggregate + leaderboard                  |
+| `/reports/monthly/:date` | `PayoutSummary kind="monthly"`        | One-calendar-month aggregate + leaderboard            |
 
 All summary routes accept `?job_type=both|ai|transcoding`. Top-payout accepts `?from=&to=&sort=&job_type=`.
 
@@ -52,13 +52,13 @@ Layout:
 
 ## States
 
-| Condition | Render |
-| --- | --- |
-| Summary loading | `CircularProgress` inside the summary card |
-| Summary error | `Alert severity="error"` above the card |
-| Leaderboard loading | DataGrid's built-in loading shimmer |
-| Leaderboard error | `Alert severity="error"` in place of the DataGrid |
-| Invalid date param | `Alert severity="error"` at the top |
+| Condition           | Render                                            |
+| ------------------- | ------------------------------------------------- |
+| Summary loading     | `CircularProgress` inside the summary card        |
+| Summary error       | `Alert severity="error"` above the card           |
+| Leaderboard loading | DataGrid's built-in loading shimmer               |
+| Leaderboard error   | `Alert severity="error"` in place of the DataGrid |
+| Invalid date param  | `Alert severity="error"` at the top               |
 
 ## Period semantics
 

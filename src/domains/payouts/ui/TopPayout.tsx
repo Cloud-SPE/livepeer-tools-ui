@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import {
   Alert,
   Avatar,
@@ -18,13 +19,7 @@ import Download from "@mui/icons-material/Download";
 import { useSearchParams } from "react-router-dom";
 import { JOB_TYPES, SORT_KEYS, buildPayoutsCsvUrl } from "../config";
 import { useLeaderboard } from "../runtime";
-import {
-  formatEth,
-  formatInt,
-  formatUsd,
-  rowLabel,
-  todayIso,
-} from "../service";
+import { formatEth, formatInt, formatUsd, rowLabel, todayIso } from "../service";
 import type { JobType, PayoutLeaderboardRow, SortKey } from "../types";
 
 function defaultStart(): string {
@@ -64,7 +59,7 @@ export function TopPayout(): JSX.Element {
       flex: 1.4,
       sortable: false,
       renderCell: (params) => (
-        <Stack direction="row" alignItems="center" spacing={1}>
+        <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
           <Avatar
             src={params.row.avatarUrl ?? undefined}
             alt={rowLabel(params.row)}
@@ -123,29 +118,43 @@ export function TopPayout(): JSX.Element {
       <Typography variant="h4" align="center" gutterBottom>
         Top Payout Report
       </Typography>
-
       <Grid container spacing={3} sx={{ mt: 2 }}>
-        <Grid item xs={12} md={3}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 3,
+          }}
+        >
           <TextField
             label="Start Date"
             type="date"
             value={from}
             onChange={(e) => updateParam("from", e.target.value)}
-            InputLabelProps={{ shrink: true }}
             fullWidth
+            slotProps={{ inputLabel: { shrink: true } }}
           />
         </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 3,
+          }}
+        >
           <TextField
             label="End Date"
             type="date"
             value={to}
             onChange={(e) => updateParam("to", e.target.value)}
-            InputLabelProps={{ shrink: true }}
             fullWidth
+            slotProps={{ inputLabel: { shrink: true } }}
           />
         </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 3,
+          }}
+        >
           <FormControl fullWidth>
             <InputLabel id="sort-label">Sort By</InputLabel>
             <Select
@@ -162,7 +171,12 @@ export function TopPayout(): JSX.Element {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12} md={3}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 3,
+          }}
+        >
           <FormControl fullWidth>
             <InputLabel id="job-label">Job Type</InputLabel>
             <Select
@@ -182,7 +196,6 @@ export function TopPayout(): JSX.Element {
           </FormControl>
         </Grid>
       </Grid>
-
       <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}>
         <Button
           variant="outlined"
@@ -194,7 +207,6 @@ export function TopPayout(): JSX.Element {
           Download CSV
         </Button>
       </Box>
-
       {leaderboardQ.error ? (
         <Alert severity="error" sx={{ mt: 2 }}>
           Failed to load: {leaderboardQ.error.message}

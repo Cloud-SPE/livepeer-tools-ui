@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { Box, Button, Card, CardActions, CardContent, Grid, Typography } from "@mui/material";
 import ArrowForward from "@mui/icons-material/ArrowForward";
 import { Link } from "react-router-dom";
@@ -35,8 +36,7 @@ const REPORTS: ReadonlyArray<ReportLink> = [
   },
   {
     title: "Monthly Payout Report",
-    description:
-      "Aggregate payouts plus per-orchestrator leaderboard for a calendar month.",
+    description: "Aggregate payouts plus per-orchestrator leaderboard for a calendar month.",
     to: "/reports/monthly",
   },
   {
@@ -59,8 +59,7 @@ const REPORTS: ReadonlyArray<ReportLink> = [
   },
   {
     title: "Monthly Reward Report",
-    description:
-      "Aggregate reward calls plus per-orchestrator leaderboard for a calendar month.",
+    description: "Aggregate reward calls plus per-orchestrator leaderboard for a calendar month.",
     to: "/reports/rewards/monthly",
   },
 ];
@@ -73,7 +72,15 @@ export function Reports(): JSX.Element {
       </Typography>
       <Grid container spacing={4}>
         {REPORTS.map((report) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={report.to}>
+          <Grid
+            key={report.to}
+            size={{
+              xs: 12,
+              sm: 6,
+              md: 4,
+              lg: 3,
+            }}
+          >
             <Card
               variant="outlined"
               sx={{

@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -31,8 +32,8 @@ export function DateInput({ initialDate, buildPath, label = "Date" }: Props): JS
       onBlur={() => {
         if (value && value !== initialDate) navigate(buildPath(value));
       }}
-      InputLabelProps={{ shrink: true }}
       sx={{ mt: 2, mb: 2, maxWidth: 240 }}
+      slotProps={{ inputLabel: { shrink: true } }}
     />
   );
 }

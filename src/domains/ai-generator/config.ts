@@ -67,11 +67,7 @@ export const PIPELINE_NAMES = {
   segmentAnything2: "Segment-anything-2",
 } as const;
 
-export const BYOC_IMAGE_SIZES = [
-  "1024x1024",
-  "1024x1792",
-  "1792x1024",
-] as const;
+export const BYOC_IMAGE_SIZES = ["1024x1024", "1024x1792", "1792x1024"] as const;
 
 export const TEXT_TO_IMAGE_DEFAULTS: TextToImageForm = {
   prompt: "",
@@ -143,8 +139,7 @@ export const LLM_DEFAULTS: LlmForm = {
 };
 
 /** Llama-style header token leakage that older models emit. We strip it from output. */
-export const LLM_HEADER_TOKEN_PATTERN =
-  /<\|start_header_id\|>assistant<\|end_header_id\|>/g;
+export const LLM_HEADER_TOKEN_PATTERN = /<\|start_header_id\|>assistant<\|end_header_id\|>/g;
 
 /* ---------- BYOC OpenAI defaults ---------- */
 

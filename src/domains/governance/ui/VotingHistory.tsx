@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { useMemo, useState } from "react";
 import {
   Alert,
@@ -32,9 +33,7 @@ export function VotingHistory(): JSX.Element {
     [proposalsQ.data],
   );
 
-  const selected = selectedId
-    ? proposals.find((p) => p.id === selectedId)
-    : null;
+  const selected = selectedId ? proposals.find((p) => p.id === selectedId) : null;
 
   if (proposalsQ.isLoading) {
     return (
@@ -114,9 +113,7 @@ export function VotingHistory(): JSX.Element {
                       borderLeft: `4px solid ${statusColor(status)}`,
                     }}
                   >
-                    <TableCell
-                      sx={{ fontWeight: isSelected ? "bold" : "normal" }}
-                    >
+                    <TableCell sx={{ fontWeight: isSelected ? "bold" : "normal" }}>
                       <Typography variant="subtitle2">{proposal.title}</Typography>
                       <Typography
                         variant="caption"

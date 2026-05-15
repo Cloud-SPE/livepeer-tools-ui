@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import {
   Alert,
   Avatar,
@@ -49,7 +50,7 @@ export function RewardSummary({ kind }: Props): JSX.Element {
 
   if (!range) {
     return (
-      <Box p={4}>
+      <Box sx={{ p: 4 }}>
         <Alert severity="error">Invalid date: {date}</Alert>
       </Box>
     );
@@ -67,7 +68,7 @@ export function RewardSummary({ kind }: Props): JSX.Element {
       flex: 1.4,
       sortable: false,
       renderCell: (params) => (
-        <Stack direction="row" alignItems="center" spacing={1}>
+        <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
           <Avatar
             src={params.row.avatarUrl ?? undefined}
             alt={rowLabel(params.row)}
@@ -135,12 +136,11 @@ export function RewardSummary({ kind }: Props): JSX.Element {
   const q = search.toString() ? `?${search.toString()}` : "";
 
   return (
-    <Box p={4}>
+    <Box sx={{ p: 4 }}>
       <Typography variant="h4" gutterBottom>
         {PERIOD_LABELS[kind]} Reward Report: {formatHumanDate(range.from)}
       </Typography>
-
-      <Stack direction={{ xs: "column", md: "row" }} spacing={2} alignItems="flex-start">
+      <Stack direction={{ xs: "column", md: "row" }} spacing={2} sx={{ alignItems: "flex-start" }}>
         <Button
           variant="outlined"
           startIcon={<Download />}
@@ -152,13 +152,11 @@ export function RewardSummary({ kind }: Props): JSX.Element {
           Download CSV
         </Button>
       </Stack>
-
       {summaryQ.error && (
         <Alert severity="error" sx={{ mt: 2 }}>
           Failed to load summary: {summaryQ.error.message}
         </Alert>
       )}
-
       <Card sx={{ mt: 2 }}>
         <CardContent>
           {summaryQ.isLoading || !summary ? (
@@ -167,7 +165,13 @@ export function RewardSummary({ kind }: Props): JSX.Element {
             </Box>
           ) : (
             <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6,
+                  md: 3,
+                }}
+              >
                 <Typography variant="subtitle1" align="center">
                   Reward Calls
                 </Typography>
@@ -175,7 +179,13 @@ export function RewardSummary({ kind }: Props): JSX.Element {
                   {formatInt(summary.rewardEventCount)}
                 </Typography>
               </Grid>
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6,
+                  md: 3,
+                }}
+              >
                 <Typography variant="subtitle1" align="center">
                   Total Tokens
                 </Typography>
@@ -186,7 +196,13 @@ export function RewardSummary({ kind }: Props): JSX.Element {
                   {formatUsd(summary.totalUsd)}
                 </Typography>
               </Grid>
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6,
+                  md: 3,
+                }}
+              >
                 <Typography variant="subtitle1" align="center">
                   Orchestrator Share
                 </Typography>
@@ -197,7 +213,13 @@ export function RewardSummary({ kind }: Props): JSX.Element {
                   {formatUsd(summary.orchUsd)}
                 </Typography>
               </Grid>
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6,
+                  md: 3,
+                }}
+              >
                 <Typography variant="subtitle1" align="center">
                   Delegators Share
                 </Typography>
@@ -212,11 +234,9 @@ export function RewardSummary({ kind }: Props): JSX.Element {
           )}
         </CardContent>
       </Card>
-
       <Typography variant="h5" gutterBottom sx={{ mt: 4 }}>
         Orchestrator Reward Details
       </Typography>
-
       {leaderboardQ.error ? (
         <Alert severity="error">Failed to load leaderboard: {leaderboardQ.error.message}</Alert>
       ) : (
@@ -237,7 +257,6 @@ export function RewardSummary({ kind }: Props): JSX.Element {
           />
         </Paper>
       )}
-
       <Box sx={{ mt: 3, display: "flex", gap: 1, justifyContent: "space-between" }}>
         <Button
           component={Link}

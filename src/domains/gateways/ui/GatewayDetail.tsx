@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import {
   Alert,
   Avatar,
@@ -27,17 +28,14 @@ import type { Gateway, GatewayPayoutRow } from "../types";
 function GatewayHeader({ gateway }: { gateway: Gateway }): JSX.Element {
   return (
     <Box>
-      <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 2 }}>
+      <Stack direction="row" spacing={2} sx={{ alignItems: "center", mb: 2 }}>
         {gateway.avatarUrl ? (
           <Avatar src={gateway.avatarUrl} sx={{ width: 50, height: 50 }} />
         ) : (
           <Avatar sx={{ width: 50, height: 50 }}>{avatarInitial(gateway)}</Avatar>
         )}
         <Typography variant="h4">{gatewayLabel(gateway)}</Typography>
-        <Chip
-          label={kindLabel(gateway.kind)}
-          color={gateway.kind === "ai" ? "info" : "default"}
-        />
+        <Chip label={kindLabel(gateway.kind)} color={gateway.kind === "ai" ? "info" : "default"} />
       </Stack>
       <Button
         variant="contained"
@@ -89,7 +87,7 @@ function PayoutsTable({ address }: { address: string }): JSX.Element {
       sortable: false,
       valueGetter: (_v, row) => recipientLabel(row),
       renderCell: (params) => (
-        <Stack direction="row" alignItems="center" spacing={1}>
+        <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
           <Avatar
             src={params.row.toIdentity?.avatarUrl ?? undefined}
             alt={recipientLabel(params.row)}
@@ -160,7 +158,7 @@ function PayoutsTable({ address }: { address: string }): JSX.Element {
 
   return (
     <>
-      <Stack direction="row" alignItems="center" spacing={1} sx={{ mt: 4, mb: 2 }}>
+      <Stack direction="row" spacing={1} sx={{ alignItems: "center", mt: 4, mb: 2 }}>
         <Typography variant="h6">Latest Payouts</Typography>
         {payoutsQ.data?.semantics && (
           <Chip label={payoutsQ.data.semantics} size="small" variant="outlined" />
@@ -175,9 +173,7 @@ function PayoutsTable({ address }: { address: string }): JSX.Element {
           initialState={{ pagination: { paginationModel: { pageSize: 50 } } }}
           pageSizeOptions={[25, 50, 100]}
           disableRowSelectionOnClick
-          onRowClick={(p) =>
-            p.row.toAddress && navigate(`/orchestrator/${p.row.toAddress}`)
-          }
+          onRowClick={(p) => p.row.toAddress && navigate(`/orchestrator/${p.row.toAddress}`)}
           sx={{
             cursor: "pointer",
             "& .MuiDataGrid-columnHeaders": { backgroundColor: "#f5f5f5" },

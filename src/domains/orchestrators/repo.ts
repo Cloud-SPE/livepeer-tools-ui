@@ -1,10 +1,6 @@
 import { networkExplorer, unwrap } from "@/providers/network-explorer";
 import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from "./config";
-import type {
-  Orchestrator,
-  OrchestratorListParams,
-  OrchestratorListResult,
-} from "./types";
+import type { Orchestrator, OrchestratorListParams, OrchestratorListResult } from "./types";
 
 /**
  * Parse a numeric-string field from the API, defaulting to 0 when missing
@@ -46,8 +42,7 @@ function projectRow(row: unknown): Orchestrator {
     feeSharePct: num(r["fee_share_percent"] as string | number | null | undefined),
     asOfBlock: num(r["as_of_block"] as string | number | null | undefined),
     asOfRound: intOrNull(r["as_of_round"] as string | number | null | undefined),
-    lastLifecycleEventAt:
-      (r["last_lifecycle_event_at"] as string | null) ?? null,
+    lastLifecycleEventAt: (r["last_lifecycle_event_at"] as string | null) ?? null,
   };
 }
 

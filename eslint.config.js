@@ -6,7 +6,7 @@ import globals from "globals";
 import noCrossLayer from "./eslint-rules/no-cross-layer-imports.js";
 
 export default tseslint.config(
-  { ignores: ["dist", "node_modules", "src/generated/**"] },
+  { ignores: ["dist", "node_modules", "src/generated/**", "scripts/**"] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {

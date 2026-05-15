@@ -10,17 +10,17 @@ This codebase is agent-generated. Every line — application logic, tests, CI, d
 
 ## Where things live
 
-| Need to | Read |
-| --- | --- |
-| Understand the layered architecture | `docs/DESIGN.md` |
-| Understand frontend conventions (MUI, routes, theme) | `docs/FRONTEND.md` |
-| Find what plans are active / completed | `docs/PLANS.md` |
-| Understand product intent and non-goals | `docs/PRODUCT_SENSE.md` |
-| Find a design decision history | `docs/design-docs/index.md` |
-| Find a currently-running execution plan | `docs/exec-plans/active/` |
-| Find a finished execution plan | `docs/exec-plans/completed/` |
-| Understand provider boundaries and validation rules | `docs/design-docs/providers-and-boundaries.md` |
-| Regenerate API types from the OpenAPI spec | `docs/generated/api-types-baseline.md` |
+| Need to                                              | Read                                           |
+| ---------------------------------------------------- | ---------------------------------------------- |
+| Understand the layered architecture                  | `docs/DESIGN.md`                               |
+| Understand frontend conventions (MUI, routes, theme) | `docs/FRONTEND.md`                             |
+| Find what plans are active / completed               | `docs/PLANS.md`                                |
+| Understand product intent and non-goals              | `docs/PRODUCT_SENSE.md`                        |
+| Find a design decision history                       | `docs/design-docs/index.md`                    |
+| Find a currently-running execution plan              | `docs/exec-plans/active/`                      |
+| Find a finished execution plan                       | `docs/exec-plans/completed/`                   |
+| Understand provider boundaries and validation rules  | `docs/design-docs/providers-and-boundaries.md` |
+| Regenerate API types from the OpenAPI spec           | `docs/generated/api-types-baseline.md`         |
 
 ## Rules that are enforced mechanically
 
@@ -38,7 +38,7 @@ The full list is in `docs/design-docs/core-beliefs.md`. The most load-bearing:
 
 - **Agent legibility is the goal.** If a coding agent cannot find it by reading the repo, it does not exist.
 - **Parse at the boundary; trust within.** Every shape that crosses a provider edge has a schema or a generated type. After that, code uses the type and trusts it.
-- **Enforce invariants, don't micromanage implementations.** Lints and structural tests enforce the *shape* of the code. Within the shape, choose freely.
+- **Enforce invariants, don't micromanage implementations.** Lints and structural tests enforce the _shape_ of the code. Within the shape, choose freely.
 - **Throughput beats perfection.** Small PRs, short-lived branches, fix-forward over revert.
 
 ## Conventions

@@ -24,11 +24,7 @@ export { TopPayout } from "./TopPayout";
 export const payoutsRoutes = (
   <>
     <Route path="reports" element={<Reports />} loader={reportsLandingLoader} />
-    <Route
-      path="reports/top/payout"
-      element={<TopPayout />}
-      loader={topPayoutLoader}
-    />
+    <Route path="reports/top/payout" element={<TopPayout />} loader={topPayoutLoader} />
     <Route
       path="reports/daily"
       element={<Navigate to={`/reports/daily/${todayIso()}`} replace />}

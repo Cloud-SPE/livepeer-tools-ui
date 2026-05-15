@@ -17,9 +17,7 @@ import {
 export type PerformanceKind = "transcoding" | "ai";
 
 function baseFor(kind: PerformanceKind): string {
-  return kind === "ai"
-    ? env.performance.aiBaseUrl
-    : env.performance.transcodingBaseUrl;
+  return kind === "ai" ? env.performance.aiBaseUrl : env.performance.transcodingBaseUrl;
 }
 
 export class PerformanceError extends Error {

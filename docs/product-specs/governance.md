@@ -4,8 +4,8 @@ The second domain to ship. Replaces the old `/vote/history` route. Reference for
 
 ## Routes
 
-| URL | Component | Purpose |
-| --- | --- | --- |
+| URL             | Component       | Purpose                                |
+| --------------- | --------------- | -------------------------------------- |
 | `/vote/history` | `VotingHistory` | Treasury proposals with vote breakdown |
 
 ## Data sources
@@ -28,12 +28,12 @@ Two-pane, identical to the old UI:
 
 Status colors:
 
-| Status | Tone | Source |
-| --- | --- | --- |
-| Executed, Succeeded | success | derived from `executed` + tally |
-| Defeated | error | derived from tally past `vote_end` |
-| Active, Pending | info | derived from block floor vs vote window |
-| Unknown | grey | when block floor or vote_end is missing |
+| Status              | Tone    | Source                                  |
+| ------------------- | ------- | --------------------------------------- |
+| Executed, Succeeded | success | derived from `executed` + tally         |
+| Defeated            | error   | derived from tally past `vote_end`      |
+| Active, Pending     | info    | derived from block floor vs vote window |
+| Unknown             | grey    | when block floor or vote_end is missing |
 
 ## Detail card
 
@@ -65,14 +65,14 @@ Edge cases:
 
 ## States
 
-| Condition | Render |
-| --- | --- |
-| Proposals loading | Centered `CircularProgress` |
-| Proposals error | `Alert severity="error"` with `error.message` |
-| No proposal selected | Placeholder card on the right |
-| Votes loading (after selection) | Centered `CircularProgress` inside the card |
-| Votes error | `Alert severity="error"` inside the card |
-| Empty votes | "No votes found for this proposal." row in the table |
+| Condition                       | Render                                               |
+| ------------------------------- | ---------------------------------------------------- |
+| Proposals loading               | Centered `CircularProgress`                          |
+| Proposals error                 | `Alert severity="error"` with `error.message`        |
+| No proposal selected            | Placeholder card on the right                        |
+| Votes loading (after selection) | Centered `CircularProgress` inside the card          |
+| Votes error                     | `Alert severity="error"` inside the card             |
+| Empty votes                     | "No votes found for this proposal." row in the table |
 
 ## Cross-domain rules
 

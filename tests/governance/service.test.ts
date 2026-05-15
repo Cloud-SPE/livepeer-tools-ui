@@ -11,12 +11,7 @@ import {
   tallyBreakdown,
   voteSharePct,
 } from "@/domains/governance/service";
-import type {
-  BlockFloor,
-  Proposal,
-  TallyAmounts,
-  Vote,
-} from "@/domains/governance/types";
+import type { BlockFloor, Proposal, TallyAmounts, Vote } from "@/domains/governance/types";
 
 function makeProposal(over: Partial<Proposal> = {}): Proposal {
   return {
@@ -58,9 +53,7 @@ describe("governance.service", () => {
 
   describe("shortAddress", () => {
     it("renders 0x1234...abcd", () => {
-      expect(shortAddress("0x08f76e106a2dd4f6385efc8ea6c69a2816082461")).toBe(
-        "0x08f7...2461",
-      );
+      expect(shortAddress("0x08f76e106a2dd4f6385efc8ea6c69a2816082461")).toBe("0x08f7...2461");
     });
   });
 
@@ -69,9 +62,9 @@ describe("governance.service", () => {
       expect(identityLabel("0xabc", "alice.eth")).toBe("alice.eth");
     });
     it("falls back to short address", () => {
-      expect(
-        identityLabel("0x08f76e106a2dd4f6385efc8ea6c69a2816082461", null),
-      ).toBe("0x08f7...2461");
+      expect(identityLabel("0x08f76e106a2dd4f6385efc8ea6c69a2816082461", null)).toBe(
+        "0x08f7...2461",
+      );
     });
     it("returns 'Unknown' when both are absent", () => {
       expect(identityLabel(null, null)).toBe("Unknown");

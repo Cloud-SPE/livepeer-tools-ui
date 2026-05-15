@@ -1,8 +1,4 @@
-import {
-  BYOC_CAPABILITY_ID,
-  BYOC_CAPABILITY_NAME,
-  SAM2_DISPLAY_WIDTH,
-} from "./config";
+import { BYOC_CAPABILITY_ID, BYOC_CAPABILITY_NAME, SAM2_DISPLAY_WIDTH } from "./config";
 import type { RawCapabilities } from "./repo";
 import type {
   AudioToTextForm,
@@ -38,8 +34,7 @@ export function flattenCapabilities(raw: RawCapabilities): CapabilitiesView {
 
   const addModel = (pipelineNameRaw: string, modelName: string, orch: string): void => {
     if (!pipelineNameRaw || !modelName) return;
-    const pipelineType =
-      pipelineNameRaw.charAt(0).toUpperCase() + pipelineNameRaw.slice(1);
+    const pipelineType = pipelineNameRaw.charAt(0).toUpperCase() + pipelineNameRaw.slice(1);
     if (!pipelines.has(pipelineType)) pipelines.set(pipelineType, new Map());
     const modelsMap = pipelines.get(pipelineType)!;
     if (!modelsMap.has(modelName)) {
@@ -57,8 +52,7 @@ export function flattenCapabilities(raw: RawCapabilities): CapabilitiesView {
 
   const ensurePipeline = (pipelineNameRaw: string): void => {
     if (!pipelineNameRaw) return;
-    const pipelineType =
-      pipelineNameRaw.charAt(0).toUpperCase() + pipelineNameRaw.slice(1);
+    const pipelineType = pipelineNameRaw.charAt(0).toUpperCase() + pipelineNameRaw.slice(1);
     if (!pipelines.has(pipelineType)) pipelines.set(pipelineType, new Map());
   };
 
@@ -84,14 +78,16 @@ export function flattenCapabilities(raw: RawCapabilities): CapabilitiesView {
     for (const price of orch.capabilities_prices ?? []) {
       const capabilityId = String(price.capability);
       const capabilityName = capabilitiesNames[capabilityId]?.toLowerCase();
-      const isByoc =
-        capabilityId === BYOC_CAPABILITY_ID || capabilityName === BYOC_CAPABILITY_NAME;
+      const isByoc = capabilityId === BYOC_CAPABILITY_ID || capabilityName === BYOC_CAPABILITY_NAME;
       if (isByoc) {
         const pipelineName = price.constraint ?? null;
         if (pipelineName) ensurePipeline(pipelineName);
       } else {
-        const pipelineName = (price.pipeline ?? capabilitiesNames[capabilityId] ?? "")
-          .toLowerCase();
+        const pipelineName = (
+          price.pipeline ??
+          capabilitiesNames[capabilityId] ??
+          ""
+        ).toLowerCase();
         const modelName = price.constraint ?? null;
         if (pipelineName && modelName) addModel(pipelineName, modelName, address);
       }
@@ -121,10 +117,7 @@ export function flattenCapabilities(raw: RawCapabilities): CapabilitiesView {
 }
 
 /** Detect whether `value` is one of the preset gateway base URLs. */
-export function matchesPreset(
-  value: string,
-  presets: ReadonlyArray<{ value: string }>,
-): boolean {
+export function matchesPreset(value: string, presets: ReadonlyArray<{ value: string }>): boolean {
   return presets.some((p) => p.value === value);
 }
 
@@ -162,13 +155,11 @@ export function validateTextToImage(form: TextToImageForm): InferenceErrors {
   if (!form.prompt.trim()) errors.push("Please enter a prompt.");
   if (!form.model_id) errors.push("Please select a model.");
   if (form.width < 1 || form.width > 1024) errors.push("Width must be between 1 and 1024.");
-  if (form.height < 1 || form.height > 1024)
-    errors.push("Height must be between 1 and 1024.");
+  if (form.height < 1 || form.height > 1024) errors.push("Height must be between 1 and 1024.");
   if (form.guidance_scale < 0) errors.push("Guidance scale must be a positive number.");
   if (form.num_inference_steps <= 1)
     errors.push("Number of inference steps must be greater than 1.");
-  if (form.num_images_per_prompt > 10)
-    errors.push("Number of images per prompt cannot exceed 10.");
+  if (form.num_images_per_prompt > 10) errors.push("Number of images per prompt cannot exceed 10.");
   return errors;
 }
 
@@ -179,11 +170,9 @@ export function validateImageToImage(form: ImageToImageForm): InferenceErrors {
   if (!form.model_id) errors.push("Please select a model.");
   if (form.num_inference_steps <= 1)
     errors.push("Number of inference steps must be greater than 1.");
-  if (!Number.isFinite(form.guidance_scale))
-    errors.push("Guidance scale must be a number.");
+  if (!Number.isFinite(form.guidance_scale)) errors.push("Guidance scale must be a number.");
   if (form.strength <= 0) errors.push("Strength must be a positive number.");
-  if (form.num_images_per_prompt > 10)
-    errors.push("Number of images per prompt cannot exceed 10.");
+  if (form.num_images_per_prompt > 10) errors.push("Number of images per prompt cannot exceed 10.");
   return errors;
 }
 
@@ -198,13 +187,10 @@ export function validateImageToVideo(form: ImageToVideoForm): InferenceErrors {
   const errors: InferenceErrors = [];
   if (!form.image || form.image.size === 0) errors.push("Image must be uploaded.");
   if (!form.model_id) errors.push("Please select a model.");
-  if (form.width < 1 || form.width > 1024)
-    errors.push("Width must be between 1 and 1024.");
-  if (form.height < 1 || form.height > 1024)
-    errors.push("Height must be between 1 and 1024.");
+  if (form.width < 1 || form.width > 1024) errors.push("Width must be between 1 and 1024.");
+  if (form.height < 1 || form.height > 1024) errors.push("Height must be between 1 and 1024.");
   if (!Number.isFinite(form.fps)) errors.push("FPS must be a number.");
-  if (!Number.isFinite(form.motion_bucket_id))
-    errors.push("Motion bucket ID must be a number.");
+  if (!Number.isFinite(form.motion_bucket_id)) errors.push("Motion bucket ID must be a number.");
   if (!Number.isFinite(form.noise_aug_strength))
     errors.push("Noise augmentation strength must be a number.");
   return errors;
@@ -267,8 +253,7 @@ export function validateByocImage(form: ByocImageForm): InferenceErrors {
   if (!form.prompt.trim()) errors.push("Prompt is required.");
   if (!form.model) errors.push("Please select a model.");
   if (!form.size) errors.push("Size is required.");
-  if (!Number.isFinite(form.n) || form.n <= 0)
-    errors.push("Count must be a positive number.");
+  if (!Number.isFinite(form.n) || form.n <= 0) errors.push("Count must be a positive number.");
   return errors;
 }
 
@@ -281,9 +266,7 @@ export function validateByocEmbedding(form: ByocEmbeddingForm): InferenceErrors 
 
 /* ---------- SAM-2 (plan 014) ---------- */
 
-export function validateSegmentAnything2(
-  form: SegmentAnything2Form,
-): InferenceErrors {
+export function validateSegmentAnything2(form: SegmentAnything2Form): InferenceErrors {
   const errors: InferenceErrors = [];
   if (!form.image) errors.push("Image must be uploaded.");
   if (!form.model_id) errors.push("Please select a model.");
@@ -300,12 +283,7 @@ export function buildPointCoords(x: number, y: number): string {
 }
 
 /** Format a single bounding box: `[x1,y1,x2,y2]`. */
-export function buildBoxString(
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
-): string {
+export function buildBoxString(x1: number, y1: number, x2: number, y2: number): string {
   return `[${x1.toFixed(2)}, ${y1.toFixed(2)}, ${x2.toFixed(2)}, ${y2.toFixed(2)}]`;
 }
 

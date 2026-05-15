@@ -8,15 +8,7 @@ export { Stats } from "./Stats";
 
 export const performanceRoutes = (
   <>
-    <Route
-      path="performance/leaderboard"
-      element={<Leaderboard />}
-      loader={leaderboardLoader}
-    />
-    <Route
-      path="performance/stats"
-      element={<Stats />}
-      loader={statsLoader}
-    />
+    <Route path="performance/leaderboard" element={<Leaderboard />} loader={leaderboardLoader} />
+    <Route path="performance/stats" element={<Stats />} loader={statsLoader} />
   </>
 );

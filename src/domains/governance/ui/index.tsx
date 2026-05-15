@@ -5,9 +5,5 @@ import { VotingHistory } from "./VotingHistory";
 export { VotingHistory } from "./VotingHistory";
 
 export const governanceRoutes = (
-  <Route
-    path="vote/history"
-    element={<VotingHistory />}
-    loader={votingHistoryLoader}
-  />
+  <Route path="vote/history" element={<VotingHistory />} loader={votingHistoryLoader} />
 );

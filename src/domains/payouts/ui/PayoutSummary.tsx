@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import {
   Alert,
   Avatar,
@@ -57,7 +58,7 @@ export function PayoutSummary({ kind }: Props): JSX.Element {
 
   if (!range) {
     return (
-      <Box p={4}>
+      <Box sx={{ p: 4 }}>
         <Alert severity="error">Invalid date: {date}</Alert>
       </Box>
     );
@@ -75,7 +76,7 @@ export function PayoutSummary({ kind }: Props): JSX.Element {
       flex: 1.4,
       sortable: false,
       renderCell: (params) => (
-        <Stack direction="row" alignItems="center" spacing={1}>
+        <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
           <Avatar
             src={params.row.avatarUrl ?? undefined}
             alt={rowLabel(params.row)}
@@ -105,8 +106,7 @@ export function PayoutSummary({ kind }: Props): JSX.Element {
       headerName: "Total (%)",
       type: "number",
       flex: 0.7,
-      valueGetter: (_, row) =>
-        totalFaceUsd > 0 ? (row.faceValueUsd / totalFaceUsd) * 100 : 0,
+      valueGetter: (_, row) => (totalFaceUsd > 0 ? (row.faceValueUsd / totalFaceUsd) * 100 : 0),
       valueFormatter: (v: number) => formatPercent(v),
     },
     {
@@ -140,8 +140,7 @@ export function PayoutSummary({ kind }: Props): JSX.Element {
     rank: i + 1,
   }));
 
-  const jobLabel =
-    jobType === "both" ? "All Jobs" : jobType === "ai" ? "AI" : "Transcoding";
+  const jobLabel = jobType === "both" ? "All Jobs" : jobType === "ai" ? "AI" : "Transcoding";
 
   const onJobTypeChange = (value: JobType): void => {
     const next = new URLSearchParams(search);
@@ -151,12 +150,11 @@ export function PayoutSummary({ kind }: Props): JSX.Element {
   };
 
   return (
-    <Box p={4}>
+    <Box sx={{ p: 4 }}>
       <Typography variant="h4" gutterBottom>
         {PERIOD_LABELS[kind]} Summary Report: {formatHumanDate(range.from)} ({jobLabel})
       </Typography>
-
-      <Stack direction={{ xs: "column", md: "row" }} spacing={2} alignItems="flex-start">
+      <Stack direction={{ xs: "column", md: "row" }} spacing={2} sx={{ alignItems: "flex-start" }}>
         <DateInput
           initialDate={date}
           buildPath={(iso) =>
@@ -190,13 +188,11 @@ export function PayoutSummary({ kind }: Props): JSX.Element {
           Download CSV
         </Button>
       </Stack>
-
       {summaryQ.error && (
         <Alert severity="error" sx={{ mt: 2 }}>
           Failed to load summary: {summaryQ.error.message}
         </Alert>
       )}
-
       <Card sx={{ mt: 2 }}>
         <CardContent>
           {summaryQ.isLoading || !summary ? (
@@ -205,7 +201,13 @@ export function PayoutSummary({ kind }: Props): JSX.Element {
             </Box>
           ) : (
             <Grid container spacing={3}>
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6,
+                  md: 3,
+                }}
+              >
                 <Typography variant="subtitle1" align="center">
                   Number of Winning Tickets
                 </Typography>
@@ -213,7 +215,13 @@ export function PayoutSummary({ kind }: Props): JSX.Element {
                   {formatInt(summary.ticketCount)}
                 </Typography>
               </Grid>
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6,
+                  md: 3,
+                }}
+              >
                 <Typography variant="subtitle1" align="center">
                   Distinct Gateways
                 </Typography>
@@ -221,7 +229,13 @@ export function PayoutSummary({ kind }: Props): JSX.Element {
                   {formatInt(summary.distinctGateways)}
                 </Typography>
               </Grid>
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6,
+                  md: 3,
+                }}
+              >
                 <Typography variant="subtitle1" align="center">
                   Total Fees
                 </Typography>
@@ -232,7 +246,13 @@ export function PayoutSummary({ kind }: Props): JSX.Element {
                   {formatUsd(summary.totalUsd)}
                 </Typography>
               </Grid>
-              <Grid item xs={12} sm={6} md={3}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6,
+                  md: 3,
+                }}
+              >
                 <Typography variant="subtitle1" align="center">
                   Orch Commission
                 </Typography>
@@ -247,11 +267,9 @@ export function PayoutSummary({ kind }: Props): JSX.Element {
           )}
         </CardContent>
       </Card>
-
       <Typography variant="h5" gutterBottom sx={{ mt: 4 }}>
         Orchestrator Payout Details
       </Typography>
-
       {leaderboardQ.error ? (
         <Alert severity="error">Failed to load leaderboard: {leaderboardQ.error.message}</Alert>
       ) : (
@@ -272,7 +290,6 @@ export function PayoutSummary({ kind }: Props): JSX.Element {
           />
         </Paper>
       )}
-
       <DateNav kind={kind} currentDate={date} search={search.toString()} />
     </Box>
   );

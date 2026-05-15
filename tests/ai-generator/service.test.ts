@@ -90,10 +90,7 @@ describe("ai-generator.service", () => {
       };
       const out = flattenCapabilities(raw);
       expect(out.pipelines.map((p) => p.name)).toEqual(["Llm", "Text-to-image"]);
-      expect(out.pipelines[1]?.models.map((m) => m.name)).toEqual([
-        "a-model",
-        "z-model",
-      ]);
+      expect(out.pipelines[1]?.models.map((m) => m.name)).toEqual(["a-model", "z-model"]);
     });
 
     it("picks up models from capability_options arrays", () => {
@@ -102,10 +99,7 @@ describe("ai-generator.service", () => {
           {
             address: "0xC",
             capability_options: {
-              "openai-chat-completions": [
-                { model: "gpt-4o-mini" },
-                { model: "gpt-5" },
-              ],
+              "openai-chat-completions": [{ model: "gpt-4o-mini" }, { model: "gpt-5" }],
             },
           },
         ],
@@ -113,10 +107,7 @@ describe("ai-generator.service", () => {
       const out = flattenCapabilities(raw);
       expect(out.pipelines).toHaveLength(1);
       expect(out.pipelines[0]?.name).toBe("Openai-chat-completions");
-      expect(out.pipelines[0]?.models.map((m) => m.name)).toEqual([
-        "gpt-4o-mini",
-        "gpt-5",
-      ]);
+      expect(out.pipelines[0]?.models.map((m) => m.name)).toEqual(["gpt-4o-mini", "gpt-5"]);
     });
 
     it("treats BYOC capabilities as pipeline-only (no model rows)", () => {
@@ -124,9 +115,7 @@ describe("ai-generator.service", () => {
         orchestrators: [
           {
             address: "0xD",
-            capabilities_prices: [
-              { capability: "37", constraint: "openai-chat-completions" },
-            ],
+            capabilities_prices: [{ capability: "37", constraint: "openai-chat-completions" }],
           },
         ],
         capabilities_names: { "37": "byoc" },
@@ -188,9 +177,7 @@ describe("ai-generator.service", () => {
         },
         {
           name: "Upscale",
-          models: [
-            { name: "real-esrgan", coldCount: 0, warmCount: 1, orchestrators: [] },
-          ],
+          models: [{ name: "real-esrgan", coldCount: 0, warmCount: 1, orchestrators: [] }],
         },
       ],
     };
@@ -234,9 +221,9 @@ describe("ai-generator.service", () => {
       ).toEqual([]);
     });
     it("flags an empty prompt", () => {
-      expect(
-        validateTextToImage({ ...TEXT_TO_IMAGE_DEFAULTS, model_id: "m" }),
-      ).toContain("Please enter a prompt.");
+      expect(validateTextToImage({ ...TEXT_TO_IMAGE_DEFAULTS, model_id: "m" })).toContain(
+        "Please enter a prompt.",
+      );
     });
     it("flags width above 1024", () => {
       expect(
@@ -307,9 +294,7 @@ describe("ai-generator.service", () => {
   describe("validateUpscale", () => {
     const file = new File(["x"], "img.png", { type: "image/png" });
     it("returns no errors when image + model are set", () => {
-      expect(
-        validateUpscale({ ...UPSCALE_DEFAULTS, model_id: "m", image: file }),
-      ).toEqual([]);
+      expect(validateUpscale({ ...UPSCALE_DEFAULTS, model_id: "m", image: file })).toEqual([]);
     });
     it("flags missing image", () => {
       expect(validateUpscale({ ...UPSCALE_DEFAULTS, model_id: "m" })).toContain(
@@ -335,9 +320,9 @@ describe("ai-generator.service", () => {
       ).toEqual([]);
     });
     it("flags missing image", () => {
-      expect(
-        validateImageToVideo({ ...IMAGE_TO_VIDEO_DEFAULTS, model_id: "m" }),
-      ).toContain("Image must be uploaded.");
+      expect(validateImageToVideo({ ...IMAGE_TO_VIDEO_DEFAULTS, model_id: "m" })).toContain(
+        "Image must be uploaded.",
+      );
     });
     it("flags width > 1024", () => {
       expect(
@@ -387,14 +372,12 @@ describe("ai-generator.service", () => {
   describe("validateAudioToText", () => {
     const audio = new File(["x"], "a.mp3", { type: "audio/mpeg" });
     it("returns no errors with audio + model", () => {
-      expect(
-        validateAudioToText({ ...AUDIO_TO_TEXT_DEFAULTS, model_id: "m", audio }),
-      ).toEqual([]);
+      expect(validateAudioToText({ ...AUDIO_TO_TEXT_DEFAULTS, model_id: "m", audio })).toEqual([]);
     });
     it("flags missing audio", () => {
-      expect(
-        validateAudioToText({ ...AUDIO_TO_TEXT_DEFAULTS, model_id: "m" }),
-      ).toContain("Audio file must be uploaded.");
+      expect(validateAudioToText({ ...AUDIO_TO_TEXT_DEFAULTS, model_id: "m" })).toContain(
+        "Audio file must be uploaded.",
+      );
     });
   });
 
@@ -409,32 +392,26 @@ describe("ai-generator.service", () => {
       ).toEqual([]);
     });
     it("flags missing text", () => {
-      expect(
-        validateTextToSpeech({ ...TEXT_TO_SPEECH_DEFAULTS, model_id: "m" }),
-      ).toContain("Please enter text to speak.");
+      expect(validateTextToSpeech({ ...TEXT_TO_SPEECH_DEFAULTS, model_id: "m" })).toContain(
+        "Please enter text to speak.",
+      );
     });
     it("flags missing model", () => {
-      expect(
-        validateTextToSpeech({ ...TEXT_TO_SPEECH_DEFAULTS, text: "x" }),
-      ).toContain("Please select a model.");
+      expect(validateTextToSpeech({ ...TEXT_TO_SPEECH_DEFAULTS, text: "x" })).toContain(
+        "Please select a model.",
+      );
     });
   });
 
   describe("validateLlm", () => {
     it("returns no errors with prompt + model + valid max_tokens", () => {
-      expect(
-        validateLlm({ ...LLM_DEFAULTS, model_id: "m", prompt: "hi" }),
-      ).toEqual([]);
+      expect(validateLlm({ ...LLM_DEFAULTS, model_id: "m", prompt: "hi" })).toEqual([]);
     });
     it("flags empty prompt", () => {
-      expect(validateLlm({ ...LLM_DEFAULTS, model_id: "m" })).toContain(
-        "Please enter a prompt.",
-      );
+      expect(validateLlm({ ...LLM_DEFAULTS, model_id: "m" })).toContain("Please enter a prompt.");
     });
     it("flags missing model", () => {
-      expect(validateLlm({ ...LLM_DEFAULTS, prompt: "hi" })).toContain(
-        "Please select a model.",
-      );
+      expect(validateLlm({ ...LLM_DEFAULTS, prompt: "hi" })).toContain("Please select a model.");
     });
     it("flags non-positive max_tokens", () => {
       expect(
@@ -502,9 +479,7 @@ describe("ai-generator.service", () => {
 
   describe("validateByocChat", () => {
     it("returns no errors with model + prompt + sane numbers", () => {
-      expect(
-        validateByocChat({ ...BYOC_CHAT_DEFAULTS, model: "m", prompt: "hi" }),
-      ).toEqual([]);
+      expect(validateByocChat({ ...BYOC_CHAT_DEFAULTS, model: "m", prompt: "hi" })).toEqual([]);
     });
     it("flags empty prompt", () => {
       expect(validateByocChat({ ...BYOC_CHAT_DEFAULTS, model: "m" })).toContain(
@@ -530,9 +505,7 @@ describe("ai-generator.service", () => {
 
   describe("validateByocImage", () => {
     it("returns no errors with model + prompt + size + n", () => {
-      expect(
-        validateByocImage({ ...BYOC_IMAGE_DEFAULTS, model: "m", prompt: "hi" }),
-      ).toEqual([]);
+      expect(validateByocImage({ ...BYOC_IMAGE_DEFAULTS, model: "m", prompt: "hi" })).toEqual([]);
     });
     it("flags empty prompt", () => {
       expect(validateByocImage({ ...BYOC_IMAGE_DEFAULTS, model: "m" })).toContain(
@@ -553,19 +526,19 @@ describe("ai-generator.service", () => {
 
   describe("validateByocEmbedding", () => {
     it("returns no errors with model + input", () => {
-      expect(
-        validateByocEmbedding({ ...BYOC_EMBEDDING_DEFAULTS, model: "m", input: "x" }),
-      ).toEqual([]);
+      expect(validateByocEmbedding({ ...BYOC_EMBEDDING_DEFAULTS, model: "m", input: "x" })).toEqual(
+        [],
+      );
     });
     it("flags empty input", () => {
-      expect(
-        validateByocEmbedding({ ...BYOC_EMBEDDING_DEFAULTS, model: "m" }),
-      ).toContain("Input text is required.");
+      expect(validateByocEmbedding({ ...BYOC_EMBEDDING_DEFAULTS, model: "m" })).toContain(
+        "Input text is required.",
+      );
     });
     it("flags missing model", () => {
-      expect(
-        validateByocEmbedding({ ...BYOC_EMBEDDING_DEFAULTS, input: "x" }),
-      ).toContain("Please select a model.");
+      expect(validateByocEmbedding({ ...BYOC_EMBEDDING_DEFAULTS, input: "x" })).toContain(
+        "Please select a model.",
+      );
     });
   });
 
@@ -581,14 +554,14 @@ describe("ai-generator.service", () => {
       ).toEqual([]);
     });
     it("flags missing image", () => {
-      expect(
-        validateSegmentAnything2({ ...SEGMENT_ANYTHING_2_DEFAULTS, model_id: "m" }),
-      ).toContain("Image must be uploaded.");
+      expect(validateSegmentAnything2({ ...SEGMENT_ANYTHING_2_DEFAULTS, model_id: "m" })).toContain(
+        "Image must be uploaded.",
+      );
     });
     it("flags missing model", () => {
-      expect(
-        validateSegmentAnything2({ ...SEGMENT_ANYTHING_2_DEFAULTS, image: file }),
-      ).toContain("Please select a model.");
+      expect(validateSegmentAnything2({ ...SEGMENT_ANYTHING_2_DEFAULTS, image: file })).toContain(
+        "Please select a model.",
+      );
     });
   });
 

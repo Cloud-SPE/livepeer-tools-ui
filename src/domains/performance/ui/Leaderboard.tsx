@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { useMemo } from "react";
 import {
   Alert,
@@ -55,10 +56,7 @@ export function Leaderboard(): JSX.Element {
     setSearch(next);
   };
 
-  const regions = useMemo(
-    () => regionOptions(regionsQ.data ?? [], mode),
-    [regionsQ.data, mode],
-  );
+  const regions = useMemo(() => regionOptions(regionsQ.data ?? [], mode), [regionsQ.data, mode]);
   const pipelineDef = pipelinesQ.data?.find((p) => p.id === pipeline);
   const models = pipelineDef?.models ?? [];
 
@@ -77,7 +75,7 @@ export function Leaderboard(): JSX.Element {
           rel="noopener"
           style={{ textDecoration: "none", color: "inherit" }}
         >
-          <Stack direction="row" alignItems="center" spacing={1}>
+          <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
             <Avatar
               src={params.row.identity?.avatarUrl ?? undefined}
               alt={rowLabel(params.row)}
@@ -139,12 +137,17 @@ export function Leaderboard(): JSX.Element {
   ];
 
   return (
-    <Box p={3}>
+    <Box sx={{ p: 3 }}>
       <Typography variant="h5" gutterBottom sx={{ mb: 2 }}>
         {mode === "ai" ? "AI" : "Transcoding"} Performance Leaderboard
       </Typography>
       <Grid container spacing={2} sx={{ mb: 2 }}>
-        <Grid item xs={12} sm={4}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 4,
+          }}
+        >
           <FormControl fullWidth>
             <InputLabel id="region-label">Select Region</InputLabel>
             <Select
@@ -164,7 +167,12 @@ export function Leaderboard(): JSX.Element {
           </FormControl>
         </Grid>
 
-        <Grid item xs={12} sm={4}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 4,
+          }}
+        >
           <FormControl fullWidth disabled={!pipelinesQ.data}>
             <InputLabel id="pipeline-label">Select Pipeline</InputLabel>
             <Select
@@ -184,7 +192,12 @@ export function Leaderboard(): JSX.Element {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid
+          size={{
+            xs: 12,
+            sm: 4,
+          }}
+        >
           <FormControl fullWidth disabled={!pipeline}>
             <InputLabel id="model-label">Select Model</InputLabel>
             <Select
@@ -205,13 +218,11 @@ export function Leaderboard(): JSX.Element {
           </FormControl>
         </Grid>
       </Grid>
-
       {leaderboardQ.error && (
         <Alert severity="error" sx={{ mb: 2 }}>
           Failed to load leaderboard: {leaderboardQ.error.message}
         </Alert>
       )}
-
       <Paper sx={{ width: "100%" }}>
         <DataGrid
           rows={ranked}

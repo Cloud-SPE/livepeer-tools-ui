@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { Box, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import ChevronLeft from "@mui/icons-material/ChevronLeft";

@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { useEffect, useRef } from "react";
 import type { SegmentationMask } from "../../types";
 

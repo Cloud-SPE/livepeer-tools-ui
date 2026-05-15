@@ -4,12 +4,12 @@ Fourth domain. Replaces `/gateways` + `/gateway/:eth_address` from the old UI, w
 
 ## Routes
 
-| URL | Component | Purpose |
-| --- | --- | --- |
-| `/gateways` | `Gateways` | Card grid of all gateways |
-| `/broadcasters` | `Gateways` | Alias (legacy URL) |
-| `/gateway/:eth_address` | `GatewayDetail` | Profile + recent payouts |
-| `/broadcaster/:eth_address` | `GatewayDetail` | Alias (legacy URL) |
+| URL                         | Component       | Purpose                   |
+| --------------------------- | --------------- | ------------------------- |
+| `/gateways`                 | `Gateways`      | Card grid of all gateways |
+| `/broadcasters`             | `Gateways`      | Alias (legacy URL)        |
+| `/gateway/:eth_address`     | `GatewayDetail` | Profile + recent payouts  |
+| `/broadcaster/:eth_address` | `GatewayDetail` | Alias (legacy URL)        |
 
 ## Data sources
 
@@ -54,15 +54,15 @@ Latest Payouts DataGrid:
 
 ## States
 
-| Condition | Render |
-| --- | --- |
-| Gateway list loading | `CircularProgress` |
-| Gateway list error | `Alert severity="error"` |
-| Detail loading | `CircularProgress` |
-| Detail error | `Alert severity="error"` |
-| Detail not found | `Alert severity="warning"` |
-| Payouts error | `Alert severity="error"` above the table |
-| Payouts loading | DataGrid built-in shimmer |
+| Condition            | Render                                   |
+| -------------------- | ---------------------------------------- |
+| Gateway list loading | `CircularProgress`                       |
+| Gateway list error   | `Alert severity="error"`                 |
+| Detail loading       | `CircularProgress`                       |
+| Detail error         | `Alert severity="error"`                 |
+| Detail not found     | `Alert severity="warning"`               |
+| Payouts error        | `Alert severity="error"` above the table |
+| Payouts loading      | DataGrid built-in shimmer                |
 
 ## Cross-domain interactions
 

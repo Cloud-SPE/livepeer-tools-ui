@@ -6,15 +6,15 @@ The domain mirrors the payouts domain structurally. They are deliberately kept a
 
 ## Routes
 
-| URL | Component | Purpose |
-| --- | --- | --- |
-| `/reports/rewards/leaderboard` | `RewardLeaderboard` | Configurable date range + sort, top-N table |
-| `/reports/rewards/daily` | redirect → `/reports/rewards/daily/{today}` | |
-| `/reports/rewards/weekly` | redirect → `/reports/rewards/weekly/{today}` | |
-| `/reports/rewards/monthly` | redirect → `/reports/rewards/monthly/{today}` | |
-| `/reports/rewards/daily/:date` | `RewardSummary kind="daily"` | One-day aggregate + leaderboard |
-| `/reports/rewards/weekly/:date` | `RewardSummary kind="weekly"` | One-ISO-week aggregate + leaderboard |
-| `/reports/rewards/monthly/:date` | `RewardSummary kind="monthly"` | One-calendar-month aggregate + leaderboard |
+| URL                              | Component                                     | Purpose                                     |
+| -------------------------------- | --------------------------------------------- | ------------------------------------------- |
+| `/reports/rewards/leaderboard`   | `RewardLeaderboard`                           | Configurable date range + sort, top-N table |
+| `/reports/rewards/daily`         | redirect → `/reports/rewards/daily/{today}`   |                                             |
+| `/reports/rewards/weekly`        | redirect → `/reports/rewards/weekly/{today}`  |                                             |
+| `/reports/rewards/monthly`       | redirect → `/reports/rewards/monthly/{today}` |                                             |
+| `/reports/rewards/daily/:date`   | `RewardSummary kind="daily"`                  | One-day aggregate + leaderboard             |
+| `/reports/rewards/weekly/:date`  | `RewardSummary kind="weekly"`                 | One-ISO-week aggregate + leaderboard        |
+| `/reports/rewards/monthly/:date` | `RewardSummary kind="monthly"`                | One-calendar-month aggregate + leaderboard  |
 
 The `/reports` landing page (owned by the payouts domain) gains four new cards pointing here.
 
@@ -53,13 +53,13 @@ All token amounts come from the API as decimal LPT strings (not wei). The repo p
 
 ## States
 
-| Condition | Render |
-| --- | --- |
-| Summary loading | `CircularProgress` inside the summary card |
-| Summary error | `Alert severity="error"` above the card |
-| Leaderboard loading | DataGrid shimmer |
-| Leaderboard error | `Alert severity="error"` replacing the table |
-| Invalid date param | `Alert severity="error"` at the top |
+| Condition           | Render                                       |
+| ------------------- | -------------------------------------------- |
+| Summary loading     | `CircularProgress` inside the summary card   |
+| Summary error       | `Alert severity="error"` above the card      |
+| Leaderboard loading | DataGrid shimmer                             |
+| Leaderboard error   | `Alert severity="error"` replacing the table |
+| Invalid date param  | `Alert severity="error"` at the top          |
 
 ## Cross-domain interactions
 

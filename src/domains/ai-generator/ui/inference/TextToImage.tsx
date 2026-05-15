@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { useEffect, useState } from "react";
 import {
   Alert,
@@ -16,12 +17,7 @@ import { useGatewaySettings, useModels, useTextToImageMutation } from "../../run
 import { resolveImageUrl, validateTextToImage } from "../../service";
 import type { TextToImageForm } from "../../types";
 import { GeneratedImageCard } from "./GeneratedImageCard";
-import {
-  ModelSelect,
-  NumberField,
-  SafetyCheckSelect,
-  SeedField,
-} from "./InferenceFields";
+import { ModelSelect, NumberField, SafetyCheckSelect, SeedField } from "./InferenceFields";
 
 export function TextToImage(): JSX.Element {
   const [form, setForm] = useState<TextToImageForm>(TEXT_TO_IMAGE_DEFAULTS);
@@ -51,16 +47,20 @@ export function TextToImage(): JSX.Element {
 
   return (
     <Box sx={{ py: 3 }}>
-      <Typography variant="h4" fontWeight="bold" gutterBottom>
+      <Typography variant="h4" gutterBottom sx={{ fontWeight: "bold" }}>
         Text to Image
       </Typography>
       <Typography variant="body1" color="textSecondary" gutterBottom>
         Enter a prompt, configure the parameters, and generate images.
       </Typography>
       <Divider sx={{ mb: 3 }} />
-
       <Grid container spacing={3}>
-        <Grid item xs={12} md={5}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 5,
+          }}
+        >
           <Card elevation={3} sx={{ borderRadius: 2 }}>
             <CardContent>
               <Typography variant="h6" gutterBottom>
@@ -119,8 +119,18 @@ export function TextToImage(): JSX.Element {
                   fullWidth
                   sx={{ mb: 2 }}
                 />
-                <NumberField label="Width" value={form.width} onChange={(v) => update("width", v)} required />
-                <NumberField label="Height" value={form.height} onChange={(v) => update("height", v)} required />
+                <NumberField
+                  label="Width"
+                  value={form.width}
+                  onChange={(v) => update("width", v)}
+                  required
+                />
+                <NumberField
+                  label="Height"
+                  value={form.height}
+                  onChange={(v) => update("height", v)}
+                  required
+                />
                 <NumberField
                   label="# of Images"
                   value={form.num_images_per_prompt}
@@ -148,7 +158,12 @@ export function TextToImage(): JSX.Element {
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={7}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 7,
+          }}
+        >
           <Card elevation={3} sx={{ borderRadius: 2 }}>
             <CardContent>
               <Typography variant="h6" gutterBottom>

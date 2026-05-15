@@ -1,3 +1,4 @@
+import type { JSX } from "react";
 import { useMemo } from "react";
 import {
   Alert,
@@ -54,10 +55,7 @@ export function DailyTicketsReport(): JSX.Element {
   const granularity = granularityFromSearch(search);
 
   const span = useMemo(() => spanInDays(start, end), [start, end]);
-  const effective = useMemo(
-    () => resolveGranularity(granularity, span),
-    [granularity, span],
-  );
+  const effective = useMemo(() => resolveGranularity(granularity, span), [granularity, span]);
 
   const rangeWarning = useMemo(() => {
     if (span === null) {
@@ -150,56 +148,88 @@ export function DailyTicketsReport(): JSX.Element {
   );
 
   return (
-    <Container maxWidth="xl" sx={{ mt: 4, mb: 4, px: { xs: 2, sm: 3, md: 4 } }}>
+    <Container sx={{ maxWidth: "xl", mt: 4, mb: 4, px: { xs: 2, sm: 3, md: 4 } }}>
       <Typography variant="h4" align="center" gutterBottom>
         Daily Winning Tickets Trend
       </Typography>
-
-      <Grid container spacing={4} alignItems="center" justifyContent="center">
-        <Grid item xs={12} md={6}>
+      <Grid container spacing={4} sx={{ alignItems: "center", justifyContent: "center" }}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6,
+          }}
+        >
           <Typography variant="body1" align="center">
             Daily count of winning tickets, split by job type. Default range is the last{" "}
             {DEFAULT_RANGE_DAYS} days. Maximum span is {MAX_SPAN_DAYS} days.
           </Typography>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6,
+          }}
+        >
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+              }}
+            >
               <TextField
                 label="Start Date"
                 type="date"
-                InputLabelProps={{ shrink: true }}
                 fullWidth
                 value={start}
                 onChange={(e) => update("start", e.target.value)}
+                slotProps={{ inputLabel: { shrink: true } }}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+              }}
+            >
               <TextField
                 label="End Date"
                 type="date"
-                InputLabelProps={{ shrink: true }}
                 fullWidth
                 value={end}
                 onChange={(e) => update("end", e.target.value)}
+                slotProps={{ inputLabel: { shrink: true } }}
               />
             </Grid>
           </Grid>
         </Grid>
       </Grid>
-
-      <Box my={3} />
-
-      <Grid container spacing={4} alignItems="center" justifyContent="center">
-        <Grid item xs={12} md={6}>
+      <Box sx={{ my: 3 }} />
+      <Grid container spacing={4} sx={{ alignItems: "center", justifyContent: "center" }}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6,
+          }}
+        >
           <Typography variant="body1" align="center">
-            Choose a job type and granularity. &quot;Auto&quot; picks daily for short
-            ranges, weekly for medium ranges, and monthly for long ranges.
+            Choose a job type and granularity. &quot;Auto&quot; picks daily for short ranges, weekly
+            for medium ranges, and monthly for long ranges.
           </Typography>
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 6,
+          }}
+        >
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+              }}
+            >
               <FormControl fullWidth>
                 <InputLabel id="jobType-label">Job Type</InputLabel>
                 <Select
@@ -207,10 +237,7 @@ export function DailyTicketsReport(): JSX.Element {
                   label="Job Type"
                   value={jobType}
                   onChange={(e) =>
-                    update(
-                      "job_type",
-                      e.target.value === "both" ? null : e.target.value,
-                    )
+                    update("job_type", e.target.value === "both" ? null : e.target.value)
                   }
                 >
                   {JOB_TYPES.map((j) => (
@@ -221,7 +248,12 @@ export function DailyTicketsReport(): JSX.Element {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid
+              size={{
+                xs: 12,
+                sm: 6,
+              }}
+            >
               <FormControl fullWidth>
                 <InputLabel id="granularity-label">Granularity</InputLabel>
                 <Select
@@ -229,10 +261,7 @@ export function DailyTicketsReport(): JSX.Element {
                   label="Granularity"
                   value={granularity}
                   onChange={(e) =>
-                    update(
-                      "granularity",
-                      e.target.value === "auto" ? null : e.target.value,
-                    )
+                    update("granularity", e.target.value === "auto" ? null : e.target.value)
                   }
                 >
                   <MenuItem value="auto">Auto ({effective})</MenuItem>
@@ -245,33 +274,33 @@ export function DailyTicketsReport(): JSX.Element {
           </Grid>
         </Grid>
       </Grid>
-
-      <Box my={3} />
-
+      <Box sx={{ my: 3 }} />
       {rangeWarning && (
-        <Box display="flex" justifyContent="center" mb={2}>
+        <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
           <Alert severity="warning" sx={{ width: "100%", maxWidth: 720 }}>
             {rangeWarning}
           </Alert>
         </Box>
       )}
-
       {timeseriesQ.error && (
-        <Box display="flex" justifyContent="center" mb={2}>
+        <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
           <Alert severity="error" sx={{ width: "100%", maxWidth: 720 }}>
             Failed to load: {timeseriesQ.error.message}
           </Alert>
         </Box>
       )}
-
       {timeseriesQ.isLoading && (
-        <Box display="flex" justifyContent="center" my={2}>
+        <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
           <CircularProgress />
         </Box>
       )}
-
-      <Grid container spacing={4} justifyContent="center">
-        <Grid item xs={12} md={10}>
+      <Grid container spacing={4} sx={{ justifyContent: "center" }}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 10,
+          }}
+        >
           <Box
             sx={{
               width: "100%",
