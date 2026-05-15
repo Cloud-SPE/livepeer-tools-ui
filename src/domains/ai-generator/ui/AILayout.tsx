@@ -1,14 +1,6 @@
+import type { JSX } from "react";
 import { useState } from "react";
-import {
-  AppBar,
-  Box,
-  Menu,
-  MenuItem,
-  Tab,
-  Tabs,
-  Toolbar,
-  useTheme,
-} from "@mui/material";
+import { AppBar, Box, Menu, MenuItem, Tab, Tabs, Toolbar, useTheme } from "@mui/material";
 import ImageIcon from "@mui/icons-material/Image";
 import AudiotrackIcon from "@mui/icons-material/Audiotrack";
 import TravelExploreIcon from "@mui/icons-material/TravelExplore";
@@ -84,42 +76,15 @@ export function AILayout(): JSX.Element {
             {MENU_ITEMS.map((item) => {
               if (item.children) {
                 const key = item.text;
-                const anchor = anchors[key] ?? null;
-                const open = Boolean(anchor);
-                return [
+                return (
                   <Tab
                     key={key}
                     icon={item.icon}
                     label={item.text}
-                    onClick={(e) =>
-                      setAnchors((prev) => ({ ...prev, [key]: e.currentTarget }))
-                    }
+                    onClick={(e) => setAnchors((prev) => ({ ...prev, [key]: e.currentTarget }))}
                     sx={{ display: "flex", alignItems: "center" }}
-                  />,
-                  <Menu
-                    key={`${key}-menu`}
-                    anchorEl={anchor}
-                    open={open}
-                    onClose={() => setAnchors((prev) => ({ ...prev, [key]: null }))}
-                    anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
-                    transformOrigin={{ vertical: "top", horizontal: "left" }}
-                  >
-                    {item.children.map((child) => (
-                      <MenuItem
-                        key={child.text}
-                        component={RouterLink}
-                        to={child.path}
-                        onClick={() =>
-                          setAnchors((prev) => ({ ...prev, [key]: null }))
-                        }
-                        sx={{ display: "flex", alignItems: "center", gap: 1 }}
-                      >
-                        {child.icon}
-                        {child.text}
-                      </MenuItem>
-                    ))}
-                  </Menu>,
-                ];
+                  />
+                );
               }
               return (
                 <Tab
@@ -132,6 +97,33 @@ export function AILayout(): JSX.Element {
               );
             })}
           </Tabs>
+          {MENU_ITEMS.filter((item) => item.children).map((item) => {
+            const key = item.text;
+            const anchor = anchors[key] ?? null;
+            return (
+              <Menu
+                key={`${key}-menu`}
+                anchorEl={anchor}
+                open={Boolean(anchor)}
+                onClose={() => setAnchors((prev) => ({ ...prev, [key]: null }))}
+                anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+                transformOrigin={{ vertical: "top", horizontal: "left" }}
+              >
+                {item.children!.map((child) => (
+                  <MenuItem
+                    key={child.text}
+                    component={RouterLink}
+                    to={child.path}
+                    onClick={() => setAnchors((prev) => ({ ...prev, [key]: null }))}
+                    sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                  >
+                    {child.icon}
+                    {child.text}
+                  </MenuItem>
+                ))}
+              </Menu>
+            );
+          })}
         </Toolbar>
       </AppBar>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

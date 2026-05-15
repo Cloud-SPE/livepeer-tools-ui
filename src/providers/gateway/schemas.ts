@@ -17,7 +17,7 @@ export const networkCapabilitiesResponseSchema = z.object({
             model_id: z.string().optional(),
           }),
         )
-        .optional(),
+        .nullish(),
       capabilities_prices: z
         .array(
           z.object({
@@ -26,13 +26,10 @@ export const networkCapabilitiesResponseSchema = z.object({
             constraint: z.string().optional().nullable(),
           }),
         )
-        .optional(),
+        .nullish(),
       capability_options: z
-        .record(
-          z.string(),
-          z.array(z.object({ model: z.string().optional() }).passthrough()),
-        )
-        .optional(),
+        .record(z.string(), z.array(z.object({ model: z.string().optional() }).passthrough()))
+        .nullish(),
     }),
   ),
   capabilities_names: z.record(z.string(), z.string()).optional(),
