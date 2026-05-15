@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install
+        run: npm ci
+
+      - name: Format check
+        run: npm run fmt:check
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit + structural tests
+        run: npm run test
+
+      - name: Build
+        run: npm run build
+        env:
+          VITE_NETWORK_EXPLORER_BASE_URL: https://livepeer-network-api.cloudspe.com/api/v1
+          VITE_PERFORMANCE_TRANSCODING_BASE_URL: https://leaderboard-serverless.vercel.app
+          VITE_PERFORMANCE_AI_BASE_URL: https://lpc-leaderboard-serverless.vercel.app
+          VITE_GATEWAY_BASE_URL: https://dream-gateway.livepeer.cloud
+          VITE_BYOC_GATEWAY_BASE_URL: https://openai-gateway.livepeer.cloud/v1
+          VITE_GATEWAY_BEARER_TOKEN: ""
+
+  api-drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install
+        run: npm ci
+
+      - name: Check OpenAPI drift
+        run: npm run check:api-drift
