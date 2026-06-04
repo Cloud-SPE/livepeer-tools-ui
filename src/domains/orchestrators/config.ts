@@ -6,7 +6,7 @@ import { env } from "@/utils/env";
  * environment live in `src/utils/env.ts`.
  */
 
-export const DEFAULT_PAGE_SIZE = 50;
+export const DEFAULT_PAGE_SIZE = 100;
 export const MAX_PAGE_SIZE = 200;
 
 /** Where the "View on Livepeer" link points. */

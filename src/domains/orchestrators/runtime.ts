@@ -1,4 +1,10 @@
-import { useQuery, type UseQueryResult } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useQuery,
+  type InfiniteData,
+  type UseInfiniteQueryResult,
+  type UseQueryResult,
+} from "@tanstack/react-query";
 import type { LoaderFunctionArgs } from "react-router-dom";
 import { queryClient } from "@/utils/queryClient";
 import {
@@ -30,8 +36,8 @@ import type {
  */
 const listKey = (params: OrchestratorListParams) => ["orchestrators", "list", params] as const;
 const detailKey = (address: string) => ["orchestrators", "detail", address.toLowerCase()] as const;
-const delegatorsKey = (address: string) =>
-  ["orchestrators", "delegators", address.toLowerCase()] as const;
+const delegatorsKey = (address: string, block: number) =>
+  ["orchestrators", "delegators", address.toLowerCase(), block] as const;
 const ticketsKey = (address: string, start: string, end: string) =>
   ["orchestrators", "tickets", address.toLowerCase(), start, end] as const;
 const votesKey = (address: string) => ["orchestrators", "votes", address.toLowerCase()] as const;
@@ -57,13 +63,20 @@ const listConfig = (params: OrchestratorListParams) => ({
   queryKey: listKey(params),
   queryFn: () => listOrchestrators(params),
 });
+const infiniteListConfig = (limit: number) => ({
+  queryKey: ["orchestrators", "infinite-list", limit] as const,
+  queryFn: ({ pageParam }: { pageParam?: string }) =>
+    listOrchestrators({ limit, cursor: pageParam }),
+  getNextPageParam: (lastPage: OrchestratorListResult) => lastPage.meta.nextCursor ?? undefined,
+  initialPageParam: undefined as string | undefined,
+});
 const detailConfig = (address: string) => ({
   queryKey: detailKey(address),
   queryFn: () => getOrchestrator(address.toLowerCase()),
 });
-const delegatorsConfig = (address: string) => ({
-  queryKey: delegatorsKey(address),
-  queryFn: () => listOrchestratorDelegators(address.toLowerCase()),
+const delegatorsConfig = (address: string, block: number) => ({
+  queryKey: delegatorsKey(address, block),
+  queryFn: () => listOrchestratorDelegators(address.toLowerCase(), block),
 });
 const ticketsConfig = (address: string, start: string, end: string) => ({
   queryKey: ticketsKey(address, start, end),
@@ -104,6 +117,12 @@ export function useOrchestrators(
   return useQuery(listConfig(params));
 }
 
+export function useOrchestratorsInfinite(
+  limit = 100,
+): UseInfiniteQueryResult<InfiniteData<OrchestratorListResult, string | undefined>, Error> {
+  return useInfiniteQuery(infiniteListConfig(limit));
+}
+
 /** Detail hook. */
 export function useOrchestrator(address: string): UseQueryResult<Orchestrator, Error> {
   return useQuery(detailConfig(address));
@@ -111,9 +130,13 @@ export function useOrchestrator(address: string): UseQueryResult<Orchestrator, E
 
 export function useOrchestratorDelegators(
   address: string,
+  block: number,
   enabled = true,
 ): UseQueryResult<OrchestratorDelegatorsResult, Error> {
-  return useQuery({ ...delegatorsConfig(address), enabled: enabled && !!address });
+  return useQuery({
+    ...delegatorsConfig(address, block),
+    enabled: enabled && !!address && block > 0,
+  });
 }
 
 export function useOrchestratorTickets(
@@ -160,7 +183,7 @@ export function useOrchestratorPerformance(
  * returns null — the page reads from the cache via the hook.
  */
 export async function orchestratorsLoader(_args: LoaderFunctionArgs): Promise<null> {
-  await queryClient.prefetchQuery(listConfig({}));
+  await queryClient.prefetchInfiniteQuery(infiniteListConfig(100));
   return null;
 }
 

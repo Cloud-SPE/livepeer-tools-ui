@@ -83,8 +83,9 @@ function projectDelegator(row: unknown): OrchestratorDelegator {
     bondedPrincipalLpt: num(r["bonded_principal"] as string | number | null | undefined),
     pendingStakeLpt: nullableNum(r["pending_stake"]),
     pendingFeesEth: nullableNum(r["pending_fees"]),
-    asOfBlock: num(r["as_of_block"] as string | number | null | undefined),
-    asOfTimestamp: String(r["as_of_timestamp"] ?? ""),
+    asOfBlock: num((r["as_of_block"] ?? r["block_number"]) as string | number | null | undefined),
+    asOfTimestamp: String(r["as_of_timestamp"] ?? r["block_timestamp"] ?? ""),
+    stalenessBlocks: nullableNum(r["staleness_blocks"]),
   };
 }
 
@@ -175,16 +176,22 @@ export async function getOrchestrator(address: string): Promise<Orchestrator> {
 
 export async function listOrchestratorDelegators(
   address: string,
-  limit = 100,
+  block: number,
 ): Promise<OrchestratorDelegatorsResult> {
   const body = (await unwrap(
-    networkExplorer.GET("/orchestrators/{address}/delegators", {
-      params: { path: { address }, query: { limit } },
+    networkExplorer.GET("/transcoders/{transcoder}/delegators/block/{block}", {
+      params: { path: { transcoder: address, block } },
     }),
-  )) as { data?: unknown[]; meta?: { next_cursor?: string | null } };
+  )) as {
+    data?: unknown[];
+    requested_block?: string | number | null;
+    total_bonded_principal?: string | number | null;
+  };
   return {
     data: (body.data ?? []).map(projectDelegator),
-    nextCursor: body.meta?.next_cursor ?? null,
+    totalBondedLpt: num(body.total_bonded_principal),
+    requestedBlock: intOrNull(body.requested_block),
+    nextCursor: null,
   };
 }
 

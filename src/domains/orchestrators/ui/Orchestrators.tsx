@@ -1,11 +1,12 @@
 import type { JSX } from "react";
-import { Alert, Box, CircularProgress, Grid, Typography } from "@mui/material";
-import { useOrchestrators } from "../runtime";
+import { Alert, Box, Button, CircularProgress, Grid, Stack, Typography } from "@mui/material";
+import { useOrchestratorsInfinite } from "../runtime";
 import { rankByStake } from "../service";
 import { OrchestratorCard } from "./OrchestratorCard";
 
 export function Orchestrators(): JSX.Element {
-  const { data, isLoading, error } = useOrchestrators({});
+  const { data, isLoading, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useOrchestratorsInfinite(100);
 
   if (isLoading) {
     return (
@@ -23,7 +24,7 @@ export function Orchestrators(): JSX.Element {
     );
   }
 
-  const ranked = rankByStake(data?.data ?? []);
+  const ranked = rankByStake(data?.pages.flatMap((page) => page.data) ?? []);
 
   return (
     <Box sx={{ py: 4 }}>
@@ -35,6 +36,17 @@ export function Orchestrators(): JSX.Element {
           <OrchestratorCard key={orch.address} orch={orch} rank={idx + 1} />
         ))}
       </Grid>
+      {hasNextPage && (
+        <Stack sx={{ alignItems: "center", mt: 4 }}>
+          <Button
+            variant="contained"
+            onClick={() => void fetchNextPage()}
+            disabled={isFetchingNextPage}
+          >
+            {isFetchingNextPage ? "Loading..." : "Load More"}
+          </Button>
+        </Stack>
+      )}
     </Box>
   );
 }

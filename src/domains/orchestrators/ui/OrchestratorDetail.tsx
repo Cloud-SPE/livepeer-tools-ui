@@ -166,7 +166,11 @@ export function OrchestratorDetail(): JSX.Element {
     payoutEnd,
     tab === "payouts" && validPayoutRange,
   );
-  const delegatorsQ = useOrchestratorDelegators(address, tab === "delegators");
+  const delegatorsQ = useOrchestratorDelegators(
+    address,
+    data?.asOfBlock ?? 0,
+    tab === "delegators",
+  );
   const votesQ = useOrchestratorVotes(address, tab === "voting");
   const performancePipelinesQ = usePerformancePipelines(tab === "performance");
   const performanceQ = useOrchestratorPerformance(
@@ -438,10 +442,12 @@ export function OrchestratorDetail(): JSX.Element {
     start,
     end,
   });
-  const delegatorRows = (delegatorsQ.data?.data ?? []).map((r) => ({
-    ...r,
-    id: r.delegatorAddress,
-  }));
+  const delegatorRows = (delegatorsQ.data?.data ?? [])
+    .map((r) => ({
+      ...r,
+      id: r.delegatorAddress,
+    }))
+    .sort((a, b) => b.bondedPrincipalLpt - a.bondedPrincipalLpt);
   const ticketRows = selectedTickets.map((r) => ({ ...r, id: r.eventId }));
   const voteRows = (votesQ.data?.data ?? []).map((r) => ({
     ...r,
@@ -647,6 +653,17 @@ export function OrchestratorDetail(): JSX.Element {
             </Typography>
             <QueryState isLoading={delegatorsQ.isLoading} error={delegatorsQ.error}>
               <>
+                <Grid container spacing={3} sx={{ mb: 2 }}>
+                  <Stat
+                    label="Snapshot Stake"
+                    value={formatLpt(delegatorsQ.data?.totalBondedLpt ?? 0)}
+                  />
+                  <Stat
+                    label="Profile Stake"
+                    value={formatLpt(data.totalStakeLpt)}
+                    helper={`Profile block ${data.asOfBlock.toLocaleString()}`}
+                  />
+                </Grid>
                 {delegatorRows.length === 0 && (
                   <Alert severity="info" sx={{ mb: 2 }}>
                     No delegators found for this orchestrator.

@@ -45,10 +45,13 @@ export interface OrchestratorDelegator {
   pendingFeesEth: number | null;
   asOfBlock: number;
   asOfTimestamp: string;
+  stalenessBlocks: number | null;
 }
 
 export interface OrchestratorDelegatorsResult {
   data: OrchestratorDelegator[];
+  totalBondedLpt: number;
+  requestedBlock: number | null;
   nextCursor: string | null;
 }
 
