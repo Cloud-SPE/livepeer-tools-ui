@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
 import BallotIcon from "@mui/icons-material/Ballot";
+import { useSearchParams } from "react-router-dom";
 import { STATUS_PALETTE } from "../config";
 import { useBlockFloor, useProposals } from "../runtime";
 import { deriveStatus, hydrateTitles, rankByCreatedDesc } from "../service";
@@ -24,9 +25,10 @@ import { ProposalDetailPane } from "./ProposalDetailPane";
 
 export function VotingHistory(): JSX.Element {
   const theme = useTheme();
+  const [search, setSearch] = useSearchParams();
   const proposalsQ = useProposals();
   const floorQ = useBlockFloor();
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(search.get("proposal"));
 
   const proposals = useMemo<Proposal[]>(
     () => rankByCreatedDesc(hydrateTitles(proposalsQ.data?.data ?? [])),
@@ -34,6 +36,13 @@ export function VotingHistory(): JSX.Element {
   );
 
   const selected = selectedId ? proposals.find((p) => p.id === selectedId) : null;
+
+  const selectProposal = (proposalId: string): void => {
+    setSelectedId(proposalId);
+    const next = new URLSearchParams(search);
+    next.set("proposal", proposalId);
+    setSearch(next);
+  };
 
   if (proposalsQ.isLoading) {
     return (
@@ -104,7 +113,7 @@ export function VotingHistory(): JSX.Element {
                   <TableRow
                     key={proposal.id}
                     hover
-                    onClick={() => setSelectedId(proposal.id)}
+                    onClick={() => selectProposal(proposal.id)}
                     sx={{
                       cursor: "pointer",
                       transition: "background-color 0.2s",

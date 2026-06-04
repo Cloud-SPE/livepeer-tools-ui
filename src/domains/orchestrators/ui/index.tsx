@@ -1,10 +1,12 @@
 import { Route } from "react-router-dom";
-import { orchestratorLoader, orchestratorsLoader } from "../runtime";
+import { delegatorLoader, orchestratorLoader, orchestratorsLoader } from "../runtime";
+import { DelegatorDetail } from "./DelegatorDetail";
 import { Orchestrators } from "./Orchestrators";
 import { OrchestratorDetail } from "./OrchestratorDetail";
 
 export { Orchestrators } from "./Orchestrators";
 export { OrchestratorDetail } from "./OrchestratorDetail";
+export { DelegatorDetail } from "./DelegatorDetail";
 export { OrchestratorCard } from "./OrchestratorCard";
 
 /**
@@ -20,5 +22,6 @@ export const orchestratorRoutes = (
       element={<OrchestratorDetail />}
       loader={orchestratorLoader}
     />
+    <Route path="delegator/:eth_address" element={<DelegatorDetail />} loader={delegatorLoader} />
   </>
 );

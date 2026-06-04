@@ -1,11 +1,17 @@
 import { describe, expect, it } from "vitest";
 import {
+  aggregateTicketCountsByDate,
   avatarInitial,
   displayLabel,
+  filterTicketsByDateRange,
+  formatDateTime,
   formatLpt,
   formatPercent,
+  isValidDateRange,
+  lastCalendarYearRange,
   rankByStake,
   shortAddress,
+  trailingThirtyDaysRange,
 } from "@/domains/orchestrators/service";
 import type { Orchestrator } from "@/domains/orchestrators/types";
 
@@ -71,6 +77,59 @@ describe("orchestrators service", () => {
     it("renders 0..100 values with up to 2 decimals + '%'", () => {
       expect(formatPercent(12.5)).toBe("12.5%");
       expect(formatPercent(0)).toBe("0%");
+    });
+  });
+
+  describe("date ranges", () => {
+    it("defaults downloads to the previous calendar year", () => {
+      expect(lastCalendarYearRange(new Date(Date.UTC(2026, 5, 4)))).toEqual({
+        start: "2025-01-01",
+        end: "2025-12-31",
+      });
+    });
+
+    it("validates ISO date ranges", () => {
+      expect(isValidDateRange("2025-01-01", "2025-12-31")).toBe(true);
+      expect(isValidDateRange("2025-12-31", "2025-01-01")).toBe(false);
+      expect(isValidDateRange("2025-02-30", "2025-12-31")).toBe(false);
+    });
+
+    it("builds a trailing 30 day range for payouts", () => {
+      expect(trailingThirtyDaysRange(new Date(Date.UTC(2026, 5, 4)))).toEqual({
+        start: "2026-05-06",
+        end: "2026-06-04",
+      });
+    });
+  });
+
+  describe("ticket chart helpers", () => {
+    it("aggregates winning tickets by UTC date", () => {
+      expect(
+        aggregateTicketCountsByDate([
+          { blockTimestamp: "2025-01-02T01:00:00Z" },
+          { blockTimestamp: "2025-01-02T22:00:00Z" },
+          { blockTimestamp: "2025-01-03T01:00:00Z" },
+        ]),
+      ).toEqual([
+        { date: "2025-01-02", count: 2 },
+        { date: "2025-01-03", count: 1 },
+      ]);
+    });
+
+    it("formats API timestamps compactly", () => {
+      expect(formatDateTime("2025-01-02T03:04:05.000Z")).toBe("2025-01-02 03:04:05");
+    });
+
+    it("filters ticket rows to an inclusive date picker range", () => {
+      const tickets = [
+        { blockTimestamp: "2026-05-05T23:59:59Z", id: "before" },
+        { blockTimestamp: "2026-05-06T00:00:00Z", id: "start" },
+        { blockTimestamp: "2026-06-04T16:12:03Z", id: "end" },
+        { blockTimestamp: "2026-06-05T00:00:00Z", id: "after" },
+      ];
+      expect(
+        filterTicketsByDateRange(tickets, "2026-05-06", "2026-06-04").map((t) => t.id),
+      ).toEqual(["start", "end"]);
     });
   });
 

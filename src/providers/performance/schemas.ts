@@ -60,9 +60,11 @@ export const rawStatsRowSchema = z.object({
     )
     .default([]),
   timestamp: z.number(),
-  seg_duration: z.number(),
-  segments_sent: z.number(),
-  upload_time: z.number(),
+  // Transcoding/core timing fields. Some AI raw-stats responses omit these,
+  // so default them for the shared downstream row shape.
+  seg_duration: z.number().default(0),
+  segments_sent: z.number().default(0),
+  upload_time: z.number().default(0),
   // Transcoding-only timing fields (optional).
   segments_received: z.number().optional(),
   download_time: z.number().optional(),

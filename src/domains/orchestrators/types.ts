@@ -37,3 +37,91 @@ export interface OrchestratorListResult {
   data: Orchestrator[];
   meta: OrchestratorListMeta;
 }
+
+export interface OrchestratorDelegator {
+  delegatorAddress: string;
+  bondedPrincipalLpt: number;
+  pendingStakeLpt: number | null;
+  pendingFeesEth: number | null;
+  asOfBlock: number;
+  asOfTimestamp: string;
+}
+
+export interface OrchestratorDelegatorsResult {
+  data: OrchestratorDelegator[];
+  nextCursor: string | null;
+}
+
+export interface OrchestratorTicket {
+  eventId: string;
+  txHash: string;
+  blockTimestamp: string;
+  gatewayAddress: string;
+  faceValueEth: number;
+  faceValueUsd: number;
+}
+
+export interface OrchestratorTicketsResult {
+  start: string;
+  end: string;
+  data: OrchestratorTicket[];
+  nextCursor: string | null;
+}
+
+export type VoteSupport = "For" | "Against" | "Abstain";
+
+export interface OrchestratorVote {
+  proposalId: string;
+  support: VoteSupport;
+  stakeLpt: number;
+  reason: string | null;
+  blockTimestamp: string | null;
+  txHash: string;
+}
+
+export interface OrchestratorVotesResult {
+  data: OrchestratorVote[];
+  nextCursor: string | null;
+}
+
+export interface DelegatorDelegation {
+  delegateAddress: string;
+  bondedPrincipalLpt: number;
+  pendingStakeLpt: number | null;
+  pendingFeesEth: number | null;
+  asOfBlock: number;
+  asOfTimestamp: string;
+}
+
+export interface DelegatorDetail {
+  address: string;
+  isActive: boolean;
+  firstBondBlock: number;
+  lastSeenBlock: number;
+  delegations: DelegatorDelegation[];
+}
+
+export type PerformanceMode = "transcoding" | "ai";
+
+export interface PerformancePipeline {
+  id: string;
+  models: string[];
+}
+
+export interface OrchestratorPerformanceRow {
+  id: string;
+  region: string;
+  timestamp: number;
+  successRate: number;
+  roundTripTime: number;
+  segDuration: number;
+  segmentsSent: number;
+  segmentsReceived: number | null;
+  uploadTime: number;
+  downloadTime: number | null;
+  transcodeTime: number | null;
+  pipeline: string | null;
+  model: string | null;
+  modelIsWarm: boolean | null;
+  realtime: boolean;
+}
