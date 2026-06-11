@@ -1132,14 +1132,18 @@ export interface components {
     DelegatorIndexRow: {
       /**
        * Format: int32
-       * @description Count of delegations with non-zero bonded principal.
+       * @description Count of delegations with non-zero bonded principal. Always 1 in a
+       *     single-delegation protocol; kept for response-shape compatibility.
        */
       delegation_count: number;
       delegator_address: string;
       first_bond_block?: string | null;
       is_active: boolean;
       last_seen_block?: string | null;
-      /** @description Sum of `bonded_principal` across all delegations the delegator currently holds. */
+      /**
+       * @description The delegator's current bonded principal (single-target delegation:
+       *     this is their latest observed bonded amount, not a sum over history).
+       */
       total_bonded: string;
     };
     /** @description Delegator distribution snapshot for a transcoder at a requested block. */
@@ -1154,8 +1158,9 @@ export interface components {
     DelegatorResponse: {
       chain_id: string;
       /**
-       * @description Delegations the delegator currently holds. Ordered by
-       *     `bonded_principal DESC`.
+       * @description Delegations the delegator currently holds. Livepeer delegation is
+       *     single-target, so this contains at most one entry — the delegator's
+       *     latest observed state, omitted when fully unbonded.
        */
       delegations: components["schemas"]["DelegationRow"][];
       delegator_address: string;
