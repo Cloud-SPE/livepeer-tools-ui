@@ -1,4 +1,3 @@
-import { env } from "@/utils/env";
 import type { JobType, PeriodKind, SortKey } from "./types";
 
 export const DEFAULT_PAGE_SIZE = 100;
@@ -21,19 +20,3 @@ export const PERIOD_LABELS: Record<PeriodKind, string> = {
   weekly: "Weekly",
   monthly: "Monthly",
 };
-
-/**
- * Build the URL for the network-explorer CSV export. We do NOT fetch this
- * client-side — the browser handles the download via a regular anchor tag.
- */
-export function buildPayoutsCsvUrl(params: {
-  from: string;
-  to: string;
-  jobType?: JobType;
-  orchestrator?: string;
-}): string {
-  const qs = new URLSearchParams({ from: params.from, to: params.to });
-  if (params.jobType && params.jobType !== "both") qs.set("job_type", params.jobType);
-  if (params.orchestrator) qs.set("orchestrator", params.orchestrator);
-  return `${env.networkExplorer.baseUrl}/reports/payouts.csv?${qs.toString()}`;
-}

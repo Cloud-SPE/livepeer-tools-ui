@@ -9,7 +9,6 @@ import { ticketsRoutes } from "@/domains/tickets/ui";
 import { networkRoutes } from "@/domains/network/ui";
 import { networkStatsLoader } from "@/domains/network/runtime";
 import { performanceRoutes } from "@/domains/performance/ui";
-import { aiRoutes } from "@/domains/ai-generator/ui";
 import { App } from "./App";
 import { Home } from "./Home";
 
@@ -29,7 +28,6 @@ export const router = createBrowserRouter(
       {ticketsRoutes}
       {networkRoutes}
       {performanceRoutes}
-      {aiRoutes}
       <Route
         path="*"
         element={

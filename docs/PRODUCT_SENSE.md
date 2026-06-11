@@ -32,7 +32,6 @@ Reports are exportable as CSV (the protocol-explorer API ships CSV endpoints).
 6. tickets
 7. network
 8. performance (external API)
-9. ai-generator (gateway API, BYOC, user-configured)
 
 ## What this is not
 

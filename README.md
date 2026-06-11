@@ -11,7 +11,7 @@
 [![ESLint](https://img.shields.io/badge/ESLint-9-4B32C3?logo=eslint&logoColor=white)](https://eslint.org/)
 [![Prettier](https://img.shields.io/badge/code_style-prettier-F7B93E?logo=prettier&logoColor=black)](https://prettier.io/)
 
-A browser-only React/TypeScript SPA that visualizes the Livepeer protocol and ecosystem. It is a thin presentation layer over three independent external data providers — the [Protocol Explorer API](https://livepeer-network-api.cloudspe.com/openapi.json), the Performance/Leaderboard services, and live Livepeer Gateways for AI inference. There is no backend of our own; everything is fetched at runtime from the browser.
+A browser-only React/TypeScript SPA that visualizes the Livepeer protocol and ecosystem. It is a thin presentation layer over two independent external data providers — the [Protocol Explorer API](https://livepeer-network-api.cloudspe.com/openapi.json) and the Performance/Leaderboard services. There is no backend of our own; everything is fetched at runtime from the browser.
 
 This codebase is agent-generated: every line — application logic, tests, CI, docs — is meant to be writable and reviewable by a coding agent. The architecture exists to make that possible.
 
@@ -19,7 +19,6 @@ This codebase is agent-generated: every line — application logic, tests, CI, d
 
 - **Network**: orchestrator and gateway lists, governance, payouts, rewards, tickets, ticket / round economics.
 - **Performance**: leaderboards for transcoding and AI pipelines, region and model breakdowns.
-- **AI Generator**: text-to-image, image-to-image, image-to-video, upscale, LLM (streaming), audio-to-text, text-to-speech, Segment-Anything-2, and BYOC OpenAI-compatible chat / image / embeddings — all driven against a live Livepeer Gateway.
 
 ## Architecture at a glance
 
@@ -58,16 +57,11 @@ cp .env.example .env
 
 Required variables:
 
-| Variable                                | Purpose                                                      | Default in `.env.example`                          |
-| --------------------------------------- | ------------------------------------------------------------ | -------------------------------------------------- |
-| `VITE_NETWORK_EXPLORER_BASE_URL`        | Protocol Explorer API base                                   | `https://livepeer-network-api.cloudspe.com/api/v1` |
-| `VITE_PERFORMANCE_TRANSCODING_BASE_URL` | Leaderboard service for transcoding                          | `https://leaderboard-serverless.vercel.app`        |
-| `VITE_PERFORMANCE_AI_BASE_URL`          | Leaderboard service for AI pipelines                         | `https://lpc-leaderboard-serverless.vercel.app`    |
-| `VITE_GATEWAY_BASE_URL`                 | Default Livepeer Gateway (overridable per-user via Settings) | `https://dream-gateway.livepeer.cloud`             |
-| `VITE_BYOC_GATEWAY_BASE_URL`            | BYOC OpenAI-compatible gateway                               | `https://openai-gateway.livepeer.cloud/v1`         |
-| `VITE_GATEWAY_BEARER_TOKEN`             | Optional bearer token for gateway requests                   | _empty_                                            |
-
-Users can override the gateway URL and bearer token at runtime via the AI **Settings** page; those values persist in `localStorage` under the `gateway-settings` key. Env values are only the defaults.
+| Variable                                | Purpose                              | Default in `.env.example`                          |
+| --------------------------------------- | ------------------------------------ | -------------------------------------------------- |
+| `VITE_NETWORK_EXPLORER_BASE_URL`        | Protocol Explorer API base           | `https://livepeer-network-api.cloudspe.com/api/v1` |
+| `VITE_PERFORMANCE_TRANSCODING_BASE_URL` | Leaderboard service for transcoding  | `https://leaderboard-serverless.vercel.app`        |
+| `VITE_PERFORMANCE_AI_BASE_URL`          | Leaderboard service for AI pipelines | `https://lpc-leaderboard-serverless.vercel.app`    |
 
 ## Install and run
 
@@ -128,7 +122,7 @@ Stylistic, but expected:
 - **Cache keys.** `[domain, action, ...args]`, with normalized args (e.g., lowercase addresses). Same key for loader prefetch and hook read.
 - **Errors.** Each provider exports a `<Provider>Error` class carrying status and a truncated body. Domain repos let those propagate; UI catches and renders.
 - **Pure services.** Functions in `service.ts` must be pure — no I/O, no React, no TanStack Query. They are tested in isolation.
-- **Persistence.** Only `localStorage`, only via a provider's `settings.ts` (see `src/providers/gateway/settings.ts`).
+- **Persistence.** Only `localStorage`, and only via a provider's `settings.ts` module.
 
 If you find yourself wanting to bend a rule, the right move is usually a redesign — extract to `src/utils/`, introduce a new provider, or split the domain. See [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) for the "where new code goes" table.
 

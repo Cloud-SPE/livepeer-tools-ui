@@ -49,8 +49,8 @@ scripts/          API type regen + drift detection.
 | Directory                    | Purpose                                                                                                                                                                                                                                            |
 | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `src/app/`                   | Entry point (`main.tsx`), the MUI shell + drawer (`App.tsx`), the route table (`routes.tsx`), the theme (`theme.ts`), the home page (`Home.tsx`). Imports only `runtime` and `ui` from any domain — never `repo`, `service`, `config`, or `types`. |
-| `src/domains/*`              | Nine business modules: `ai-generator`, `gateways`, `governance`, `network`, `orchestrators`, `payouts`, `performance`, `rewards`, `tickets`. Each is self-contained with a fixed layer order (see below).                                          |
-| `src/providers/*`            | Three transports: `network-explorer`, `performance`, `gateway`. Each speaks one external system. Providers do not import each other and do not import any domain.                                                                                  |
+| `src/domains/*`              | Eight business modules: `gateways`, `governance`, `network`, `orchestrators`, `payouts`, `performance`, `rewards`, `tickets`. Each is self-contained with a fixed layer order (see below).                                                         |
+| `src/providers/*`            | Two transports: `network-explorer`, `performance`. Each speaks one external system. Providers do not import each other and do not import any domain.                                                                                               |
 | `src/generated/api-types.ts` | TypeScript types regenerated from the network-explorer OpenAPI spec. Committed to the repo. Imported only by `src/providers/network-explorer/client.ts`. CI fails on drift.                                                                        |
 | `src/utils/`                 | `env.ts` (Zod-validated `import.meta.env` at module load) and `queryClient.ts` (singleton TanStack Query client). Nothing here is domain-aware.                                                                                                    |
 
@@ -172,44 +172,7 @@ sequenceDiagram
 
 The point of this dance: the loader populates the cache during the route transition, and the component reads from the same cache key — so the page paints with data on first render. No spinner flash. No double fetch.
 
-### 2. AI inference (streaming LLM)
-
-```mermaid
-sequenceDiagram
-  autonumber
-  participant User
-  participant UI as ai-generator/ui
-  participant RT as ai-generator/runtime
-  participant Repo as ai-generator/repo
-  participant Svc as ai-generator/service
-  participant GW as providers/gateway
-  participant Settings as providers/gateway/settings
-  participant API as Livepeer Gateway
-
-  User->>UI: submit LLM form
-  UI->>Svc: validateLlm(form)
-  Svc-->>UI: ok / validation error
-  UI->>RT: useLlm().mutate(form)
-  RT->>Repo: postLlm(form)
-  Repo->>GW: gatewayPostStream("/llm", body, "text/event-stream")
-  GW->>Settings: getGatewaySettings()
-  Settings-->>GW: { baseUrl, bearerToken }
-  GW->>API: POST /llm  Authorization: Bearer …
-  API-->>GW: 200, streaming Response
-  GW-->>Repo: Response with body reader
-  loop For each SSE chunk
-    Repo->>Repo: parseSseLine(chunk)
-    Repo-->>RT: { kind: "delta", content }
-    RT-->>UI: state update
-    UI-->>User: append token
-  end
-  API-->>Repo: [DONE]
-  Repo-->>RT: complete
-```
-
-Streaming is the reason `gatewayPostStream` returns the raw `Response` instead of parsed JSON: the repo controls the chunk loop and decides how to emit deltas back up the stack.
-
-### 3. Startup: env validation
+### 2. Startup: env validation
 
 ```mermaid
 sequenceDiagram
@@ -280,7 +243,7 @@ Concurrency cancels in-progress runs on the same ref.
 | Add a new endpoint on an existing provider | Add the function in `providers/<name>/client.ts`. Re-export from `index.ts`. Call it from the relevant domain's `repo.ts`, projecting to domain types.                                                    |
 | Add a new business area                    | Create `src/domains/<name>/` with `types.ts`, `config.ts`, `repo.ts`, `service.ts`, `runtime.ts`, `ui/index.tsx`. Compose the routes fragment into `src/app/routes.tsx`. Add tests under `tests/<name>/`. |
 | Add a new external data source             | Create `src/providers/<name>/` with `client.ts`, `schemas.ts` (Zod, if no OpenAPI), `index.ts`, and an `<Name>Error` class. Use Zod at the boundary.                                                      |
-| Cache state across reloads                 | Use `localStorage`. Read defaults from `env`. Follow the pattern in `src/providers/gateway/settings.ts`.                                                                                                  |
+| Cache state across reloads                 | Use `localStorage`, encapsulated in a provider's `settings.ts` module. Read defaults from `env`.                                                                                                          |
 | Share logic between two domains            | Don't import sideways. If it's pure, lift to `src/utils/`. If it's transport, it's a provider.                                                                                                            |
 
 The structural tests will block a PR that takes a shortcut around the rules. Treat them as a hint to redesign, not as something to silence.

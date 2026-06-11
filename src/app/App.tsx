@@ -22,7 +22,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import HomeIcon from "@mui/icons-material/Home";
 import GroupsIcon from "@mui/icons-material/Groups";
 import Assessment from "@mui/icons-material/Assessment";
-import Memory from "@mui/icons-material/Memory";
 import NetworkCheck from "@mui/icons-material/NetworkCheck";
 import Webhook from "@mui/icons-material/Webhook";
 import HowToVoteIcon from "@mui/icons-material/HowToVote";
@@ -41,7 +40,6 @@ const MENU_ITEMS: ReadonlyArray<MenuItemDef> = [
   { text: "Reports", icon: <Assessment />, path: "/reports" },
   { text: "Performance", icon: <NetworkCheck />, path: "/performance/leaderboard" },
   { text: "Treasury Voting", icon: <HowToVoteIcon />, path: "/vote/history" },
-  { text: "AI Generator", icon: <Memory />, path: "/ai/generator" },
 ];
 
 export function App(): JSX.Element {

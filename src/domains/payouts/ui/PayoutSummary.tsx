@@ -3,7 +3,6 @@ import {
   Alert,
   Avatar,
   Box,
-  Button,
   Card,
   CardContent,
   CircularProgress,
@@ -17,9 +16,8 @@ import {
   Typography,
 } from "@mui/material";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
-import Download from "@mui/icons-material/Download";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { JOB_TYPES, PERIOD_LABELS, buildPayoutsCsvUrl } from "../config";
+import { JOB_TYPES, PERIOD_LABELS } from "../config";
 import { useLeaderboard, useReportSummary } from "../runtime";
 import {
   formatEth,
@@ -177,16 +175,6 @@ export function PayoutSummary({ kind }: Props): JSX.Element {
             ))}
           </Select>
         </FormControl>
-        <Button
-          variant="outlined"
-          startIcon={<Download />}
-          href={buildPayoutsCsvUrl({ from: range.from, to: range.to, jobType })}
-          target="_blank"
-          rel="noopener"
-          sx={{ mt: 2 }}
-        >
-          Download CSV
-        </Button>
       </Stack>
       {summaryQ.error && (
         <Alert severity="error" sx={{ mt: 2 }}>

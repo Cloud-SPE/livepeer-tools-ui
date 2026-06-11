@@ -3,7 +3,6 @@ import {
   Alert,
   Avatar,
   Box,
-  Button,
   FormControl,
   Grid,
   InputLabel,
@@ -15,9 +14,8 @@ import {
   Typography,
 } from "@mui/material";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
-import Download from "@mui/icons-material/Download";
 import { useSearchParams } from "react-router-dom";
-import { JOB_TYPES, SORT_KEYS, buildPayoutsCsvUrl } from "../config";
+import { JOB_TYPES, SORT_KEYS } from "../config";
 import { useLeaderboard } from "../runtime";
 import { formatEth, formatInt, formatUsd, rowLabel, todayIso } from "../service";
 import type { JobType, PayoutLeaderboardRow, SortKey } from "../types";
@@ -196,17 +194,6 @@ export function TopPayout(): JSX.Element {
           </FormControl>
         </Grid>
       </Grid>
-      <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}>
-        <Button
-          variant="outlined"
-          startIcon={<Download />}
-          href={buildPayoutsCsvUrl({ from, to, jobType })}
-          target="_blank"
-          rel="noopener"
-        >
-          Download CSV
-        </Button>
-      </Box>
       {leaderboardQ.error ? (
         <Alert severity="error" sx={{ mt: 2 }}>
           Failed to load: {leaderboardQ.error.message}

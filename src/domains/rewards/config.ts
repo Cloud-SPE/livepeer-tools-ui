@@ -1,4 +1,3 @@
-import { env } from "@/utils/env";
 import type { PeriodKind, SortKey } from "./types";
 
 export const DEFAULT_PAGE_SIZE = 100;
@@ -15,13 +14,3 @@ export const PERIOD_LABELS: Record<PeriodKind, string> = {
   weekly: "Weekly",
   monthly: "Monthly",
 };
-
-export function buildRewardsCsvUrl(params: {
-  from: string;
-  to: string;
-  orchestrator?: string;
-}): string {
-  const qs = new URLSearchParams({ from: params.from, to: params.to });
-  if (params.orchestrator) qs.set("orchestrator", params.orchestrator);
-  return `${env.networkExplorer.baseUrl}/reports/rewards.csv?${qs.toString()}`;
-}

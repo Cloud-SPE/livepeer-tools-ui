@@ -13,11 +13,10 @@ import {
   Typography,
 } from "@mui/material";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
-import Download from "@mui/icons-material/Download";
 import ChevronLeft from "@mui/icons-material/ChevronLeft";
 import ChevronRight from "@mui/icons-material/ChevronRight";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { PERIOD_LABELS, buildRewardsCsvUrl } from "../config";
+import { PERIOD_LABELS } from "../config";
 import { useRewardLeaderboard, useRewardSummary } from "../runtime";
 import {
   formatHumanDate,
@@ -140,18 +139,6 @@ export function RewardSummary({ kind }: Props): JSX.Element {
       <Typography variant="h4" gutterBottom>
         {PERIOD_LABELS[kind]} Reward Report: {formatHumanDate(range.from)}
       </Typography>
-      <Stack direction={{ xs: "column", md: "row" }} spacing={2} sx={{ alignItems: "flex-start" }}>
-        <Button
-          variant="outlined"
-          startIcon={<Download />}
-          href={buildRewardsCsvUrl({ from: range.from, to: range.to })}
-          target="_blank"
-          rel="noopener"
-          sx={{ mt: 2 }}
-        >
-          Download CSV
-        </Button>
-      </Stack>
       {summaryQ.error && (
         <Alert severity="error" sx={{ mt: 2 }}>
           Failed to load summary: {summaryQ.error.message}

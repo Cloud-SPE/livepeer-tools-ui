@@ -14,4 +14,3 @@ Per-domain user-facing specifications. Each domain gets one spec describing the 
 | Tickets       | [tickets.md](tickets.md)             |
 | Network       | [network.md](network.md)             |
 | Performance   | [performance.md](performance.md)     |
-| AI Generator  | [ai-generator.md](ai-generator.md)   |
