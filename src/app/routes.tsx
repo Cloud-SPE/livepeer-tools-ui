@@ -1,5 +1,5 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { orchestratorRoutes } from "@/domains/orchestrators/ui";
 import { governanceRoutes } from "@/domains/governance/ui";
 import { payoutsRoutes } from "@/domains/payouts/ui";
@@ -9,7 +9,6 @@ import { ticketsRoutes } from "@/domains/tickets/ui";
 import { networkRoutes } from "@/domains/network/ui";
 import { networkStatsLoader } from "@/domains/network/runtime";
 import { performanceRoutes } from "@/domains/performance/ui";
-import { aiRoutes } from "@/domains/ai-generator/ui";
 import { App } from "./App";
 import { Home } from "./Home";
 
@@ -19,7 +18,17 @@ import { Home } from "./Home";
  */
 export const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
+    <Route
+      path="/"
+      element={<App />}
+      hydrateFallbackElement={
+        <Box
+          sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}
+        >
+          <CircularProgress />
+        </Box>
+      }
+    >
       <Route index element={<Home />} loader={networkStatsLoader} />
       {orchestratorRoutes}
       {governanceRoutes}
@@ -29,7 +38,6 @@ export const router = createBrowserRouter(
       {ticketsRoutes}
       {networkRoutes}
       {performanceRoutes}
-      {aiRoutes}
       <Route
         path="*"
         element={

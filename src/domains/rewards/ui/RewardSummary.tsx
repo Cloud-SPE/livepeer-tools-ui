@@ -13,11 +13,10 @@ import {
   Typography,
 } from "@mui/material";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
-import Download from "@mui/icons-material/Download";
 import ChevronLeft from "@mui/icons-material/ChevronLeft";
 import ChevronRight from "@mui/icons-material/ChevronRight";
-import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { PERIOD_LABELS, buildRewardsCsvUrl } from "../config";
+import { Link, useNavigate, useNavigation, useParams, useSearchParams } from "react-router-dom";
+import { PERIOD_LABELS } from "../config";
 import { useRewardLeaderboard, useRewardSummary } from "../runtime";
 import {
   formatHumanDate,
@@ -39,6 +38,7 @@ export function RewardSummary({ kind }: Props): JSX.Element {
   const { date = "" } = useParams<{ date: string }>();
   const [search] = useSearchParams();
   const navigate = useNavigate();
+  const navigating = useNavigation().state === "loading";
   const summaryQ = useRewardSummary(kind, date);
   const range = rangeFor(kind, date);
 
@@ -140,24 +140,12 @@ export function RewardSummary({ kind }: Props): JSX.Element {
       <Typography variant="h4" gutterBottom>
         {PERIOD_LABELS[kind]} Reward Report: {formatHumanDate(range.from)}
       </Typography>
-      <Stack direction={{ xs: "column", md: "row" }} spacing={2} sx={{ alignItems: "flex-start" }}>
-        <Button
-          variant="outlined"
-          startIcon={<Download />}
-          href={buildRewardsCsvUrl({ from: range.from, to: range.to })}
-          target="_blank"
-          rel="noopener"
-          sx={{ mt: 2 }}
-        >
-          Download CSV
-        </Button>
-      </Stack>
       {summaryQ.error && (
         <Alert severity="error" sx={{ mt: 2 }}>
           Failed to load summary: {summaryQ.error.message}
         </Alert>
       )}
-      <Card sx={{ mt: 2 }}>
+      <Card sx={{ mt: 2, opacity: navigating ? 0.5 : 1, transition: "opacity 0.2s" }}>
         <CardContent>
           {summaryQ.isLoading || !summary ? (
             <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
@@ -244,7 +232,8 @@ export function RewardSummary({ kind }: Props): JSX.Element {
           <DataGrid
             rows={rows}
             columns={columns}
-            loading={leaderboardQ.isLoading}
+            loading={leaderboardQ.isFetching || navigating}
+            slotProps={{ loadingOverlay: { variant: "circular-progress" } }}
             initialState={{ pagination: { paginationModel: { pageSize: 25 } } }}
             pageSizeOptions={[25, 50, 100]}
             autoHeight

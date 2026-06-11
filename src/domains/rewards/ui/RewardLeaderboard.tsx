@@ -3,7 +3,6 @@ import {
   Alert,
   Avatar,
   Box,
-  Button,
   FormControl,
   Grid,
   InputLabel,
@@ -15,9 +14,8 @@ import {
   Typography,
 } from "@mui/material";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
-import Download from "@mui/icons-material/Download";
-import { useSearchParams } from "react-router-dom";
-import { SORT_KEYS, buildRewardsCsvUrl } from "../config";
+import { useNavigation, useSearchParams } from "react-router-dom";
+import { SORT_KEYS } from "../config";
 import { useRewardLeaderboard } from "../runtime";
 import { formatInt, formatLpt, formatUsd, rowLabel, todayIso } from "../service";
 import type { RewardLeaderboardRow, SortKey } from "../types";
@@ -30,6 +28,7 @@ function defaultStart(): string {
 
 export function RewardLeaderboard(): JSX.Element {
   const [search, setSearch] = useSearchParams();
+  const navigating = useNavigation().state === "loading";
   const from = search.get("from") ?? defaultStart();
   const to = search.get("to") ?? todayIso();
   const sort: SortKey = ((): SortKey => {
@@ -183,17 +182,6 @@ export function RewardLeaderboard(): JSX.Element {
           </FormControl>
         </Grid>
       </Grid>
-      <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}>
-        <Button
-          variant="outlined"
-          startIcon={<Download />}
-          href={buildRewardsCsvUrl({ from, to })}
-          target="_blank"
-          rel="noopener"
-        >
-          Download CSV
-        </Button>
-      </Box>
       {leaderboardQ.error ? (
         <Alert severity="error" sx={{ mt: 2 }}>
           Failed to load: {leaderboardQ.error.message}
@@ -203,7 +191,8 @@ export function RewardLeaderboard(): JSX.Element {
           <DataGrid
             rows={rows}
             columns={columns}
-            loading={leaderboardQ.isLoading}
+            loading={leaderboardQ.isFetching || navigating}
+            slotProps={{ loadingOverlay: { variant: "circular-progress" } }}
             initialState={{ pagination: { paginationModel: { pageSize: 25 } } }}
             pageSizeOptions={[25, 50, 100]}
             autoHeight

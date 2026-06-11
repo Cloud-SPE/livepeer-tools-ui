@@ -1,3 +1,4 @@
+import { safeAvatarUrl } from "@/utils/avatar";
 import { networkExplorer, unwrap } from "@/providers/network-explorer";
 import { DEFAULT_PAGE_SIZE, DEFAULT_PAYOUTS_LIMIT, MAX_PAGE_SIZE } from "./config";
 import type {
@@ -38,7 +39,7 @@ function projectGateway(row: unknown): Gateway {
   return {
     address: String(r["address"] ?? "").toLowerCase(),
     displayName: (r["display_name"] as string | null) ?? null,
-    avatarUrl: (r["avatar_url"] as string | null) ?? null,
+    avatarUrl: safeAvatarUrl(r["avatar_url"]),
     kind: kindOf(r["kind"]),
     depositEth: num(r["latest_deposit"]),
     reserveEth: num(r["latest_reserve"]),
@@ -90,7 +91,7 @@ export async function getIdentityIndex(): Promise<IdentityIndex> {
     out.set(address, {
       address,
       displayName: (r["display_name"] as string | null) ?? null,
-      avatarUrl: (r["avatar_url"] as string | null) ?? null,
+      avatarUrl: safeAvatarUrl(r["avatar_url"]),
     });
   }
   return out;

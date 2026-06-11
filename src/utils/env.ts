@@ -8,9 +8,6 @@ const schema = z.object({
   VITE_NETWORK_EXPLORER_BASE_URL: z.string().url(),
   VITE_PERFORMANCE_TRANSCODING_BASE_URL: z.string().url(),
   VITE_PERFORMANCE_AI_BASE_URL: z.string().url(),
-  VITE_GATEWAY_BASE_URL: z.string().url(),
-  VITE_BYOC_GATEWAY_BASE_URL: z.string().url(),
-  VITE_GATEWAY_BEARER_TOKEN: z.string().default(""),
 });
 
 const parsed = schema.safeParse(import.meta.env);
@@ -26,10 +23,5 @@ export const env = {
   performance: {
     transcodingBaseUrl: parsed.data.VITE_PERFORMANCE_TRANSCODING_BASE_URL,
     aiBaseUrl: parsed.data.VITE_PERFORMANCE_AI_BASE_URL,
-  },
-  gateway: {
-    baseUrl: parsed.data.VITE_GATEWAY_BASE_URL,
-    byocBaseUrl: parsed.data.VITE_BYOC_GATEWAY_BASE_URL,
-    bearerToken: parsed.data.VITE_GATEWAY_BEARER_TOKEN,
   },
 } as const;

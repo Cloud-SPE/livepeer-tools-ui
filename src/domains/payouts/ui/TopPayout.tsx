@@ -3,7 +3,6 @@ import {
   Alert,
   Avatar,
   Box,
-  Button,
   FormControl,
   Grid,
   InputLabel,
@@ -15,9 +14,8 @@ import {
   Typography,
 } from "@mui/material";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
-import Download from "@mui/icons-material/Download";
-import { useSearchParams } from "react-router-dom";
-import { JOB_TYPES, SORT_KEYS, buildPayoutsCsvUrl } from "../config";
+import { useNavigation, useSearchParams } from "react-router-dom";
+import { JOB_TYPES, SORT_KEYS } from "../config";
 import { useLeaderboard } from "../runtime";
 import { formatEth, formatInt, formatUsd, rowLabel, todayIso } from "../service";
 import type { JobType, PayoutLeaderboardRow, SortKey } from "../types";
@@ -30,6 +28,7 @@ function defaultStart(): string {
 
 export function TopPayout(): JSX.Element {
   const [search, setSearch] = useSearchParams();
+  const navigating = useNavigation().state === "loading";
   const from = search.get("from") ?? defaultStart();
   const to = search.get("to") ?? todayIso();
   const jobType: JobType = ((): JobType => {
@@ -196,17 +195,6 @@ export function TopPayout(): JSX.Element {
           </FormControl>
         </Grid>
       </Grid>
-      <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end" }}>
-        <Button
-          variant="outlined"
-          startIcon={<Download />}
-          href={buildPayoutsCsvUrl({ from, to, jobType })}
-          target="_blank"
-          rel="noopener"
-        >
-          Download CSV
-        </Button>
-      </Box>
       {leaderboardQ.error ? (
         <Alert severity="error" sx={{ mt: 2 }}>
           Failed to load: {leaderboardQ.error.message}
@@ -216,7 +204,8 @@ export function TopPayout(): JSX.Element {
           <DataGrid
             rows={rows}
             columns={columns}
-            loading={leaderboardQ.isLoading}
+            loading={leaderboardQ.isFetching || navigating}
+            slotProps={{ loadingOverlay: { variant: "circular-progress" } }}
             initialState={{ pagination: { paginationModel: { pageSize: 25 } } }}
             pageSizeOptions={[25, 50, 100]}
             autoHeight

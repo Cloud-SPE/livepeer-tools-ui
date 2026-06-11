@@ -7,6 +7,7 @@ import {
   CssBaseline,
   Drawer,
   IconButton,
+  LinearProgress,
   List,
   ListItem,
   ListItemIcon,
@@ -17,12 +18,11 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigation } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import HomeIcon from "@mui/icons-material/Home";
 import GroupsIcon from "@mui/icons-material/Groups";
 import Assessment from "@mui/icons-material/Assessment";
-import Memory from "@mui/icons-material/Memory";
 import NetworkCheck from "@mui/icons-material/NetworkCheck";
 import Webhook from "@mui/icons-material/Webhook";
 import HowToVoteIcon from "@mui/icons-material/HowToVote";
@@ -41,7 +41,6 @@ const MENU_ITEMS: ReadonlyArray<MenuItemDef> = [
   { text: "Reports", icon: <Assessment />, path: "/reports" },
   { text: "Performance", icon: <NetworkCheck />, path: "/performance/leaderboard" },
   { text: "Treasury Voting", icon: <HowToVoteIcon />, path: "/vote/history" },
-  { text: "AI Generator", icon: <Memory />, path: "/ai/generator" },
 ];
 
 export function App(): JSX.Element {
@@ -57,6 +56,7 @@ function AppShell(): JSX.Element {
   const muiTheme = useTheme();
   const isMobile = useMediaQuery(muiTheme.breakpoints.down("sm"));
   const [drawerOpen, setDrawerOpen] = useState(!isMobile);
+  const navigation = useNavigation();
 
   useEffect(() => {
     setDrawerOpen(!isMobile);
@@ -91,6 +91,9 @@ function AppShell(): JSX.Element {
             Livepeer Tools by Livepeer.Cloud SPE
           </Typography>
         </Toolbar>
+        {navigation.state !== "idle" && (
+          <LinearProgress sx={{ position: "absolute", bottom: 0, left: 0, right: 0 }} />
+        )}
       </AppBar>
 
       <Drawer
