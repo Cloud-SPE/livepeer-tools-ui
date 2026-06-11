@@ -15,7 +15,7 @@ import {
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
 import ChevronLeft from "@mui/icons-material/ChevronLeft";
 import ChevronRight from "@mui/icons-material/ChevronRight";
-import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useNavigation, useParams, useSearchParams } from "react-router-dom";
 import { PERIOD_LABELS } from "../config";
 import { useRewardLeaderboard, useRewardSummary } from "../runtime";
 import {
@@ -38,6 +38,7 @@ export function RewardSummary({ kind }: Props): JSX.Element {
   const { date = "" } = useParams<{ date: string }>();
   const [search] = useSearchParams();
   const navigate = useNavigate();
+  const navigating = useNavigation().state === "loading";
   const summaryQ = useRewardSummary(kind, date);
   const range = rangeFor(kind, date);
 
@@ -144,7 +145,7 @@ export function RewardSummary({ kind }: Props): JSX.Element {
           Failed to load summary: {summaryQ.error.message}
         </Alert>
       )}
-      <Card sx={{ mt: 2 }}>
+      <Card sx={{ mt: 2, opacity: navigating ? 0.5 : 1, transition: "opacity 0.2s" }}>
         <CardContent>
           {summaryQ.isLoading || !summary ? (
             <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
@@ -231,7 +232,8 @@ export function RewardSummary({ kind }: Props): JSX.Element {
           <DataGrid
             rows={rows}
             columns={columns}
-            loading={leaderboardQ.isLoading}
+            loading={leaderboardQ.isFetching || navigating}
+            slotProps={{ loadingOverlay: { variant: "circular-progress" } }}
             initialState={{ pagination: { paginationModel: { pageSize: 25 } } }}
             pageSizeOptions={[25, 50, 100]}
             autoHeight

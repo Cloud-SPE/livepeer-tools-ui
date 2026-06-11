@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
-import { useSearchParams } from "react-router-dom";
+import { useNavigation, useSearchParams } from "react-router-dom";
 import { SORT_KEYS } from "../config";
 import { useRewardLeaderboard } from "../runtime";
 import { formatInt, formatLpt, formatUsd, rowLabel, todayIso } from "../service";
@@ -28,6 +28,7 @@ function defaultStart(): string {
 
 export function RewardLeaderboard(): JSX.Element {
   const [search, setSearch] = useSearchParams();
+  const navigating = useNavigation().state === "loading";
   const from = search.get("from") ?? defaultStart();
   const to = search.get("to") ?? todayIso();
   const sort: SortKey = ((): SortKey => {
@@ -190,7 +191,8 @@ export function RewardLeaderboard(): JSX.Element {
           <DataGrid
             rows={rows}
             columns={columns}
-            loading={leaderboardQ.isLoading}
+            loading={leaderboardQ.isFetching || navigating}
+            slotProps={{ loadingOverlay: { variant: "circular-progress" } }}
             initialState={{ pagination: { paginationModel: { pageSize: 25 } } }}
             pageSizeOptions={[25, 50, 100]}
             autoHeight

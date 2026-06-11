@@ -16,7 +16,7 @@ import {
   Typography,
 } from "@mui/material";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useNavigation, useParams, useSearchParams } from "react-router-dom";
 import { JOB_TYPES, PERIOD_LABELS } from "../config";
 import { useLeaderboard, useReportSummary } from "../runtime";
 import {
@@ -40,6 +40,7 @@ export function PayoutSummary({ kind }: Props): JSX.Element {
   const { date = "" } = useParams<{ date: string }>();
   const [search, setSearch] = useSearchParams();
   const navigate = useNavigate();
+  const navigating = useNavigation().state === "loading";
   const jobType: JobType = ((): JobType => {
     const j = search.get("job_type");
     return j === "ai" || j === "transcoding" ? j : "both";
@@ -181,7 +182,7 @@ export function PayoutSummary({ kind }: Props): JSX.Element {
           Failed to load summary: {summaryQ.error.message}
         </Alert>
       )}
-      <Card sx={{ mt: 2 }}>
+      <Card sx={{ mt: 2, opacity: navigating ? 0.5 : 1, transition: "opacity 0.2s" }}>
         <CardContent>
           {summaryQ.isLoading || !summary ? (
             <Box sx={{ display: "flex", justifyContent: "center", py: 4 }}>
@@ -265,7 +266,8 @@ export function PayoutSummary({ kind }: Props): JSX.Element {
           <DataGrid
             rows={rows}
             columns={columns}
-            loading={leaderboardQ.isLoading}
+            loading={leaderboardQ.isFetching || navigating}
+            slotProps={{ loadingOverlay: { variant: "circular-progress" } }}
             initialState={{ pagination: { paginationModel: { pageSize: 25 } } }}
             pageSizeOptions={[25, 50, 100]}
             autoHeight

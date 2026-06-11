@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 import { DataGrid, type GridColDef } from "@mui/x-data-grid";
-import { useSearchParams } from "react-router-dom";
+import { useNavigation, useSearchParams } from "react-router-dom";
 import { JOB_TYPES, SORT_KEYS } from "../config";
 import { useLeaderboard } from "../runtime";
 import { formatEth, formatInt, formatUsd, rowLabel, todayIso } from "../service";
@@ -28,6 +28,7 @@ function defaultStart(): string {
 
 export function TopPayout(): JSX.Element {
   const [search, setSearch] = useSearchParams();
+  const navigating = useNavigation().state === "loading";
   const from = search.get("from") ?? defaultStart();
   const to = search.get("to") ?? todayIso();
   const jobType: JobType = ((): JobType => {
@@ -203,7 +204,8 @@ export function TopPayout(): JSX.Element {
           <DataGrid
             rows={rows}
             columns={columns}
-            loading={leaderboardQ.isLoading}
+            loading={leaderboardQ.isFetching || navigating}
+            slotProps={{ loadingOverlay: { variant: "circular-progress" } }}
             initialState={{ pagination: { paginationModel: { pageSize: 25 } } }}
             pageSizeOptions={[25, 50, 100]}
             autoHeight

@@ -1,5 +1,5 @@
 import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { orchestratorRoutes } from "@/domains/orchestrators/ui";
 import { governanceRoutes } from "@/domains/governance/ui";
 import { payoutsRoutes } from "@/domains/payouts/ui";
@@ -18,7 +18,17 @@ import { Home } from "./Home";
  */
 export const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />}>
+    <Route
+      path="/"
+      element={<App />}
+      hydrateFallbackElement={
+        <Box
+          sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}
+        >
+          <CircularProgress />
+        </Box>
+      }
+    >
       <Route index element={<Home />} loader={networkStatsLoader} />
       {orchestratorRoutes}
       {governanceRoutes}
