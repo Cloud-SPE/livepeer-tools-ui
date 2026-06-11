@@ -1,3 +1,4 @@
+import { safeAvatarUrl } from "@/utils/avatar";
 import { networkExplorer, unwrap } from "@/providers/network-explorer";
 import { DEFAULT_PROPOSALS_LIMIT, DEFAULT_VOTES_LIMIT } from "./config";
 import type {
@@ -101,7 +102,7 @@ export async function getIdentityIndex(): Promise<IdentityIndex> {
     out.set(address, {
       address,
       displayName: (r["display_name"] as string | null) ?? null,
-      avatarUrl: (r["avatar_url"] as string | null) ?? null,
+      avatarUrl: safeAvatarUrl(r["avatar_url"]),
     });
   }
   return out;

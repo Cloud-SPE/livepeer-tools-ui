@@ -1,3 +1,4 @@
+import { safeAvatarUrl } from "@/utils/avatar";
 import { networkExplorer, unwrap } from "@/providers/network-explorer";
 import { getPipelines, getRawStats } from "@/providers/performance";
 import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from "./config";
@@ -63,7 +64,7 @@ function projectRow(row: unknown): Orchestrator {
   return {
     address: String(r["address"] ?? "").toLowerCase(),
     displayName: (r["display_name"] as string | null) ?? null,
-    avatarUrl: (r["avatar_url"] as string | null) ?? null,
+    avatarUrl: safeAvatarUrl(r["avatar_url"]),
     serviceUri: (r["service_uri"] as string | null) ?? null,
     isActive: Boolean(r["is_active"]),
     totalStakeLpt: num(r["total_stake"] as string | number | null | undefined),

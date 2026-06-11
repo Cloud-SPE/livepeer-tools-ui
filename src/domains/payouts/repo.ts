@@ -1,3 +1,4 @@
+import { safeAvatarUrl } from "@/utils/avatar";
 import { networkExplorer, unwrap } from "@/providers/network-explorer";
 import { DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE } from "./config";
 import type {
@@ -40,7 +41,7 @@ function projectLeaderboardRow(row: unknown) {
   return {
     orchestratorAddress: String(r["orchestrator_address"] ?? "").toLowerCase(),
     displayName: (r["display_name"] as string | null) ?? null,
-    avatarUrl: (r["avatar_url"] as string | null) ?? null,
+    avatarUrl: safeAvatarUrl(r["avatar_url"]),
     ticketCount: num(r["ticket_count"]),
     faceValueEth: num(r["sum_face_value_native"]),
     faceValueUsd: num(r["sum_face_value_usd"]),
