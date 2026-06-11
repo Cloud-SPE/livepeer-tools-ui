@@ -42,6 +42,7 @@ export interface OrchestratorDelegator {
   delegatorAddress: string;
   bondedPrincipalLpt: number;
   pendingStakeLpt: number | null;
+  currentStakeLpt: number;
   pendingFeesEth: number | null;
   asOfBlock: number;
   asOfTimestamp: string;
@@ -91,6 +92,7 @@ export interface DelegatorDelegation {
   delegateAddress: string;
   bondedPrincipalLpt: number;
   pendingStakeLpt: number | null;
+  currentStakeLpt: number;
   pendingFeesEth: number | null;
   asOfBlock: number;
   asOfTimestamp: string;

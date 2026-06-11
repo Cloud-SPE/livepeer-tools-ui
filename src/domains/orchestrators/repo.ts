@@ -79,10 +79,14 @@ function projectRow(row: unknown): Orchestrator {
 
 function projectDelegator(row: unknown): OrchestratorDelegator {
   const r = row as Record<string, unknown>;
+  const bondedPrincipalLpt = num(r["bonded_principal"] as string | number | null | undefined);
+  const pendingStakeLpt = nullableNum(r["pending_stake"]);
   return {
     delegatorAddress: String(r["delegator_address"] ?? "").toLowerCase(),
-    bondedPrincipalLpt: num(r["bonded_principal"] as string | number | null | undefined),
-    pendingStakeLpt: nullableNum(r["pending_stake"]),
+    bondedPrincipalLpt,
+    pendingStakeLpt,
+    currentStakeLpt:
+      pendingStakeLpt != null && pendingStakeLpt > 0 ? pendingStakeLpt : bondedPrincipalLpt,
     pendingFeesEth: nullableNum(r["pending_fees"]),
     asOfBlock: num((r["as_of_block"] ?? r["block_number"]) as string | number | null | undefined),
     asOfTimestamp: String(r["as_of_timestamp"] ?? r["block_timestamp"] ?? ""),
@@ -116,10 +120,14 @@ function projectVote(row: unknown): OrchestratorVote {
 
 function projectDelegation(row: unknown): DelegatorDelegation {
   const r = row as Record<string, unknown>;
+  const bondedPrincipalLpt = num(r["bonded_principal"] as string | number | null | undefined);
+  const pendingStakeLpt = nullableNum(r["pending_stake"]);
   return {
     delegateAddress: String(r["delegate_address"] ?? "").toLowerCase(),
-    bondedPrincipalLpt: num(r["bonded_principal"] as string | number | null | undefined),
-    pendingStakeLpt: nullableNum(r["pending_stake"]),
+    bondedPrincipalLpt,
+    pendingStakeLpt,
+    currentStakeLpt:
+      pendingStakeLpt != null && pendingStakeLpt > 0 ? pendingStakeLpt : bondedPrincipalLpt,
     pendingFeesEth: nullableNum(r["pending_fees"]),
     asOfBlock: num(r["as_of_block"] as string | number | null | undefined),
     asOfTimestamp: String(r["as_of_timestamp"] ?? ""),

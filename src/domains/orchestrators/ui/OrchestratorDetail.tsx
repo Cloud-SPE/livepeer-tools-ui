@@ -234,7 +234,7 @@ export function OrchestratorDetail(): JSX.Element {
       ),
     },
     {
-      field: "bondedPrincipalLpt",
+      field: "currentStakeLpt",
       headerName: "Stake on Orch",
       type: "number",
       flex: 1,
@@ -447,7 +447,7 @@ export function OrchestratorDetail(): JSX.Element {
       ...r,
       id: r.delegatorAddress,
     }))
-    .sort((a, b) => b.bondedPrincipalLpt - a.bondedPrincipalLpt);
+    .sort((a, b) => b.currentStakeLpt - a.currentStakeLpt);
   const ticketRows = selectedTickets.map((r) => ({ ...r, id: r.eventId }));
   const voteRows = (votesQ.data?.data ?? []).map((r) => ({
     ...r,
@@ -655,13 +655,13 @@ export function OrchestratorDetail(): JSX.Element {
               <>
                 <Grid container spacing={3} sx={{ mb: 2 }}>
                   <Stat
-                    label="Snapshot Stake"
-                    value={formatLpt(delegatorsQ.data?.totalBondedLpt ?? 0)}
-                  />
-                  <Stat
-                    label="Profile Stake"
+                    label="Total Stake"
                     value={formatLpt(data.totalStakeLpt)}
                     helper={`Profile block ${data.asOfBlock.toLocaleString()}`}
+                  />
+                  <Stat
+                    label="Bonded Principal"
+                    value={formatLpt(delegatorsQ.data?.totalBondedLpt ?? 0)}
                   />
                 </Grid>
                 {delegatorRows.length === 0 && (

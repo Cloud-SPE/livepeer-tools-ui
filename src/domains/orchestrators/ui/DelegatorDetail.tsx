@@ -54,8 +54,8 @@ export function DelegatorDetail(): JSX.Element {
       ),
     },
     {
-      field: "bondedPrincipalLpt",
-      headerName: "Bonded Stake",
+      field: "currentStakeLpt",
+      headerName: "Stake",
       type: "number",
       flex: 1,
       valueFormatter: (v: number) => formatLpt(v),
@@ -103,8 +103,8 @@ export function DelegatorDetail(): JSX.Element {
     ...delegation,
     id: delegation.delegateAddress,
   }));
-  const totalBonded = data.delegations.reduce((sum, delegation) => {
-    return sum + delegation.bondedPrincipalLpt;
+  const totalStake = data.delegations.reduce((sum, delegation) => {
+    return sum + delegation.currentStakeLpt;
   }, 0);
 
   return (
@@ -129,7 +129,7 @@ export function DelegatorDetail(): JSX.Element {
         <CardContent>
           <Grid container spacing={3} sx={{ mb: 3 }}>
             <Stat label="Active" value={data.isActive ? "Yes" : "No"} />
-            <Stat label="Total Bonded" value={formatLpt(totalBonded)} />
+            <Stat label="Total Stake" value={formatLpt(totalStake)} />
             <Stat label="Delegations" value={data.delegations.length.toLocaleString()} />
             <Stat label="Last Seen Block" value={data.lastSeenBlock.toLocaleString()} />
           </Grid>

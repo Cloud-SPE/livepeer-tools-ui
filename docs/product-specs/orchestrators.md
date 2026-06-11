@@ -17,8 +17,9 @@ Exactly one provider: `network-explorer`.
 
 - `GET /orchestrators?limit=...&cursor=...` — list endpoint
 - `GET /orchestrators/{address}` — single profile
+- `GET /transcoders/{transcoder}/delegators/block/{block}` — detail delegators tab
 
-Both responses ship as `OrchestratorProfileRow` (or a `{ data: OrchestratorProfileRow[], meta }` wrapper). The repo projects them into the domain `Orchestrator` type.
+Profile responses ship as `OrchestratorProfileRow` (or a `{ data: OrchestratorProfileRow[], meta }` wrapper). The repo projects them into the domain `Orchestrator` type.
 
 ## List view
 
@@ -38,9 +39,11 @@ Each card shows:
 
 Sorting is descending by `total_stake`. The API already returns rows in this order, but the UI re-sorts defensively in case the server ordering changes.
 
-## Detail view
+## Detail View
 
-Renders the same `OrchestratorCard` as the list, with no rank and non-clickable. CSV downloads and payout charts that lived on the old detail page belong to the `payouts` domain and will land with that plan — they are explicitly out of scope here.
+The detail view has tabs for overview, payouts, delegators, performance, voting, and CSV exports.
+
+The delegators tab requests the delegator set at the orchestrator profile's `asOfBlock`. It displays current stake per delegator, defined as `pending_stake` when present and positive, otherwise `bonded_principal`. Rows are sorted descending by that displayed current stake. The tab shows profile `total_stake` as Total Stake and the endpoint's `total_bonded_principal` separately as Bonded Principal.
 
 ## States
 
