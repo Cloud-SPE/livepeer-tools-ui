@@ -420,6 +420,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/orchestrators/{address}/avatar": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["orchestrators_avatar"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/orchestrators/{address}/cuts-history": {
     parameters: {
       query?: never;
